@@ -1,1 +1,305 @@
+<!DOCTYPE html>
+<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Torino — Guida interattiva</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+/* Leaflet minimo (fallback) */
+.leaflet-pane,.leaflet-tile,.leaflet-marker-icon,.leaflet-tile-container,.leaflet-layer{position:absolute;left:0;top:0}.leaflet-container{overflow:hidden;position:relative}.leaflet-container img.leaflet-tile{max-width:none!important}
+.leaflet-tile-pane{z-index:200}.leaflet-overlay-pane{z-index:400}.leaflet-marker-pane{z-index:600}.leaflet-popup-pane{z-index:700}.leaflet-control{position:relative;z-index:800;pointer-events:auto}.leaflet-top,.leaflet-bottom{position:absolute;z-index:1000;pointer-events:none}.leaflet-top{top:0}.leaflet-bottom{bottom:0}.leaflet-left{left:0}.leaflet-right{right:0}.leaflet-right .leaflet-control{float:right;margin-right:10px}.leaflet-left .leaflet-control{float:left;margin-left:10px}.leaflet-bottom .leaflet-control{margin-bottom:10px;clear:both}.leaflet-top .leaflet-control{margin-top:10px}
+.leaflet-popup{position:absolute;text-align:center;margin-bottom:20px}.leaflet-popup-content-wrapper{background:#fff;padding:1px;border-radius:12px;text-align:left}.leaflet-popup-content{margin:12px 16px;font-size:13px}.leaflet-popup-tip-container{width:40px;height:20px;position:absolute;left:50%;margin-left:-20px;overflow:hidden;pointer-events:none}.leaflet-popup-tip{width:17px;height:17px;padding:1px;margin:-10px auto 0;transform:rotate(45deg);background:#fff}.leaflet-popup-close-button{position:absolute;top:0;right:0;padding:4px 8px;text-decoration:none;color:#757575}
+.leaflet-control-zoom{border-radius:4px;box-shadow:0 1px 5px rgba(0,0,0,.4);overflow:hidden;background:#fff}.leaflet-control-zoom a{display:block;width:30px;height:30px;line-height:30px;text-align:center;text-decoration:none;color:#000;border-bottom:1px solid #ccc}.leaflet-control-attribution{background:rgba(255,255,255,.8);padding:0 5px;font-size:11px}
+/* ===== CSS ===== */
+:root{--bg:#faf7f2;--card:#fff;--ink:#1d1b19;--mut:#6d675f;--acc:#8c1c2b;--acc2:#c9a24a;--line:#e8e1d6;--r:16px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;margin:0}
+nav{position:sticky;top:0;z-index:1000;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;gap:4px;align-items:center;padding:8px 16px;overflow-x:auto}
+nav b{font-family:Georgia,serif;color:var(--acc);margin-right:12px;font-size:20px}
+nav a{white-space:nowrap;color:var(--ink);text-decoration:none;padding:6px 12px;border-radius:99px;font-size:14px}
+nav a:hover{background:var(--line)}
+.hero{min-height:78vh;display:flex;flex-direction:column;justify-content:flex-end;padding:48px 6vw;color:#fff;background:linear-gradient(180deg,rgba(20,10,10,.1),rgba(20,10,10,.82)),radial-gradient(circle at 70% 20%,#c9a24a 0,#8c1c2b 45%,#2a0c12 100%)}
+.hero h1{font-size:clamp(52px,12vw,140px);line-height:.95;letter-spacing:-2px}
+.hero p{max-width:640px;font-size:19px;opacity:.92}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.facts span{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:6px 12px;border-radius:99px;font-size:14px}
+.stats{display:flex;gap:28px;flex-wrap:wrap;margin-top:12px}.stats div{font-size:13px;opacity:.9}.stats b{display:block;font-size:34px;font-family:Georgia,serif}
+section{padding:56px 6vw}section>h2{font-size:clamp(28px,4vw,44px);margin-bottom:6px}.sub{color:var(--mut);margin:0 0 24px}
+.work{display:grid;grid-template-columns:minmax(340px,480px) 1fr;gap:16px;padding:16px 16px 40px}
+.panel{background:var(--card);border-radius:var(--r);border:1px solid var(--line);display:flex;flex-direction:column;height:calc(100vh - 80px);min-height:560px;overflow:hidden}
+.tabs{display:flex;border-bottom:1px solid var(--line)}.tabs button{flex:1;padding:12px;border:0;background:none;cursor:pointer;font-weight:600;color:var(--mut);border-bottom:3px solid transparent}
+.tabs button.on{color:var(--acc);border-color:var(--acc)}
+.tools{padding:10px 12px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--line)}
+.tools input,.tools select{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:#fff}
+.row{display:flex;gap:6px}.row>*{flex:1;min-width:0}
+.list{overflow:auto;padding:12px;display:flex;flex-direction:column;gap:12px;flex:1}
+.cnt{font-size:13px;color:var(--mut)}
+.card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;cursor:pointer;transition:.2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08)}.card.sel{outline:2px solid var(--acc)}
+.ph{height:84px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;color:#fff;font-size:34px}
+.ph small{font-size:12px;background:rgba(0,0,0,.28);padding:3px 9px;border-radius:99px}
+.cb{padding:10px 14px}.cb h3{font-size:18px}.cb p{margin:4px 0;font-size:14px;color:#3d3933}
+.meta{font-size:12.5px;color:var(--mut);display:flex;flex-wrap:wrap;gap:4px 12px}
+.btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+button.b,a.b{border:1px solid var(--line);background:#fff;border-radius:99px;padding:5px 11px;font-size:13px;cursor:pointer;color:var(--ink);text-decoration:none}
+button.b:hover,a.b:hover{background:var(--line)}button.b.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.more{display:none;font-size:13.5px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}.card.open .more{display:block}
+#map{border-radius:var(--r);border:1px solid var(--line);height:calc(100vh - 80px);min-height:560px;position:sticky;top:64px}
+.legend{background:#fff;padding:8px 10px;border-radius:10px;font-size:12px;box-shadow:0 1px 6px rgba(0,0,0,.25);line-height:1.7}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+.pin{width:26px;height:26px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+.pin.hi{width:34px;height:34px;box-shadow:0 0 0 4px rgba(201,162,74,.6)}
+.pin i{display:block;transform:rotate(45deg);text-align:center;color:#fff;font:700 12px/22px system-ui;font-style:normal}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.gc{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px}.gc h3{font-size:20px;margin-bottom:4px}.gc p{font-size:14.5px;margin:6px 0}
+.gc .tag{font-size:12px;color:var(--acc);font-weight:700;text-transform:uppercase;letter-spacing:.6px}
+.trip{padding:12px}.stop{display:flex;gap:8px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;background:#fff}
+.stop .n{background:var(--acc);color:#fff;border-radius:50%;width:24px;height:24px;display:grid;place-items:center;font-size:12px;flex:none}
+.stop .t{flex:1;font-size:14px;min-width:0}.leg{font-size:12px;color:var(--mut);padding:0 0 6px 32px}
+.sum{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}.sum div{background:var(--bg);border-radius:10px;padding:8px 10px;font-size:12px;color:var(--mut)}.sum b{display:block;font-size:18px;color:var(--ink)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.warn{font-size:12.5px;color:var(--mut);background:#fff7e0;border:1px solid #efdca0;padding:10px 14px;border-radius:12px;margin-top:20px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1d1b19;color:#fff;padding:10px 18px;border-radius:99px;font-size:14px;opacity:0;transition:.3s;pointer-events:none;z-index:3000}
+#toast.on{opacity:1}
+body.fs .work{grid-template-columns:1fr}body.fs .panel{display:none}body.fs #map{height:calc(100vh - 110px)}
+body.lo .work{grid-template-columns:1fr}body.lo #map{display:none}body.lo .panel{height:auto;max-height:none}
+.vm{padding:8px 16px 0;display:flex;gap:6px;justify-content:flex-end}
+@media(max-width:860px){.work{grid-template-columns:1fr}.panel{height:auto;max-height:70vh}#map{height:55vh;min-height:320px;position:relative;top:0;order:-1}}
+@media print{nav,.hero,#map,.vm,.tools,.tabs,section:not(#mappa),.btns,button{display:none!important}.work{display:block}.panel{height:auto;border:0}}
+</style></head><body>
+<nav><b>Torino</b><a href="#mappa">Esplora</a><a href="#piatti">Piatti</a><a href="#quartieri">Quartieri</a><a href="#gemme">Gemme</a><a href="#curiosita">Curiosità</a><a href="#pratica">Pratica</a></nav>
 
+<header class="hero">
+ <div class="facts"><span>🇮🇹 Italia · Piemonte</span><span>👥 ~850.000 abitanti</span><span>🗣 Italiano</span><span>💶 Euro</span><span>🌤 Aprile–giugno, settembre–ottobre</span><span>⏱ 2–3 giorni consigliati</span></div>
+ <h1>Torino</h1>
+ <p>Prima capitale d'Italia: portici elegantissimi, caffè storici, cioccolato, il Museo Egizio e le Alpi all'orizzonte. Una città sabauda, industriale e sorprendentemente gastronomica.</p>
+ <div class="stats"><div><b id="s1">0</b>luoghi</div><div><b id="s2">0</b>locali food</div><div><b id="s3">0</b>quartieri</div><div><b id="s4">0</b>itinerari</div></div>
+</header>
+
+<div class="vm"><button class="b on" data-vm="">Mappa + elenco</button><button class="b" data-vm="fs">Mappa a schermo intero</button><button class="b" data-vm="lo">Solo elenco</button></div>
+<div class="work" id="mappa">
+ <div class="panel">
+  <div class="tabs"><button data-tab="p" class="on">Luoghi</button><button data-tab="f">Mangiare</button><button data-tab="t">Il mio viaggio <span id="tc"></span></button></div>
+  <div class="tools" id="tools">
+   <input id="q" type="search" placeholder="Cerca luoghi, locali, quartieri, piatti…">
+   <div class="row"><select id="fc"></select><select id="fd"></select></div>
+   <div class="row"><select id="fp"><option value="">Prezzo: tutti</option><option>€</option><option>€€</option><option>€€€</option><option>€€€€</option></select><select id="fm"><option value="">Durata: tutte</option><option value="s">≤ 45 min</option><option value="m">46–90 min</option><option value="l">&gt; 90 min</option></select><select id="fs2"><option value="">Ordina: base</option><option value="pop">Popolarità</option><option value="dur">Durata</option></select></div>
+   <div class="row" style="align-items:center"><span class="cnt" id="cnt"></span><button class="b" id="fav">★ Solo preferiti</button><button class="b" id="rst">Azzera</button></div>
+  </div>
+  <div class="list" id="list"></div>
+ </div>
+ <div id="map"></div>
+</div>
+
+<section id="piatti"><h2>Piatti e specialità</h2><p class="sub">Clicca "Dove provarlo" per vedere i locali sulla mappa.</p><div class="grid" id="dishes"></div></section>
+<section id="quartieri" style="background:#f2ece1"><h2>Quartieri</h2><p class="sub">Seleziona un quartiere per filtrare mappa ed elenco.</p><div class="grid" id="hoods"></div></section>
+<section id="gemme"><h2>Gemme nascoste</h2><p class="sub">Luoghi meno battuti, tutti presenti anche in mappa.</p><div class="grid" id="gems"></div></section>
+<section id="curiosita" style="background:#f2ece1"><h2>Curiosità e storia</h2><p class="sub">Fatti storici ben noti; per approfondire consulta le fonti indicate.</p><div class="grid" id="curio"></div></section>
+<section id="pratica"><h2>Guida pratica</h2><div class="grid" id="prat"></div>
+<div class="warn"><b>Affidabilità dei dati.</b> Posizioni (coordinate) e informazioni storiche sono quelle generalmente note; le fasce di prezzo sono <i>orientative</i>. Orari e costi d'ingresso non sono riportati di proposito: verifica sempre il sito ufficiale (link su ogni scheda) prima di partire. Le card non usano fotografie per non incorporare immagini senza licenza verificata: sostituisci il campo <code>img</code> nei dati per aggiungerle. Ultima revisione dei contenuti: novembre 2026.</div></section>
+<div id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+/* ===== DATI (modifica qui per un'altra destinazione) ===== */
+const CITY={name:"Torino",center:[45.0703,7.6869],zoom:13};
+const CATS={mon:["Monumenti","🏛","#8c1c2b"],mus:["Musei","🖼","#2f5d8a"],piaz:["Piazze","⛲","#b8741a"],chi:["Chiese","⛪","#6b4b8a"],par:["Parchi","🌳","#2f7d4f"],pan:["Panorami","🌄","#0e7c86"],gem:["Gemme nascoste","💎","#a03a7a"],
+ rist:["Ristoranti","🍽","#c4361b"],tratt:["Trattorie tradizionali","🍲","#a0522d"],caf:["Caffè e pasticcerie","☕","#7a4a2a"],mer:["Mercati","🧺","#4a7a2a"]};
+// pop: 1-3 popolarità; m: minuti di visita; e: fascia €; x: descrizione; w: perché; s: sito ufficiale/fonte
+const P=[
+{id:"mole",n:"Mole Antonelliana e Museo del Cinema",c:"mus",d:"Centro",la:45.06896,lo:7.69325,m:120,pop:3,a:"Via Montebello 20",x:"Simbolo della città, ospita il Museo Nazionale del Cinema.",w:"L'ascensore panoramico sale in cima alla cupola con vista a 360°.",t:"Prenota online nei periodi affollati.",s:"https://www.museocinema.it"},
+{id:"egizio",n:"Museo Egizio",c:"mus",d:"Centro",la:45.06844,lo:7.68422,m:150,pop:3,a:"Via Accademia delle Scienze 6",x:"Una delle più importanti collezioni di antichità egizie al mondo.",w:"È considerato il più antico museo dedicato all'Egitto.",t:"Biglietti con orario d'ingresso: prenota.",s:"https://www.museoegizio.it"},
+{id:"castello",n:"Piazza Castello e Palazzo Reale",c:"piaz",d:"Centro",la:45.07313,lo:7.68603,m:75,pop:3,a:"Piazza Castello",x:"Cuore sabaudo: Palazzo Reale, Palazzo Madama e Teatro Regio.",w:"Raccoglie secoli di storia dei Savoia in pochi passi.",t:"Punto di partenza ideale per il centro.",s:"https://museireali.beniculturali.it"},
+{id:"madama",n:"Palazzo Madama",c:"mon",d:"Centro",la:45.07102,lo:7.68575,m:75,pop:2,a:"Piazza Castello",x:"Castello medievale con facciata barocca di Juvarra, sede del Museo Civico d'Arte Antica.",w:"Fu sede del primo Senato del Regno d'Italia.",t:"Il caffè interno ha un bel salone.",s:"https://www.palazzomadamatorino.it"},
+{id:"sancarlo",n:"Piazza San Carlo",c:"piaz",d:"Centro",la:45.06773,lo:7.68304,m:30,pop:3,a:"Piazza San Carlo",x:"Il «salotto di Torino», con le chiese gemelle e il monumento equestre a Emanuele Filiberto.",w:"Armonia barocca e portici eleganti.",t:"Sosta per caffè sotto i portici.",s:"https://www.turismotorino.org"},
+{id:"duomo",n:"Duomo di San Giovanni e Cappella della Sindone",c:"chi",d:"Centro",la:45.07334,lo:7.68563,m:45,pop:2,a:"Via XX Settembre 87",x:"Cattedrale rinascimentale che custodisce la Sindone.",w:"Il Duomo conserva la celebre reliquia; la cappella guariniana è nota per la cupola.",t:"Visita le zone adiacenti: Palazzo Reale e area romana.",s:"https://www.diocesi.torino.it"},
+{id:"palatina",n:"Porta Palatina e Quadrilatero Romano",c:"mon",d:"Quadrilatero",la:45.07458,lo:7.68310,m:45,pop:2,a:"Via Porta Palatina",x:"Porta romana del I secolo d.C., tra le meglio conservate in Europa.",w:"Torino nasce come Augusta Taurinorum.",t:"Di sera il quartiere si anima.",s:"https://www.turismotorino.org"},
+{id:"cappuccini",n:"Monte dei Cappuccini",c:"pan",d:"Collina e Po",la:45.06270,lo:7.69650,m:60,pop:2,a:"Piazzale Monte dei Cappuccini 7",x:"Terrazza sulla città con vista su Mole, Po e Alpi.",w:"Il punto più amato per le foto panoramiche.",t:"Meglio al tramonto, giornate limpide.",s:"https://www.museomontagna.org"},
+{id:"valentino",n:"Parco del Valentino e Borgo Medievale",c:"par",d:"Collina e Po",la:45.05360,lo:7.68500,m:120,pop:2,a:"Viale Virgilio",x:"Grande parco lungo il Po con il Castello del Valentino e il Borgo Medievale, ricostruzione ottocentesca.",w:"Il Borgo fu realizzato per l'Esposizione del 1884.",t:"Passeggiata lungo il fiume o noleggio bici.",s:"https://www.borgomedievaletorino.it"},
+{id:"superga",n:"Basilica di Superga",c:"pan",d:"Collina e Po",la:45.08050,lo:7.76760,m:150,pop:2,a:"Strada della Basilica di Superga 73",x:"Basilica juvarriana sulla collina, raggiungibile con la storica tranvia a cremagliera.",w:"Una delle migliori viste sulle Alpi e sulla città.",t:"La tranvia parte da Sassi.",s:"https://www.gtt.to.it"},
+{id:"vittorio",n:"Piazza Vittorio Veneto",c:"piaz",d:"Vanchiglia e Po",la:45.06400,lo:7.69450,m:30,pop:2,a:"Piazza Vittorio Veneto",x:"Una delle piazze porticate più grandi d'Europa, affacciata sul Po.",w:"Cuore della vita serale torinese.",t:"Sul fiume si va verso il Ponte Vittorio.",s:"https://www.turismotorino.org"},
+{id:"auto",n:"Museo Nazionale dell'Automobile",c:"mus",d:"Lingotto",la:45.03090,lo:7.67580,m:120,pop:2,a:"Corso Unità d'Italia 40",x:"Collezione sulla storia dell'auto con vetture iconiche italiane.",w:"Torino è la capitale storica dell'auto italiana.",t:"Raggiungibile con la metro.",s:"https://www.museoauto.it"},
+{id:"subalpina",n:"Galleria Subalpina",c:"gem",d:"Centro",la:45.06910,lo:7.68640,m:20,pop:1,a:"Piazza Castello / Piazza Carlo Alberto",x:"Galleria ottocentesca in ferro e vetro tra Piazza Castello e Piazza Carlo Alberto.",w:"Elegante passaggio coperto, spesso ignorato dalla fretta.",t:"Vi si trova il Caffè Baratti & Milano.",s:"https://www.turismotorino.org"},
+{id:"cimitero",n:"Cimitero Monumentale",c:"gem",d:"Nord",la:45.08460,lo:7.70750,m:60,pop:1,a:"Corso Novara 131 bis",x:"Cimitero ottocentesco con tombe monumentali e porticati.",w:"Un museo a cielo aperto di scultura funeraria.",t:"Visita in giornata; rispetta le norme del luogo.",s:"https://www.comune.torino.it"},
+{id:"consolata",n:"Santuario della Consolata",c:"chi",d:"Quadrilatero",la:45.07552,lo:7.67450,m:30,pop:1,a:"Via Maria Adelaide 2",x:"Santuario barocco molto caro ai torinesi, accanto allo storico caffè Bicerin.",w:"Interni sontuosi a pochi passi dal Bicerin.",t:"Abbinalo alla sosta al Bicerin.",s:"https://www.laconsolata.org"},
+{id:"carignano",n:"Palazzo Carignano e Museo del Risorgimento",c:"mus",d:"Centro",la:45.0685,lo:7.6853,m:90,pop:2,a:"Via Accademia delle Scienze 5",x:"Palazzo barocco di Guarini, sede del primo Parlamento italiano e del museo del Risorgimento.",w:"Qui si riunì il primo Parlamento del Regno d'Italia.",t:"Si trova accanto al Museo Egizio.",s:"https://www.museorisorgimentotorino.it"},
+{id:"granmadre",n:"Chiesa della Gran Madre di Dio",c:"chi",d:"Collina e Po",la:45.0630,lo:7.6980,m:30,pop:2,a:"Piazza Gran Madre di Dio",x:"Chiesa neoclassica ispirata al Pantheon, oltre il ponte sul Po.",w:"Bella vista su Piazza Vittorio e sul fiume.",t:"Prosegui a piedi verso il Monte dei Cappuccini."},
+{id:"giardinireali",n:"Giardini Reali",c:"par",d:"Centro",la:45.0745,lo:7.6885,m:45,pop:1,a:"Alle spalle di Palazzo Reale",x:"Giardini storici dietro Palazzo Reale.",w:"Oasi verde a due passi da Piazza Castello.",t:"Verifica l'apertura prima della visita."},
+{id:"gam",n:"GAM — Galleria d'Arte Moderna",c:"mus",d:"Centro",la:45.0636,lo:7.6700,m:90,pop:2,a:"Via Magenta 31",x:"Museo d'arte moderna e contemporanea.",w:"Ampia raccolta di arte italiana dell'Ottocento e del Novecento.",t:"Si raggiunge a piedi dal centro.",s:"https://www.gamtorino.it"},
+{id:"palazzocitta",n:"Piazza Palazzo di Città",c:"piaz",d:"Quadrilatero",la:45.0722,lo:7.6842,m:20,pop:2,a:"Piazza Palazzo di Città",x:"Piazza con il Palazzo Civico, sede del Comune.",w:"Porta d'ingresso al Quadrilatero Romano.",t:"Prosegui verso Porta Palatina."},
+{id:"pinacoteca",n:"Pinacoteca Agnelli",c:"mus",d:"Lingotto",la:45.0306,lo:7.6667,m:75,pop:1,a:"Via Nizza 230",x:"Piccola collezione d'arte sul tetto dell'ex fabbrica Lingotto.",w:"Si visita insieme al complesso industriale riconvertito.",t:"Abbinala a Eataly e al Museo dell'Auto.",s:"https://www.pinacoteca-agnelli.it"},
+// FOOD (e = fascia indicativa)
+{id:"bicerin",n:"Caffè Al Bicerin",c:"caf",d:"Quadrilatero",la:45.07548,lo:7.67435,m:40,pop:3,e:"€",a:"Piazza della Consolata 5",x:"Storico locale piemontese del XVIII secolo, culla del bicerin.",w:"Tradizionale bevanda calda con caffè, cioccolato e crema di latte.",t:"Coda frequente: arriva presto.",s:"https://www.bicerin.it",sp:["bicerin"]},
+{id:"mulassano",n:"Caffè Mulassano",c:"caf",d:"Centro",la:45.07265,lo:7.68600,m:30,pop:2,e:"€",a:"Piazza Castello 15",x:"Piccolo caffè liberty con interni in legno, noto per i tramezzini.",w:"Un classico dell'aperitivo veloce in centro.",t:"Pochi tavoli: aspettati un po' di attesa.",s:"https://www.caffemulassano.com",sp:["tramezzino"]},
+{id:"baratti",n:"Baratti & Milano",c:"caf",d:"Centro",la:45.06910,lo:7.68630,m:45,pop:3,e:"€€",a:"Piazza Castello 29",x:"Caffè e pasticceria storica nella Galleria Subalpina.",w:"Cioccolato e gianduiotti in un salone ottocentesco.",t:"Ottimo per colazione o merenda.",s:"https://www.barattiemilano.it",sp:["gianduiotto"]},
+{id:"cambio",n:"Del Cambio",c:"rist",d:"Centro",la:45.06800,lo:7.68500,m:120,pop:3,e:"€€€€",a:"Piazza Carignano 2",x:"Uno dei locali storici più celebri d'Italia, legato alla vita politica dell'Ottocento.",w:"Alta cucina piemontese in un contesto storico.",t:"Prenotazione necessaria.",s:"https://www.delcambio.it",sp:["vitello","plin"]},
+{id:"portapalazzo",n:"Mercato di Porta Palazzo",c:"mer",d:"Porta Palazzo",la:45.07700,lo:7.68240,m:90,pop:2,e:"€",a:"Piazza della Repubblica",x:"Uno dei più grandi mercati all'aperto d'Europa, molto frequentato dai torinesi.",w:"Prodotti freschi, specialità e atmosfera multiculturale.",t:"Mattina, evita la domenica.",s:"https://www.comune.torino.it",sp:["grissini"]},
+{id:"eataly",n:"Eataly Lingotto",c:"rist",d:"Lingotto",la:45.03000,lo:7.66700,m:90,pop:2,e:"€€",a:"Via Nizza 230",x:"Primo Eataly, ospitato nell'ex fabbrica Lingotto.",w:"Panoramica dei prodotti piemontesi in un solo luogo.",t:"Vicino al Museo dell'Auto.",s:"https://www.eataly.net",sp:["plin","bagna","bonet"]},
+{id:"tregalline",n:"Tre Galline",c:"tratt",d:"Quadrilatero",la:45.0745,lo:7.6827,m:90,pop:2,e:"€€",a:"Via Bellezia 37",x:"Trattoria storica del Quadrilatero con cucina piemontese.",w:"Piatti della tradizione in un quartiere antico.",t:"Meglio prenotare.",sp:["plin","vitello"]},
+{id:"portosavona",n:"Porto di Savona",c:"tratt",d:"Vanchiglia e Po",la:45.0640,lo:7.6940,m:90,pop:2,e:"€€",a:"Piazza Vittorio Veneto 2",x:"Trattoria storica sotto i portici della piazza.",w:"Cucina piemontese in una delle piazze simbolo.",t:"Prenota nei weekend.",sp:["vitello"]},
+{id:"caffesancarlo",n:"Caffè San Carlo",c:"caf",d:"Centro",la:45.0676,lo:7.6830,m:40,pop:2,e:"€€",a:"Piazza San Carlo 156",x:"Caffè storico affacciato sulla piazza.",w:"Interni ottocenteschi per colazione o aperitivo.",t:"Tavolini sotto i portici."},
+{id:"caffetorino",n:"Caffè Torino",c:"caf",d:"Centro",la:45.0672,lo:7.6832,m:40,pop:2,e:"€€",a:"Piazza San Carlo 204",x:"Caffè storico in Piazza San Carlo.",w:"Sul pavimento davanti all'ingresso c'è il celebre toro in mosaico.",t:"Ottimo per l'aperitivo."},
+{id:"stratta",n:"Stratta",c:"caf",d:"Centro",la:45.0676,lo:7.6836,m:30,pop:1,e:"€€",a:"Piazza San Carlo 191",x:"Storica pasticceria e confetteria.",w:"Dolci e specialità da portare via.",t:"Controlla gli orari sul posto."},
+{id:"pfatisch",n:"Pfatisch",c:"caf",d:"Centro",la:45.0666,lo:7.6918,m:30,pop:1,e:"€€",a:"Via Principe Amedeo 3",x:"Storica cioccolateria torinese.",w:"Gianduiotti e cioccolato in un negozio d'epoca.",t:"Ideale per un regalo.",sp:["gianduiotto"]},
+{id:"pepino",n:"Gelateria Pepino",c:"caf",d:"Centro",la:45.0684,lo:7.6847,m:20,pop:2,e:"€",a:"Piazza Carignano 8",x:"Gelateria storica nota per il Pinguino, gelato ricoperto di cioccolato su stecco.",w:"Un classico torinese da passeggio.",t:"Accanto al Del Cambio."}
+];
+const DISH=[
+{k:"plin",n:"Agnolotti del plin",tp:"Piatto tradizionale",x:"Pasta ripiena di carne, chiusa con un pizzico delle dita («plin»), servita con burro e salvia o sugo d'arrosto.",ing:"Carne, verdure, formaggio, uovo.",hist:"Specialità del Piemonte, legata alla cucina delle feste."},
+{k:"vitello",n:"Vitello tonnato",tp:"Antipasto",x:"Fette di vitello con salsa a base di tonno, maionese e capperi.",ing:"Vitello, tonno, capperi, acciughe.",hist:"Piatto classico piemontese, spesso estivo."},
+{k:"bagna",n:"Bagna cauda",tp:"Piatto tradizionale",x:"Intingolo caldo di aglio, acciughe e olio in cui si bagnano verdure.",ing:"Aglio, acciughe, olio.",hist:"Tipico del periodo autunnale-invernale."},
+{k:"bicerin",n:"Bicerin",tp:"Bevanda",x:"Caffè, cioccolata e crema di latte serviti in bicchiere.",ing:"Caffè, cioccolato, latte.",hist:"Legato allo storico caffè Al Bicerin."},
+{k:"gianduiotto",n:"Gianduiotto",tp:"Dolce",x:"Cioccolatino a forma di barchetta con pasta di nocciole.",ing:"Cacao, nocciole Piemonte, zucchero.",hist:"Nato nell'Ottocento, associato al carnevale e alla maschera Gianduja."},
+{k:"grissini",n:"Grissini torinesi",tp:"Prodotto locale",x:"Bastoncini di pane croccanti, tipici della città.",ing:"Farina, lievito, olio.",hist:"Tradizione attribuita alla corte sabauda."},
+{k:"bonet",n:"Bonet",tp:"Dolce",x:"Budino al cacao con amaretti.",ing:"Uova, latte, cacao, amaretti.",hist:"Dolce a cucchiaio tipico piemontese."},
+{k:"tramezzino",n:"Tramezzino",tp:"Street food",x:"Sandwich morbido a triangolo con farciture varie.",ing:"Pane in cassetta, ripieni diversi.",hist:"Reso famoso dai caffè storici del centro."}
+];
+const HOODS=[
+{n:"Centro",x:"Barocco sabaudo, portici e musei: il cuore monumentale.",tm:"1 giorno",day:"Elegante e animato di giorno",night:"Aperitivi e passeggiate"},
+{n:"Quadrilatero",x:"Il quartiere romano, oggi con bar, botteghe e locali.",tm:"Mezza giornata",day:"Tranquillo e storico",night:"Movida e locali"},
+{n:"Collina e Po",x:"Verde, panorami e fiume; l'altra faccia di Torino.",tm:"Mezza giornata",day:"Rilassante",night:"Tranquillo"},
+{n:"Vanchiglia e Po",x:"Piazza porticata e lungofiume, frequentata da studenti.",tm:"2 ore",day:"Vivace",night:"Molto animato"},
+{n:"Porta Palazzo",x:"Mercato storico e quartiere multietnico.",tm:"2 ore",day:"Mercato",night:"Più quieto"},
+{n:"Lingotto",x:"Ex area industriale FIAT oggi polo culturale.",tm:"Mezza giornata",day:"Musei e centro commerciale",night:"Poco animato"},
+{n:"Nord",x:"Area residenziale con il cimitero monumentale.",tm:"1 ora",day:"Residenziale",night:"Tranquillo"}
+];
+const CUR=[
+{t:"Prima capitale d'Italia",x:"Torino fu la prima capitale del Regno d'Italia, dal 1861 al 1865."},
+{t:"Augusta Taurinorum",x:"La città romana sorse nel I secolo a.C.; ne resta la Porta Palatina."},
+{t:"I portici",x:"Circa 18 km di portici collegano il centro: un tratto distintivo della città."},
+{t:"Il Gianduja",x:"La maschera piemontese è legata al gianduiotto e al carnevale."},
+{t:"Capitale dell'auto",x:"Torino è storicamente legata alla FIAT e all'industria automobilistica."},
+{t:"Le Olimpiadi invernali",x:"Torino ha ospitato i Giochi invernali del 2006."}
+];
+const PRAT=[
+{t:"Arrivare",x:"Aeroporto di Torino-Caselle; stazioni Porta Nuova e Porta Susa, ben collegate con l'alta velocità. Verifica orari su Trenitalia/Italo."},
+{t:"Spostarsi",x:"Centro compatto: ottimo a piedi. Metro, tram e bus GTT. Biglietti e abbonamenti su gtt.to.it."},
+{t:"Dove alloggiare",x:"Centro/Porta Nuova per comodità; San Salvario e Quadrilatero per la vita serale."},
+{t:"Sicurezza e abitudini",x:"Città in genere tranquilla; attenzione ai borseggi nelle zone affollate. Pranzo ~12:30–14:30, cena dalle 19:30."},
+{t:"Torino+Piemonte Card",x:"Carta turistica con ingressi: controlla prezzi e musei inclusi sul sito ufficiale."},
+{t:"Costi medi",x:"Da verificare di volta in volta; in cucina indicativa: caffè € · trattoria €€ · fine dining €€€€."}
+];
+const PRESETS={
+ top:{n:"Imperdibili",days:[["castello","madama","duomo","sancarlo","egizio","mole"]]},
+ g1:{n:"Torino in 1 giorno",days:[["egizio","sancarlo","castello","madama","mole","cappuccini"]]},
+ g2:{n:"Torino in 2 giorni",days:[["castello","madama","duomo","palatina","egizio","mole"],["valentino","vittorio","cappuccini","auto"]]},
+ food:{n:"Tour gastronomico",days:[["bicerin","portapalazzo","baratti","mulassano","cambio"]]},
+ storia:{n:"Storico-culturale",days:[["palatina","duomo","castello","madama","egizio","mole"]]},
+ hidden:{n:"Fuori percorso",days:[["consolata","subalpina","cimitero","valentino"]]}
+};
+const SPEED={foot:["🚶 A piedi",4.5],bike:["🚲 Bici",14],car:["🚗 Auto",25],pt:["🚌 Mezzi (stima)",15]};
+
+/* ===== STATO ===== */
+const $=s=>document.querySelector(s);
+const LS={get(){try{return JSON.parse(localStorage.getItem("torino_v1")||"{}")}catch(e){return{}}},set(v){try{localStorage.setItem("torino_v1",JSON.stringify(v))}catch(e){}}};
+const ST=Object.assign({fav:[],days:[[]],day:0,mode:"foot",tab:"p",hood:""},LS.get());
+const save=()=>LS.set({fav:ST.fav,days:ST.days,mode:ST.mode});
+const web=p=>p.s||`https://www.openstreetmap.org/?mlat=${p.la}&mlon=${p.lo}#map=18/${p.la}/${p.lo}`;
+const byId=id=>P.find(p=>p.id===id);
+const isFood=p=>["rist","tratt","caf","mer"].includes(p.c);
+const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("on"),1800)};
+const gmaps=p=>`https://www.google.com/maps/dir/?api=1&destination=${p.la},${p.lo}`;
+
+/* ===== MAPPA ===== */
+if(typeof L==="undefined"){const z=new Proxy(function(){},{get:(t,k)=>k in t?t[k]:z,apply:()=>z});window.L=z;$("#map").innerHTML='<p style="padding:24px;color:#6d675f">Mappa non caricata (libreria Leaflet bloccata o offline). Elenco, filtri e itinerario restano attivi.</p>'}
+const map=L.map("map").setView(CITY.center,CITY.zoom);
+L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap contributors"}).addTo(map);
+const layer=L.layerGroup().addTo(map),routeL=L.layerGroup().addTo(map),markers={};let hiId=null;
+const lg=L.control({position:"bottomright"});
+lg.onAdd=()=>{const d=L.DomUtil.create("div","legend");d.innerHTML=Object.values(CATS).map(c=>`<div><span class="dot" style="background:${c[2]}"></span>${c[0]}</div>`).join("")+`<div>① Tappe itinerario</div>`;return d};lg.addTo(map);
+function icon(p,n){const c=CATS[p.c][2];return L.divIcon({className:"",iconSize:[26,26],iconAnchor:[13,26],html:`<div class="pin ${hiId===p.id?"hi":""}" style="background:${c}"><i>${n||""}</i></div>`})}
+function popup(p){return `<b>${p.n}</b><br><small>${CATS[p.c][0]} · ${p.d}</small><br>${p.x}<br><a href="#" onclick="openCard('${p.id}');return false">Apri scheda</a> · <a href="${gmaps(p)}" target="_blank" rel="noopener">Google Maps</a>`}
+
+/* ===== FILTRI ===== */
+function filtered(){
+ const q=$("#q").value.toLowerCase().trim(),c=$("#fc").value,d=$("#fd").value||ST.hood,pr=$("#fp").value,m=$("#fm").value,f=$("#fav").classList.contains("on");
+ let r=P.filter(p=>{
+  if(ST.tab==="p"&&isFood(p)||ST.tab==="f"&&!isFood(p))return false;
+  if(c&&(c==="gem"?p.c!=="gem":p.c!==c))return false;
+  if(d&&p.d!==d)return false;if(pr&&p.e!==pr)return false;
+  if(m==="s"&&p.m>45||m==="m"&&(p.m<=45||p.m>90)||m==="l"&&p.m<=90)return false;
+  if(f&&!ST.fav.includes(p.id))return false;
+  if(q){const dd=DISH.filter(x=>(p.sp||[]).includes(x.k)).map(x=>x.n).join(" ");if(!(`${p.n} ${p.x} ${p.d} ${CATS[p.c][0]} ${dd}`.toLowerCase().includes(q)))return false}
+  return true});
+ const so=$("#fs2").value;if(so==="pop")r.sort((a,b)=>b.pop-a.pop);if(so==="dur")r.sort((a,b)=>a.m-b.m);return r}
+function fillSelects(){
+ const keys=Object.keys(CATS).filter(k=>ST.tab==="f"?["rist","tratt","caf","mer"].includes(k):!["rist","tratt","caf","mer"].includes(k));
+ $("#fc").innerHTML=`<option value="">Categoria: tutte</option>`+keys.map(k=>`<option value="${k}">${CATS[k][0]}</option>`).join("");
+ $("#fd").innerHTML=`<option value="">Quartiere: tutti</option>`+HOODS.map(h=>`<option>${h.n}</option>`).join("")}
+
+/* ===== RENDER ===== */
+function render(){
+ if(ST.tab==="t"){renderTrip();return}
+ $("#tools").style.display="";
+ const r=filtered();$("#cnt").textContent=r.length+" risultati";
+ $("#list").innerHTML=r.map(cardHTML).join("")||`<p class="cnt">Nessun risultato.</p>`;
+ layer.clearLayers();Object.keys(markers).forEach(k=>delete markers[k]);
+ r.forEach(p=>{const m=L.marker([p.la,p.lo],{icon:icon(p)}).bindPopup(popup(p));m.on("click",()=>{openCard(p.id,true)});m.addTo(layer);markers[p.id]=m});
+ if(r.length&&!hiId)map.fitBounds(L.latLngBounds(r.map(p=>[p.la,p.lo])).pad(.2),{maxZoom:15});
+ tcount()}
+function cardHTML(p){
+ const f=ST.fav.includes(p.id),inT=ST.days.flat().includes(p.id),ct=CATS[p.c];
+ const dishes=(p.sp||[]).map(k=>DISH.find(x=>x.k===k).n).join(", ");
+ return `<div class="card" id="c-${p.id}" onclick="focusP('${p.id}')"><div class="ph" style="background:linear-gradient(135deg,${ct[2]},#222)"><span>${ct[1]}</span><small>${ct[0]}</small></div>
+ <div class="cb"><h3>${p.n}</h3><p>${p.x}</p><div class="meta"><span>📍 ${p.d}</span><span>⏱ ${p.m} min</span>${p.e?`<span>${p.e} <i>(orientativo)</i></span>`:`<span>Ingresso: verifica sito</span>`}</div>
+ <div class="more"><p><b>Perché andarci:</b> ${p.w}</p><p><b>Consiglio:</b> ${p.t}</p>${dishes?`<p><b>Da provare:</b> ${dishes}</p>`:""}<p>📮 ${p.a}<br>🧭 ${p.la.toFixed(5)}, ${p.lo.toFixed(5)}</p><p>Orari: <i>non verificati — consulta il sito ufficiale.</i></p>
+ <div class="btns"><a class="b" href="${web(p)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🌐 Sito / fonte</a><a class="b" href="${gmaps(p)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🧭 Naviga</a><button class="b" onclick="event.stopPropagation();cp('${p.a}, Torino')">Copia indirizzo</button><button class="b" onclick="event.stopPropagation();cp('${p.la}, ${p.lo}')">Copia coordinate</button></div></div>
+ <div class="btns"><button class="b ${f?"on":""}" onclick="event.stopPropagation();toggleFav('${p.id}')">${f?"★ Preferito":"☆ Preferito"}</button><button class="b ${inT?"on":""}" onclick="event.stopPropagation();addTrip('${p.id}')">${inT?"✓ In itinerario":"＋ Itinerario"}</button><button class="b" onclick="event.stopPropagation();focusP('${p.id}')">📍 Mappa</button><button class="b" onclick="event.stopPropagation();$('#c-${p.id}').classList.toggle('open')">Info</button></div></div></div>`}
+function focusP(id,fromMap){
+ const p=byId(id);hiId=id;
+ Object.entries(markers).forEach(([k,m])=>m.setIcon(icon(byId(k))));
+ document.querySelectorAll(".card").forEach(c=>c.classList.remove("sel"));
+ const c=$("#c-"+id);if(c){c.classList.add("sel");if(fromMap){c.classList.add("open");c.scrollIntoView({behavior:"smooth",block:"center"})}}
+ if(markers[id]){map.flyTo([p.la,p.lo],16,{duration:.8});setTimeout(()=>markers[id].openPopup(),850)}}
+function openCard(id,fromMap){if(!$("#c-"+id)){const p=byId(id);ST.tab=isFood(p)?"f":"p";setTab();render()}map.closePopup();const c=$("#c-"+id);if(c){c.classList.add("open");c.scrollIntoView({behavior:"smooth",block:"center"})}focusP(id,false)}
+function cp(t){navigator.clipboard?.writeText(t).then(()=>toast("Copiato"),()=>toast(t))}
+function toggleFav(id){const i=ST.fav.indexOf(id);i<0?ST.fav.push(id):ST.fav.splice(i,1);save();render();toast(i<0?"Aggiunto ai preferiti":"Rimosso")}
+function setTab(){document.querySelectorAll(".tabs button").forEach(b=>b.classList.toggle("on",b.dataset.tab===ST.tab));fillSelects();$("#fp").style.display=ST.tab==="f"?"":"none"}
+
+/* ===== ITINERARIO ===== */
+const km=(a,b)=>{const R=6371,t=x=>x*Math.PI/180,dl=t(b.la-a.la),dn=t(b.lo-a.lo);const h=Math.sin(dl/2)**2+Math.cos(t(a.la))*Math.cos(t(b.la))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h))*1.3}; // linea d'aria ×1.3 (stima)
+const mins=k=>Math.round(k/SPEED[ST.mode][1]*60);
+function addTrip(id){const d=ST.days[ST.day];const i=d.indexOf(id);if(i<0){ST.days.forEach(x=>{const j=x.indexOf(id);if(j>=0)x.splice(j,1)});d.push(id);toast("Aggiunto al giorno "+(ST.day+1))}else d.splice(i,1);save();render()}
+function tcount(){const n=ST.days.flat().length;$("#tc").textContent=n?`(${n})`:"";drawRoute()}
+function drawRoute(){
+ routeL.clearLayers();const ids=ST.days[ST.day]||[];if(!ids.length)return;
+ const pts=ids.map(byId).map(p=>[p.la,p.lo]);
+ pts.forEach((pt,i)=>L.marker(pt,{icon:L.divIcon({className:"",iconSize:[26,26],iconAnchor:[13,13],html:`<div class="pin" style="border-radius:50%;background:#1d1b19"><i style="transform:none;line-height:22px">${i+1}</i></div>`})}).addTo(routeL));
+ L.polyline(pts,{color:"#8c1c2b",weight:4,dashArray:"8 6"}).addTo(routeL)}
+function renderTrip(){
+ $("#tools").style.display="none";
+ const d=ST.days[ST.day],ps=d.map(byId);let dist=0,mv=0,vis=0,bud=0;
+ const legs=ps.map((p,i)=>{vis+=p.m;if(p.e)bud+=0;if(!i)return"";const k=km(ps[i-1],p);dist+=k;mv+=mins(k);return `<div class="leg">↓ ${k.toFixed(1)} km · ~${mins(k)} min</div>`});
+ const f=m=>m>=60?`${Math.floor(m/60)}h ${m%60}m`:m+"m";
+ $("#list").innerHTML=`<div class="trip"><div class="chips">${ST.days.map((_,i)=>`<button class="b ${i===ST.day?"on":""}" onclick="ST.day=${i};render()">Giorno ${i+1}</button>`).join("")}<button class="b" onclick="ST.days.push([]);ST.day=ST.days.length-1;save();render()">＋ Giorno</button>${ST.days.length>1?`<button class="b" onclick="ST.days.splice(ST.day,1);ST.day=0;save();render()">🗑 Elimina giorno</button>`:""}</div>
+ <div class="chips">${Object.entries(SPEED).map(([k,v])=>`<button class="b ${ST.mode===k?"on":""}" onclick="ST.mode='${k}';save();render()">${v[0]}</button>`).join("")}</div>
+ <div class="chips"><select id="pre" style="padding:6px;border-radius:10px;border:1px solid var(--line)"><option value="">Itinerari preconfigurati…</option>${Object.entries(PRESETS).map(([k,v])=>`<option value="${k}">${v.n}</option>`).join("")}</select></div>
+ ${ps.length?ps.map((p,i)=>`<div class="stop"><span class="n">${i+1}</span><span class="t" onclick="focusP('${p.id}')" style="cursor:pointer"><b>${p.n}</b><br><small>${CATS[p.c][0]} · ${p.m} min</small></span><button class="b" onclick="mv(${i},-1)">↑</button><button class="b" onclick="mv(${i},1)">↓</button><button class="b" onclick="rm(${i})">✕</button></div>${legs[i]}`).join(""):`<p class="cnt">Nessuna tappa: aggiungi luoghi dalle schede (＋ Itinerario) o scegli un itinerario preconfigurato.</p>`}
+ <div class="sum"><div><b>${ps.length}</b>tappe</div><div><b>${dist.toFixed(1)} km</b>distanza (stima)</div><div><b>${f(vis)}</b>tempo di visita</div><div><b>${f(mv)}</b>spostamenti ${SPEED[ST.mode][0]}</div><div style="grid-column:span 2"><b>${f(vis+mv)}</b>totale giornata · budget: non disponibile (prezzi non verificati)</div></div>
+ <div class="btns"><button class="b" onclick="share()">🔗 Condividi</button><button class="b" onclick="window.print()">📄 PDF / Stampa</button>${ps.length>1?`<a class="b" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/${ps.map(p=>p.la+","+p.lo).join("/")}/data=!4m2!4m1!3e${ST.mode==="foot"?2:ST.mode==="bike"?1:ST.mode==="pt"?3:0}">🧭 Apri in Google Maps</a>`:""}<button class="b" onclick="ST.days=[[]];ST.day=0;save();render()">Svuota</button></div>
+ <p class="cnt">Distanze: linea d'aria ×1,3. Tempi indicativi.</p></div>`;
+ $("#pre").onchange=e=>{const v=PRESETS[e.target.value];if(v){ST.days=JSON.parse(JSON.stringify(v.days));ST.day=0;save();render();toast(v.n)}};
+ layer.clearLayers();Object.keys(markers).forEach(k=>delete markers[k]);
+ d.length&&map.fitBounds(L.latLngBounds(ps.map(p=>[p.la,p.lo])).pad(.3));tcount()}
+function mv(i,s){const d=ST.days[ST.day],j=i+s;if(j<0||j>=d.length)return;[d[i],d[j]]=[d[j],d[i]];save();render()}
+function rm(i){ST.days[ST.day].splice(i,1);save();render()}
+function share(){const u=location.origin+location.pathname+"#trip="+ST.days.map(d=>d.join(",")).join("|");cp(u)}
+function loadHash(){const m=location.hash.match(/^#trip=(.*)$/);if(m){ST.days=m[1].split("|").map(d=>d.split(",").filter(byId));ST.day=0;ST.tab="t";setTab();save()}}
+
+/* ===== SEZIONI EDITORIALI ===== */
+function sections(){
+ $("#dishes").innerHTML=DISH.map(d=>{const w=P.filter(p=>(p.sp||[]).includes(d.k));return `<div class="gc"><span class="tag">${d.tp}</span><h3>${d.n}</h3><p>${d.x}</p><p><b>Ingredienti:</b> ${d.ing}</p><p><b>Storia:</b> ${d.hist}</p>${w.length?`<button class="b" onclick="dishGo('${d.k}')">Dove provarlo (${w.length})</button>`:""}</div>`}).join("");
+ $("#hoods").innerHTML=HOODS.map(h=>{const n=P.filter(p=>p.d===h.n).length;return `<div class="gc"><span class="tag">${h.tm}</span><h3>${h.n}</h3><p>${h.x}</p><p>☀️ ${h.day}<br>🌙 ${h.night}</p><button class="b" onclick="hoodGo('${h.n}')">Mostra sulla mappa (${n})</button></div>`}).join("");
+ $("#gems").innerHTML=P.filter(p=>p.c==="gem"||p.pop===1&&!isFood(p)).map(p=>`<div class="gc"><span class="tag">${p.d}</span><h3>${p.n}</h3><p>${p.x}</p><p><i>${p.w}</i></p><button class="b" onclick="openCard('${p.id}');location.hash='mappa'">Vedi scheda</button></div>`).join("");
+ $("#curio").innerHTML=CUR.map(c=>`<div class="gc"><h3>${c.t}</h3><p>${c.x}</p></div>`).join("");
+ $("#prat").innerHTML=PRAT.map(c=>`<div class="gc"><h3>${c.t}</h3><p>${c.x}</p></div>`).join("");
+ $("#s1").textContent=P.filter(p=>!isFood(p)).length;$("#s2").textContent=P.filter(isFood).length;$("#s3").textContent=HOODS.length;$("#s4").textContent=Object.keys(PRESETS).length}
+function hoodGo(n){ST.hood=n;$("#fd").value=n;ST.tab="p";setTab();$("#fd").value=n;render();$("#mappa").scrollIntoView();toast("Quartiere: "+n)}
+function dishGo(k){ST.tab="f";ST.hood="";setTab();$("#q").value=DISH.find(x=>x.k===k).n;render();$("#mappa").scrollIntoView()}
+
+/* ===== EVENTI ===== */
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{ST.tab=b.dataset.tab;hiId=null;ST.hood="";setTab();render()});
+["q","fc","fd","fp","fm","fs2"].forEach(i=>$("#"+i).addEventListener(i==="q"?"input":"change",()=>{if(i==="fd")ST.hood="";hiId=null;render()}));
+$("#fav").onclick=e=>{e.target.classList.toggle("on");render()};
+$("#rst").onclick=()=>{["q","fc","fd","fp","fm","fs2"].forEach(i=>$("#"+i).value="");ST.hood="";$("#fav").classList.remove("on");hiId=null;render()};
+document.querySelectorAll("[data-vm]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-vm]").forEach(x=>x.classList.remove("on"));b.classList.add("on");document.body.className=b.dataset.vm;setTimeout(()=>map.invalidateSize(),100)});
+try{sections();loadHash();setTab();render()}catch(e){$("#list").innerHTML="<p class=cnt>Errore: "+e.message+"</p>";console.error(e)}
+</script></body></html>
