@@ -1,168 +1,354 @@
-<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Performance Center · Elena HM Torino</title>
-<style>
-:root{--bg:#f6f6f4;--fg:#15171a;--mu:#6b7078;--cd:#fff;--bd:#e2e2de;--ac:#d4570f;--ok:#1f8a4c;--ko:#c0392b;--wa:#b7791f;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0c0d0f;--fg:#ececea;--mu:#8d9299;--cd:#15171a;--bd:#262a2f;--ac:#ff7a2f;--ok:#3ecf7a;--ko:#ff6b5b;--wa:#e5b94e;color-scheme:dark}}
-:root[data-theme=dark]{--bg:#0c0d0f;--fg:#ececea;--mu:#8d9299;--cd:#15171a;--bd:#262a2f;--ac:#ff7a2f;--ok:#3ecf7a;--ko:#ff6b5b;--wa:#e5b94e;color-scheme:dark}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-.w{max-width:1100px;margin:0 auto;padding:0 16px}header{border-bottom:1px solid var(--bd);position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 0 6px}.top b{font-size:18px}.top small{color:var(--mu);margin-left:8px}
-.st{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--mu);flex-wrap:wrap}.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);display:inline-block}
-nav{display:flex;gap:4px;overflow-x:auto}nav a{padding:8px 12px;color:var(--mu);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;font-size:14px}nav a.on{color:var(--fg);border-color:var(--ac)}
-main{padding:20px 0 40px}h2{font-size:17px;margin:28px 0 10px}h3{font-size:15px;margin:0 0 6px}
-.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.c{background:var(--cd);border:1px solid var(--bd);border-radius:10px;padding:12px 14px}
-.k{font-size:12px;color:var(--mu);text-transform:uppercase;letter-spacing:.04em}.n{font-size:24px;font-weight:650;margin:2px 0}.s{font-size:12px;color:var(--mu)}
-.ts{overflow-x:auto;background:var(--cd);border:1px solid var(--bd);border-radius:10px}table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:7px 10px;text-align:left;border-bottom:1px solid var(--bd);white-space:nowrap}td.wr{white-space:normal;min-width:220px}th{color:var(--mu);font-weight:500}tr:last-child td{border:0}
-.ic{background:var(--cd);border:1px solid var(--bd);border-radius:10px;padding:14px 16px;margin-bottom:10px}.ic ul{margin:6px 0 6px 18px;padding:0}.ic p{margin:4px 0}.mu{color:var(--mu)}
-.cf,.bd{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;border:1px solid var(--bd);color:var(--mu)}.ALTA,.up{color:var(--ok)}.BASSA,.dn{color:var(--ko)}.MEDIA{color:var(--wa)}
-.cv{position:relative;height:260px;background:var(--cd);border:1px solid var(--bd);border-radius:10px;padding:10px}
-button,select{font:inherit;background:var(--cd);color:var(--fg);border:1px solid var(--bd);border-radius:99px;padding:6px 12px;cursor:pointer;margin:0 6px 6px 0}button:hover{border-color:var(--ac)}
-footer{border-top:1px solid var(--bd);padding:16px 0 24px;color:var(--mu);font-size:12px}.note{font-size:12px;color:var(--mu);margin:6px 0}
-
-</style></head><body>
-<header><div class="w"><div class="top"><div><b>Performance Center</b><small>Elena · FIAT Torino HM</small></div><div class="st"><span class="dot"></span><span id="upd"></span><span id="cd"></span></div></div><nav id="nav"></nav></div></header>
-<main class="w" id="v"></main>
-<footer><div class="w">Carico, forma e fatica sono modelli costruiti sul LOAD del foglio (RPE × durata), non misure fisiologiche. Dati: foglio EVALUATION ELENA (nessuna FC, zona o split). Il benchmark è sempre lo storico di Elena.</div></footer>
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ATHLETE · OS</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{--bg:#fff;--bg2:#F4F8FC;--line:#E3ECF5;--p:#8FB8E8;--p2:#BCD6EE;--m:#4F86C6;--d:#1F3A66;--t:#17304F;--t2:#6B7C93;--g:#4E9C8A;--w:#C9974E;--c:#CF7F7F;--r:16px}
+*{box-sizing:border-box;margin:0}
+html,body{background:#fff;color:var(--t);font:14px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Inter,Roboto,sans-serif;-webkit-text-size-adjust:100%}
+body{padding:env(safe-area-inset-top) 0 0;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer;background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 14px;min-height:38px;transition:.15s}
+button:hover{border-color:var(--p);background:var(--bg2)}
+button.on{background:var(--p);border-color:var(--p);color:var(--d);font-weight:600}
+input,select{font:inherit;color:var(--t);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-height:38px;background:#fff;max-width:100%}
+.hd{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;padding:14px 24px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);z-index:20}
+.logo{font-weight:800;letter-spacing:.12em;color:var(--d);font-size:15px}.logo i{color:var(--p);font-style:normal}
+.chips{display:flex;flex-wrap:wrap;gap:6px;flex:1}
+.chip{font-size:12px;color:var(--t2);background:var(--bg2);border-radius:999px;padding:4px 10px;white-space:nowrap}
+.chip b{color:var(--d)}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--g);margin-right:5px}
+.acts{display:flex;gap:6px}
+nav{display:flex;gap:2px;padding:0 20px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+nav button{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;padding:12px 14px;color:var(--t2);white-space:nowrap}
+nav button.on{border-bottom-color:var(--p);color:var(--d);background:none;font-weight:600}
+nav button:hover{background:var(--bg2)}
+#bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:12px 24px;background:var(--bg2);border-bottom:1px solid var(--line)}
+#bar .lg{margin-left:auto;font-size:12px;color:var(--t2)}
+main{padding:20px 24px 90px;max-width:1320px;margin:0 auto}
+h2{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--t2);margin:26px 0 12px;font-weight:700}
+h2:first-child{margin-top:0}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:0 2px 14px rgba(31,58,102,.05)}
+.card.tint{background:linear-gradient(180deg,#F4F8FC,#fff)}
+.lbl{font-size:11.5px;color:var(--t2);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.big{font-size:28px;font-weight:700;color:var(--d);letter-spacing:-.02em;margin:4px 0}.big small{font-size:13px;color:var(--t2);font-weight:500;margin-left:4px}
+.sub{font-size:12.5px;color:var(--t2)}
+.dl{display:inline-block;font-size:12px;font-weight:600;border-radius:999px;padding:2px 9px;margin-right:6px}
+.dl.g{background:#E5F3EF;color:#2F7766}.dl.n{background:#E8F0F8;color:#3E6593}.dl.b{background:#F8E7E7;color:#A05252}.dl.w{background:#F7EEDD;color:#8A6325}
+.ch{position:relative;height:300px}.ch.s{height:240px}
+.hero{display:grid;gap:18px;grid-template-columns:1.1fr 1fr}
+.cd{font-size:64px;font-weight:800;color:var(--d);line-height:1;letter-spacing:-.04em}
+.bar1{height:8px;background:var(--bg2);border-radius:9px;overflow:hidden;margin:6px 0 2px}.bar1 i{display:block;height:100%;background:linear-gradient(90deg,var(--p2),var(--m));border-radius:9px}
+.row{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:#fff;cursor:pointer;flex-wrap:wrap}
+.row:hover{border-color:var(--p);background:var(--bg2)}
+.row .m{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--t2)}.row .m b{color:var(--t);font-weight:600}
+.list{display:grid;gap:8px}
+.tag{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border-radius:6px;padding:2px 7px;margin-right:6px}
+.tag.Dato{background:#E8F0F8;color:#3E6593}.tag.Interpretazione{background:#E6F1F6;color:#2F6E86}.tag.Ipotesi{background:#F0EDF7;color:#6A5A93}
+.ins{border-left:4px solid var(--p);padding:12px 14px;background:#fff;border:1px solid var(--line);border-left-width:4px;border-radius:12px;margin-bottom:10px}
+.ins.g{border-left-color:var(--g)}.ins.b{border-left-color:var(--c)}.ins.w{border-left-color:var(--w)}
+.ins h4{font-size:14px;color:var(--d);margin-bottom:4px}.ins p{margin:4px 0;font-size:13.5px}
+table{width:100%;border-collapse:collapse;font-size:13px}th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--t2);text-align:left;padding:8px;border-bottom:1px solid var(--line)}td{padding:9px 8px;border-bottom:1px solid var(--line)}
+.ov{position:fixed;inset:0;background:rgba(23,48,79,.35);z-index:50;display:flex;justify-content:center;align-items:flex-start;overflow-y:auto;padding:24px 12px}
+.ov[hidden]{display:none}
+.sheet{background:#fff;border-radius:20px;max-width:880px;width:100%;padding:22px;position:relative}
+.x{position:absolute;right:14px;top:14px}
+.mut{color:var(--t2);font-size:13px}
+.note{background:var(--bg2);border:1px dashed var(--p2);border-radius:12px;padding:10px 12px;font-size:12.5px;color:var(--t2)}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:84px;background:var(--d);color:#fff;padding:10px 16px;border-radius:12px;z-index:60;font-size:13px;display:none;max-width:90vw}
+@media(max-width:760px){
+.hd{padding:10px 14px}main{padding:14px 14px 100px}#bar{padding:10px 14px}.hero{grid-template-columns:1fr}.cd{font-size:52px}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:30;background:#fff;border-top:1px solid var(--line);border-bottom:0;padding:0 6px env(safe-area-inset-bottom);box-shadow:0 -4px 18px rgba(31,58,102,.07)}
+nav button{padding:12px 11px;border-bottom:0;border-top:3px solid transparent;font-size:12.5px}nav button.on{border-top-color:var(--p)}
+.g2{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.big{font-size:23px}.ch{height:260px}.sheet{padding:16px 14px;border-radius:16px}
+.chips .chip:nth-child(n+4){display:none}.acts button{padding:8px 11px}
+}
+</style></head><body>
+<header class="hd"><div class="logo">ATHLETE <i>·</i> OS</div><div class="chips" id="chips"></div>
+<div class="acts"><button id="bImp" onclick="f.click()">⇪ Importa Excel</button><button onclick="expCsv()">⇩ CSV</button><button onclick="expRep()">⇩ Report</button><input type="file" id="f" accept=".xlsx,.xls" hidden></div></header>
+<nav id="nav"></nav>
+<div id="bar"></div>
+<main id="main"></main>
+<div class="ov" id="dt" hidden onclick="if(event.target===this)closeWk()"></div>
+<div id="toast"></div>
 <script>
-const RAW=`0819;1;7.03;42;354.6;9;1;40.3
-0820;1;10.37;62;358.7;3;3;16.3
-0822;1;12.17;73;358.8;4;3;25.6
-0824;2;10.14;60;355.3;3;3;16.0
-0826;2;7.15;43;358.3;3;3;11.3
-0827;2;14.08;82;349.9;8;2;65.0
-0831;3;7.21;44;367.0;3;3;11.3
-0902;3;12.36;72;350.9;5;3;32.3
-0905;3;7.21;44;365.6;3;3;11.4
-0906;3;12.04;72;360.7;3;3;18.9
-0911;4;11.01;68;368.0;3;3;17.5
-0913;4;14.26;82;344.6;4;2;33.0
-0914;5;6.42;41;379.8;4;2;15.0
-0916;5;8.15;49;363.4;2;4;7.6
-0918;5;10.62;61;345.1;3;4;15.0
-0920;5;16.01;155;581.5;8;2;73.9
-0922;6;6.18;38;367.5;3;3;9.8
-0923;6;8.1;47;351.4;2;4;7.6
-0924;6;11.41;66;349.3;4;3;23.8
-0927;6;14.25;83;347.6;5;2;41.4
-0928;7;7.18;45;374.1;3;4;10.2
-0930;7;13.44;78;346.1;7;3;49.7
-1001;7;6.1;37;364.6;2;4;5.8
-1004;7;12;66;330.5;8;2;55.4
-1007;8;10.6;62;352.6;5;3;27.7
-1008;8;8.43;50;356.2;2;5;7.1
-1011;8;10.11;62;365.7;4;3;21.4
-1012;9;7.1;42;357.7;3;4;10.0
-1014;9;11.03;63;342.9;5;3;28.9
-1015;9;8.28;49;354.5;3;3;13.1
-1018;9;18.38;105;343.4;8;2;84.8`,PLAN={"2": 30, "3": 32, "4": 26, "5": 33, "6": 35, "7": 37, "8": 27, "9": 38, "10": 40, "11": 42, "12": 44, "13": 34, "14": 28, "15": 36};
-const $=s=>document.querySelector(s),D=864e5;
-const sum=(a,f)=>a.reduce((s,x)=>s+f(x),0),mean=a=>a.length?sum(a,x=>x)/a.length:null,med=a=>{if(!a.length)return null;a=[...a].sort((x,y)=>x-y);const i=a.length>>1;return a.length%2?a[i]:(a[i-1]+a[i])/2};
-const P=v=>{if(!v)return'–';const s=Math.round(1000/v);return(s/60|0)+':'+String(s%60).padStart(2,'0')};
-const hms=s=>{s=Math.round(s);return(s/3600|0)+':'+String(s%3600/60|0).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
-const fd=d=>String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');
-const ch=(a,b)=>a==null||!b?null:(a-b)/b*100,fp=p=>p==null?'n/d':(p>0?'+':'')+p.toFixed(1)+'%';
-const inW=(n,o=0,a=A)=>a.filter(x=>x.d>=E-(n+o)*D&&x.d<E-o*D);
-const st=(p,t=1.5)=>p==null?'NON DETERMINABILE':p>t?'IN MIGLIORAMENTO':p<-t?'IN PEGGIORAMENTO':'STABILE';
-const lin=p=>{const n=p.length,sx=sum(p,q=>q[0]),sy=sum(p,q=>q[1]),sxy=sum(p,q=>q[0]*q[1]),sxx=sum(p,q=>q[0]*q[0]),m=(n*sxy-sx*sy)/(n*sxx-sx*sx);return{m,b:(sy-m*sx)/n}};
-const tb=(h,r)=>`<div class="ts"><table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${r.map(x=>`<tr>${x.map(c=>`<td${/class=/.test(c)?'':''}>${c}</td>`).join('')}</tr>`).join('')}</table></div>`;
-const ins=(t,w,e,i,c)=>`<article class="ic"><h3>${t}</h3><p>${w}</p><ul>${e.map(x=>`<li>${x}</li>`).join('')}</ul><p class="mu"><b>Interpretazione.</b> ${i}</p><span class="cf ${c}">Confidenza ${c}</span></article>`;
-const cl=p=>p==null?'':p>1.5?'up':p<-1.5?'dn':'';
-const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-const mk=(id,cfg)=>{const c=Chart.getChart(id);c&&c.destroy();Chart.defaults.color=css('--mu');Chart.defaults.borderColor=css('--bd');cfg.options=Object.assign({responsive:true,maintainAspectRatio:false},cfg.options);new Chart($('#'+id),cfg)};
-const cv=(id,t)=>`<h2>${t}</h2><div class="cv"><canvas id="${id}"></canvas></div>`;
-const A=RAW.trim().split('\n').map(l=>{const[m,w,k,t,p,r,f,ld]=l.split(';');return{d:new Date(2026,+m.slice(0,2)-1,+m.slice(2)),w:+w,km:+k,t:+t*60,p:+p,v:1000/+p,r:+r,f:+f,l:+ld}}).sort((a,b)=>a.d-b.d);
-const R=A.filter(x=>x.p<=480),LAST=A[A.length-1].d,E=new Date(+LAST+D),T0=A[0].d,TODAY=new Date(new Date().setHours(0,0,0,0));
-const cls=x=>x.p>480?'non comparabile':x.r<=3?'facile':x.r<=6?'media':'dura';
-const nd=Math.round((E-T0)/D),L=Array(nd).fill(0);A.forEach(x=>L[Math.round((x.d-T0)/D)]+=x.l);
-let at=0,ct=0;const S=L.map(l=>{at+=(l-at)/7;ct+=(l-ct)/28;return{a:at,c:ct,f:ct-at}});
-const W=[];for(let w=1;w<=12;w++){const x=A.filter(s=>s.w==w);W.push({w,pl:PLAN[w]??null,n:x.length,km:x.length?sum(x,s=>s.km):null,lg:x.length?Math.max(...x.map(s=>s.km)):null,rpe:x.length?mean(x.map(s=>s.r)):null,fe:x.length?mean(x.map(s=>s.f)):null,ld:x.length?sum(x,s=>s.l):null,k:+new Date(2026,7,17+(w-1)*7)})}
-const WD=W.filter(w=>w.n),cw=WD.filter(w=>w.pl),adh=cw.length?sum(cw,w=>w.km)/sum(cw,w=>w.pl):null;
-const rr=(o,a=R)=>inW(21,o,a);
-const mf={vel:r=>{const a=r.filter(x=>x.r>=7).map(x=>x.v);return a.length?med(a):null},eff:r=>{const a=r.filter(x=>x.r<=5&&x.km>=8).map(x=>x.v);return a.length>=3?med(a):null},
-end:r=>{const a=r.map(x=>x.km).sort((p,q)=>q-p).slice(0,2);return a.length==2?mean(a):null},cons:r=>r.length/3,car:r=>sum(r,x=>x.l)/3};
-function sc(f,all,o2=0){const src=all?A:R,v=[];for(let o=0;E-(21+o)*D>=T0;o+=7){const x=f(inW(21,o,src));if(x!=null)v.push(x)}
- const cur=f(inW(21,o2,src)),prev=f(inW(21,21+o2,src));if(cur==null)return{cur:null,score:null,pc:null,n:0};
- return{cur,prev,pc:ch(cur,prev),score:Math.round(v.filter(x=>x<=cur).length/v.length*100),n:v.length}}
-const M={vel:sc(mf.vel),eff:sc(mf.eff),end:sc(mf.end,1),cons:sc(mf.cons,1),car:sc(mf.car,1)};
-const fa=['vel','eff','end'].map(k=>M[k]).filter(x=>x.score!=null),fp2=fa.filter(x=>x.pc!=null);
-const FIT={score:fa.length?Math.round(mean(fa.map(x=>x.score))):null,pc:fp2.length?mean(fp2.map(x=>x.pc)):null};
-const row=(a,s,stt,tr,c,n)=>[a,s==null?'—':s,stt,`<span class="${cl(tr)}">${tr==null?'n/d':fp(tr)}</span>`,`<span class="${c}">${c}</span>`,`<td class="wr">${n}</td>`.replace(/^<td class="wr">|<\/td>$/g,'')];
-const ln=S[nd-1],ratio=ln.a/ln.c,r14=S[nd-15].a/S[nd-15].c,ft=ratio>1.3?'ALTA':ratio>1.1?'MEDIA':'BASSA';
-const tsbH=S.slice(21).map(x=>x.f),tsbSc=Math.round(tsbH.filter(x=>x<=ln.f).length/tsbH.length*100),tsbD=ln.f-S[nd-15].f;
-const dr=Math.ceil((new Date(2026,10,29)-TODAY)/D),gapD=Math.round((TODAY-LAST)/D);
-const fe=(o)=>mean(inW(21,o,A).map(x=>x.f)),fe0=fe(0),fe1=fe(21);
-const hard=A.filter(x=>x.r>=7),fol=hard.map(h=>({h,y:A.find(y=>y.d>h.d&&(y-h.d||0)/D<=3&&(y.d-h.d)/D<=3)})).filter(o=>o.y);
-const lrs=WD.map(w=>A.filter(x=>x.w==w.w).reduce((p,q)=>q.km>p.km?q:p));
-const pc=x=>(x>0?'+':'')+x.toFixed(0)+'%';
-/* ---- insight e raccomandazioni ---- */
-function insights(){const o=[];
- if(adh!=null)o.push(ins('Volume vs piano',`Nelle ${cw.length} settimane con piano disponibile Elena ha corso <b>${(adh*100).toFixed(0)}%</b> dei km previsti (${sum(cw,w=>w.km).toFixed(1)} vs ${sum(cw,w=>w.pl)} km); sopra piano in ${cw.filter(w=>w.km>w.pl).length}/${cw.length}.`,cw.map(w=>`S${w.w}: ${w.km.toFixed(1)} vs ${w.pl} km (${pc((w.km/w.pl-1)*100)})`),`Lo scostamento è sistematico e non episodico: riduce il margine di scarico verso il picco previsto. Finora i facili restano a RPE 2–3. Solo i km previsti sono nel file, non le singole sedute.`,'ALTA'));
- const mid=R.filter(x=>x.r>=4&&x.r<=5&&x.km>=10),pm=mid.map(x=>[Math.round((x.d-T0)/D),x.p]);
- if(pm.length>=4){const l=lin(pm);o.push(ins('Ritmo a sforzo medio (RPE 4–5, ≥10 km)',`${mid.length} sedute: trend lineare <b>${(l.m*30).toFixed(1)} s/km ogni 30 giorni</b> (negativo = più veloce).`,mid.map(x=>`${fd(x.d)} · ${x.km.toFixed(1)} km @ ${P(x.v)}/km, RPE ${x.r}, sens. ${x.f}`),`${Math.abs(l.m*30)<4?'Ritmo sostanzialmente stabile a pari sforzo: nessun miglioramento o peggioramento netto di efficienza.':l.m<0?'Ritmo in miglioramento a pari sforzo.':'Ritmo in peggioramento a pari sforzo.'} Senza FC e temperatura il confronto resta indicativo.`,'BASSA'))}
- const hh=hard.filter(x=>x.p<=480);if(hh.length)o.push(ins('Sedute dure (RPE ≥7)',`${hard.length} sedute totali, ${hard.filter(x=>x.f<=2).length} con sensazioni ≤2. Più lunga: ${Math.max(...A.map(x=>x.km)).toFixed(1)} km.`,hard.map(x=>`${fd(x.d)} · ${x.km.toFixed(1)} km @ ${x.p>480?'n/c (non comparabile)':P(x.v)+'/km'}, RPE ${x.r}, sens. ${x.f}`),`A RPE 8 il ritmo è passato da ${P(hh[1]?.v)}/km (${fd(hh[1]?.d||T0)}) a ${P(hh[hh.length-1].v)}/km (${fd(hh[hh.length-1].d)}), ma tipo e struttura delle sedute non sono nel file: il confronto vale solo se comparabili.`,'MEDIA'));
- if(fol.length)o.push(ins('Recupero dopo le sedute dure',`La seduta entro 72 h dopo una dura ha RPE medio <b>${mean(fol.map(x=>x.y.r)).toFixed(1)}</b> e sensazioni <b>${mean(fol.map(x=>x.y.f)).toFixed(1)}/5</b> (${fol.length} casi).`,fol.map(x=>`${fd(x.h.d)} (RPE ${x.h.r}, sens. ${x.h.f}) → ${fd(x.y.d)}: RPE ${x.y.r}, sens. ${x.y.f}`),`Un recupero rapido è coerente con una buona tolleranza del carico; manca però il dato dopo il lungo del ${fd(LAST)}.`,'MEDIA'));
- o.push(ins('Carico e freschezza (modello)',`ATL/CTL = ${ratio.toFixed(2)}, TSB = ${ln.f.toFixed(0)}. Carico settimanale ultimo blocco ${fp(ch(M.car.cur,M.car.prev))} vs 3 settimane precedenti.`,[`CTL ${ln.c.toFixed(0)} · ATL ${ln.a.toFixed(0)} (LOAD del foglio; CTL 28 g, ATL 7 g)`,`rapporto 14 giorni fa: ${r14.toFixed(2)}`,`S9: LOAD ${W[8].ld.toFixed(0)} vs S8 ${W[7].ld.toFixed(0)} (${(W[8].ld/W[7].ld).toFixed(1)}×)`],`Il rapporto indica ${ft==='ALTA'?'un carico acuto elevato rispetto al cronico':ft==='MEDIA'?'un carico acuto moderatamente sopra il cronico':'un carico acuto in linea col cronico'}. Con 9 settimane di storico il CTL è poco stabile.`,'BASSA'));
- if(gapD>=3)o.push(ins('Dati mancanti dopo l’ultimo allenamento',`Nessuna seduta registrata da ${gapD} giorni (ultima: ${fd(LAST)}). Piano S10: ${PLAN[10]} km.`,[`ultima seduta: ${lrs[lrs.length-1].km.toFixed(1)} km, RPE ${A[A.length-1].r}, sens. ${A[A.length-1].f}`],`Non si distingue riposo da dati non compilati: il recupero dopo il lungo non è valutabile.`,'ALTA'));
- o.push(ins('Limite dei dati: zone e qualità non determinabili',`Il file contiene solo EVALUATION: mancano ZONE, PLAN (sedute previste) e NOTE; nessuna FC, split o lap.`,[`ritmi non classificabili per zona (solo RPE e passo soglia 5:15)`,`la seduta del 20/09 (9:41/km, RPE 8) è esclusa dai ritmi`],`Con ZONE e PLAN sarebbe possibile verificare se ogni seduta ha centrato lo stimolo previsto.`,'ALTA'));
- return o.join('')}
-function recs(){const r=[];
- r.push(`<b>Mantenere il volume del piano.</b> S10–S12: ${PLAN[10]} / ${PLAN[11]} / ${PLAN[12]} km, senza superarli oltre +5%: l’aderenza è ${(adh*100).toFixed(0)}% e S10 è già sotto S9 (${W[8].km.toFixed(1)} km).`);
- r.push(`<b>Limitare le sedute dure.</b> Massimo 1 seduta RPE ≥7 a settimana (${hard.filter(x=>x.f<=2).length}/${hard.length} sedute dure hanno sensazioni ≤2). Monitora: RPE e sensazioni 24–48 h dopo il lungo.`);
- r.push(`<b>Compilare i dati mancanti.</b> ${gapD>=3?`Mancano ${gapD} giorni dopo il ${fd(LAST)}. `:''}Caricare ZONE, PLAN e NOTE per valutare zone e sedute qualitative.`);
- r.push(`<b>Regola di scarico.</b> Se due facili consecutive hanno RPE ≥5 o sensazioni ≤2, ridurre del 10–15% il volume della settimana successiva mantenendo la frequenza.`);
- return r.map(x=>`<div class="ic">${x}</div>`).join('')}
-/* ---- Ask ---- */
-const ASK=[['Sto migliorando rispetto a 3 settimane fa?',()=>{const g=(f,o)=>f(inW(21,o,R)),k=[['Ritmo a basso sforzo (RPE ≤5)',mf.eff],['Ritmo sedute dure',mf.vel]].map(([n,f])=>[n,g(f,0),g(f,21)]);
- const pcs=k.filter(x=>x[1]&&x[2]).map(x=>ch(x[1],x[2]));return{b:`Ultime 3 settimane vs 3 precedenti: ${pcs.length?st(mean(pcs)):'NON DETERMINABILE (dati insufficienti)'}.`,e:k.map(x=>`${x[0]}: ${x[1]?P(x[1])+'/km':'n/d'} vs ${x[2]?P(x[2])+'/km':'n/d'} (${fp(ch(x[1],x[2]))})`),i:'Ritmi non normalizzati per temperatura, percorso e struttura della seduta; senza FC non si separa efficienza da scelta del ritmo.',c:'BASSA'}}],
-['Sto facendo troppo volume?',()=>({b:`Il volume è ${(adh*100).toFixed(0)}% del piano; carico ultimi 21 g ${fp(M.car.pc)} vs precedenti, ATL/CTL ${ratio.toFixed(2)}.`,e:cw.map(w=>`S${w.w}: ${w.km.toFixed(1)} vs ${w.pl} km`),i:'Eccesso sistematico ma finora ben tollerato sui facili (RPE 2–3). Il rischio è soprattutto nelle settimane di picco.',c:'MEDIA'})],
-['I lunghi stanno migliorando?',()=>({b:`Uscita più lunga: ${Math.max(...A.map(x=>x.km)).toFixed(1)} km (${fd(lrs.reduce((p,q)=>q.km>p.km?q:p).d)}), contro ${lrs[0].km.toFixed(1)} km di S1.`,e:lrs.map(x=>`S${x.w} · ${fd(x.d)} · ${x.km.toFixed(1)} km @ ${x.p>480?'n/c':P(x.v)+'/km'} RPE ${x.r} sens. ${x.f}`),i:'La capacità di coprire distanza cresce; qualità di tenuta (deriva, ultimo terzo) non valutabile senza split. Il tipo di lungo previsto non è nel file.',c:'MEDIA'})],
-['Qual è il punto debole?',()=>{const k=[['Qualità',M.vel],['Ritmo a basso sforzo',M.eff],['Endurance',M.end],['Consistenza',M.cons]].filter(x=>x[1].score!=null).sort((p,q)=>p[1].score-q[1].score);return{b:k.length?`Tra le aree misurabili la più bassa rispetto allo storico recente è ${k[0][0]} (${k[0][1].score}/100).`:'Dati insufficienti.',e:k.map(x=>`${x[0]}: ${x[1].score}/100 (${fp(x[1].pc)})`),i:'Efficienza e durabilità non sono confrontabili senza FC/split. Punteggi su poche finestre: BASSA affidabilità.',c:'BASSA'}}]];
-function ask(i){const a=ASK[i][1]();$('#ans').innerHTML=`<div class="ic"><h3>${ASK[i][0]}</h3><p><b>Risposta breve.</b> ${a.b}</p><b>Evidenze</b><ul>${a.e.map(x=>`<li>${x}</li>`).join('')}</ul><p class="mu"><b>Interpretazione.</b> ${a.i}</p><span class="cf ${a.c}">Confidenza ${a.c}</span></div>`}
-/* ---- pagine ---- */
-const n1=x=>x==null?'n/d':x.toFixed(1);
-const PG={stato:{h(){const c=(k,n,s)=>`<div class="c"><div class="k">${k}</div><div class="n">${n}</div><div class="s">${s}</div></div>`,k3=sum(inW(21),x=>x.km)/3,k3p=sum(inW(21,21),x=>x.km)/3;
- const rows=[row('Fitness (composito)',FIT.score,st(FIT.pc),FIT.pc,'BASSA','Percentile di qualità, ritmo a basso sforzo ed endurance sulle ultime finestre di 21 g'),
- row('Qualità',M.vel.score,st(M.vel.pc),M.vel.pc,'BASSA',M.vel.cur?`ritmo mediano sedute RPE ≥7: ${P(M.vel.cur)}/km`:'sedute RPE ≥7 insufficienti'),
- row('Ritmo a basso sforzo',M.eff.score,st(M.eff.pc),M.eff.pc,'BASSA',M.eff.cur?`ritmo mediano RPE ≤5 (≥8 km): ${P(M.eff.cur)}/km`:'sedute insufficienti'),
- row('Endurance',M.end.score,st(M.end.pc),M.end.pc,'MEDIA',`media dei 2 lunghi migliori: ${n1(M.end.cur)} km`),
- row('Efficienza (FC)',null,'NON DETERMINABILE',null,'ALTA','nessuna FC nel foglio'),
- row('Durabilità',null,'NON DETERMINABILE',null,'ALTA','mancano split e FC'),
- row('Consistenza',M.cons.score,st(M.cons.pc,8),M.cons.pc,'MEDIA',`${n1(M.cons.cur)} sedute/sett. nelle ultime 3 settimane`),
- row('Volume vs piano',null,adh>1.1?'SOPRA PIANO':adh<.9?'SOTTO PIANO':'IN LINEA',(adh-1)*100,'ALTA',`${(adh*100).toFixed(0)}% su ${cw.length} settimane con piano`),
- row('Carico (modello)',M.car.score,M.car.pc>8?'IN AUMENTO':M.car.pc<-8?'IN DIMINUZIONE':'STABILE',M.car.pc,'BASSA',`${M.car.cur.toFixed(0)} punti LOAD/sett.`),
- row('Fatica',null,ft,(ratio-r14)/r14*100,'BASSA',`ATL/CTL ${ratio.toFixed(2)}; segnale singolo`),
- row('Forma',tsbSc,st(tsbD,3),null,'BASSA',`TSB ${ln.f.toFixed(0)} (${tsbD>0?'+':''}${tsbD.toFixed(0)} in 14 giorni)`),
- row('Recupero soggettivo',null,st(ch(fe0,fe1)),ch(fe0,fe1),'BASSA',`sensazioni medie ${n1(fe0)}/5 vs ${n1(fe1)}/5`)];
- return `<div class="g">${c('Corsa · 3 sett.',k3.toFixed(0)+' km/sett',`${fp(ch(k3,k3p))} · ${(inW(21).length/3).toFixed(1)} sedute/sett`)}${c('Ore di corsa',(sum(inW(21),x=>x.t)/3/3600).toFixed(1)+' h/sett',`${fp(ch(sum(inW(21),x=>x.t),sum(inW(21,21),x=>x.t)))} vs 3 sett. prec.`)}${c('CTL / ATL / TSB',`${ln.c.toFixed(0)} / ${ln.a.toFixed(0)} / ${ln.f.toFixed(0)}`,'modello su LOAD del foglio')}${c('Aderenza al piano',(adh*100).toFixed(0)+'%',`${sum(cw,w=>w.km).toFixed(0)} vs ${sum(cw,w=>w.pl)} km`)}${c('Lungo massimo',Math.max(...A.map(x=>x.km)).toFixed(1)+' km',`${(Math.max(...A.map(x=>x.km))/21.0975*100).toFixed(0)}% della distanza gara`)}</div>
- <h2>Stato attuale</h2>${tb(['Area','Punteggio 0–100','Stato','Trend 21 g','Confidenza','Nota'],rows)}<p class="note">Punteggi = percentile delle finestre mobili di 21 giorni sullo storico di Elena (da ${fd(T0)}): relativi a lei e basati su poche finestre. Non determinabile ≠ nullo.</p>
- <h2>Insight principali</h2>${insights()}<h2>Raccomandazioni</h2>${recs()}
- <h2>Chiedi ai dati</h2>${ASK.map((q,i)=>`<button onclick="ask(${i})">${q[0]}</button>`).join('')}<div id="ans"></div>`}},
-running:{h(){const bd=[[6,9,'6–9 km'],[9,12,'9–12 km'],[12,15,'12–15 km'],[15,99,'≥15 km']].map(([a,b,n])=>{const x=R.filter(s=>s.km>=a&&s.km<b).sort((p,q)=>q.v-p.v)[0];return[n,x?`${P(x.v)}/km · RPE ${x.r} · ${fd(x.d)}`:'—']});
- const cs=['facile','media','dura','non comparabile'],dist=cs.map(c=>{const a=inW(21,0,A).filter(x=>cls(x)==c),b=inW(21,21,A).filter(x=>cls(x)==c);return[c,a.length,sum(a,x=>x.km).toFixed(0),b.length,sum(b,x=>x.km).toFixed(0)]});
- return `${cv('cMp','Ritmo di ogni seduta per intensità (RPE) vs passo soglia 5:15 del foglio')}<p class="note" id="mn"></p>${cv('cWk','Km settimanali: previsti vs reali, e numero di sedute')}<p class="note">S10–S12: solo km previsti (nessun dato reale).</p>${cv('cPace','Ritmo delle sedute facili (RPE ≤3, ≥6 km) · COMPARABILITÀ BASSA')}<p class="note" id="pn"></p>
- <h2>Uscita più lunga di ogni settimana</h2>${tb(['Sett.','Data','km','Ritmo','RPE','Sens.','LOAD'],lrs.map(x=>['S'+x.w,fd(x.d),x.km.toFixed(1),x.p>480?'n/c':P(x.v)+'/km',x.r,x.f,x.l.toFixed(0)]))}
- <h2>Classificazione ultime 3 settimane vs precedenti</h2>${tb(['Intensità','Sedute','km','Sedute prec.','km prec.'],dist)}<p class="note">Classi da RPE (facile ≤3, media 4–6, dura ≥7): zone e tipo di seduta non sono nel file.</p>
- <h2>Miglior ritmo per distanza</h2>${tb(['Fascia','Miglior ritmo'],bd)}<p class="note">Ritmi di allenamento non normalizzati; la seduta del 20/09 è esclusa.</p>`},
- d(){mk('cWk',{data:{labels:W.map(w=>'S'+w.w),datasets:[{type:'bar',label:'km previsti',data:W.map(w=>w.pl),backgroundColor:css('--bd')},{type:'bar',label:'km reali',data:W.map(w=>w.km&&+w.km.toFixed(1)),backgroundColor:css('--ac')},{type:'line',label:'sedute',data:W.map(w=>w.n||null),yAxisID:'y1',borderColor:css('--mu'),pointRadius:2}]},options:{scales:{y1:{position:'right',grid:{display:false},min:0}}}});
- const cc={facile:css('--ok'),media:'#4c8dff',dura:css('--ac')},tk={reverse:true,ticks:{callback:v=>(v/60|0)+':'+String(Math.round(v%60)).padStart(2,'0')}},xt={ticks:{callback:v=>fd(new Date(+T0+v*D))}},gx=nd;
- mk('cMp',{type:'scatter',data:{datasets:[...['facile','media','dura'].map(c=>({label:c,data:R.filter(x=>cls(x)==c).map(x=>({x:Math.round((x.d-T0)/D),y:x.p})),backgroundColor:cc[c]})),{type:'line',label:'Passo soglia 5:15',data:[{x:0,y:315},{x:gx,y:315}],borderColor:css('--wa'),pointRadius:0,borderDash:[6,4]}]},options:{scales:{x:xt,y:tk}}});
- const rd=R.filter(x=>x.r>=7),f15=R.filter(x=>x.p<=315);$('#mn').textContent=`${f15.length} sedute con ritmo medio ≤5:15/km su ${R.length}; sedute dure comparabili: ${rd.length}, la più veloce ${rd.length?P(Math.max(...rd.map(x=>x.v)))+'/km':'n/d'}. Il passo soglia 5:15 è un riferimento del foglio, non una zona verificata.`;
- const p=R.filter(x=>x.r<=3&&x.km>=6).map(x=>[Math.round((x.d-T0)/D),x.p]),l=lin(p);
- mk('cPace',{type:'scatter',data:{datasets:[{label:'sedute facili',data:p.map(q=>({x:q[0],y:q[1]})),backgroundColor:css('--ac')},{type:'line',label:'trend',data:[{x:0,y:l.b},{x:gx,y:l.m*gx+l.b}],borderColor:css('--mu'),pointRadius:0}]},options:{scales:{x:xt,y:tk}}});
- $('#pn').textContent=`Trend lineare: ${(l.m*30).toFixed(1)} s/km ogni 30 giorni (${p.length} sedute). Senza FC, temperatura e percorso non basta a dichiarare un cambio di efficienza.`}},
-carico:{h(){return `${cv('cLd','Carico cronico (CTL), acuto (ATL) e forma (TSB): modello su LOAD del foglio')}<p class="note">LOAD = colonna del foglio (RPE × durata). CTL 28 g, ATL 7 g. Non è TSS né TRIMP.</p>${cv('cHr','LOAD settimanale e RPE medio')}${cv('cZ','Distribuzione del tempo per intensità RPE (ultime 3 settimane vs precedenti)')}<p class="note">Distribuzione per RPE della seduta intera, non per zone di ritmo/FC.</p>`},
- d(){const lb=S.map((_,i)=>fd(new Date(+T0+i*D)));mk('cLd',{type:'line',data:{labels:lb,datasets:[{label:'CTL',data:S.map(x=>+x.c.toFixed(1)),borderColor:css('--ac'),pointRadius:0},{label:'ATL',data:S.map(x=>+x.a.toFixed(1)),borderColor:'#4c8dff',pointRadius:0},{label:'TSB',data:S.map(x=>+x.f.toFixed(1)),borderColor:css('--mu'),pointRadius:0,borderDash:[4,3]}]},options:{scales:{x:{ticks:{maxTicksLimit:10}}}}});
- mk('cHr',{data:{labels:WD.map(w=>'S'+w.w),datasets:[{type:'bar',label:'LOAD',data:WD.map(w=>+w.ld.toFixed(0)),backgroundColor:css('--ac')},{type:'line',label:'RPE medio',data:WD.map(w=>+w.rpe.toFixed(1)),yAxisID:'y1',borderColor:css('--mu'),pointRadius:2}]},options:{scales:{y1:{position:'right',grid:{display:false},min:0,max:10}}}});
- const sh=o=>{const r=inW(21,o,A).filter(x=>x.p<=480),t={facile:0,media:0,dura:0};r.forEach(x=>t[cls(x)]+=x.t);const s=sum(Object.values(t),x=>x)||1;return Object.values(t).map(x=>+(x/s*100).toFixed(1))};
- mk('cZ',{type:'bar',data:{labels:['Facili (≤3)','Medie (4–6)','Dure (≥7)'],datasets:[{label:'ultime 3 sett. (%)',data:sh(0),backgroundColor:css('--ac')},{label:'precedenti (%)',data:sh(21),backgroundColor:css('--mu')}]}})}},
-attivita:{h(){return `<select id="sf" onchange="fl()"><option value="">Tutte le intensità</option>${['facile','media','dura','non comparabile'].map(k=>`<option value="${k}">${k}</option>`).join('')}</select><div id="tt"></div>`},d(){fl()}},
-info:{h(){return `<h2>Come funziona</h2><div class="ic"><p>Il dataset contiene ${A.length} sedute dal ${fd(T0)}/2026 al ${fd(LAST)}/2026 (foglio EVALUATION ELENA). Tutti i calcoli sono eseguiti nel browser; ogni valore rispetta la regola “atleta contro se stesso”: percentili su finestre mobili di 21 giorni, confronto con i 21 giorni precedenti.</p><p><b>Cosa non c’è:</b> i fogli ZONE ELENA, PLAN e NOTE EVALUATION, FC, potenza, split e lap. Il piano è noto solo come km settimanali previsti (S2–S15). Zone, sedute qualitative previste, efficienza aerobica e durabilità non sono calcolabili.</p><p><b>Esclusi:</b> la seduta del 20/09 (16,0 km a 9:41/km, RPE 8) è esclusa dai ritmi perché non comparabile; conta in volume e carico.</p><p><b>Modelli:</b> carico, forma e fatica (CTL/ATL/TSB) derivano dal LOAD del foglio; l’intensità è classificata da RPE (facile ≤3, media 4–6, dura ≥7). Con 9 settimane di storico i punteggi sono relativi e poco stabili.</p><p><b>Aggiornamento:</b> per includere nuove sedute si aggiungono righe alla costante RAW nel file e lo si ripubblica; la pagina non legge l’Excel.</p></div>`}}};
-function fl(){const s=$('#sf').value,a=[...A].reverse().filter(x=>!s||cls(x)==s);$('#tt').innerHTML=tb(['Data','Sett.','km','Durata','Ritmo','RPE','Sens.','LOAD','Intensità'],a.map(x=>[fd(x.d),'S'+x.w,x.km.toFixed(1),hms(x.t),P(x.v)+'/km',x.r,x.f,x.l.toFixed(0),cls(x)]))}
-const TB=[['stato','Stato'],['running','Running'],['carico','Carico'],['attivita','Sedute'],['info','Metodo e dati']];
-function go(){const t=CUR||(location.hash||'#stato').slice(1),k=PG[t]?t:'stato';$('#nav').innerHTML=TB.map(([a,n])=>`<a href="#${a}" onclick="return tab('${a}')" class="${a==k?'on':''}">${n}</a>`).join('');
- try{$('#v').innerHTML=PG[k].h();PG[k].d&&PG[k].d()}catch(e){$('#v').innerHTML=`<div class="ic">Errore nel calcolo di questa pagina: ${e.message}</div>`}}
-$('#upd').textContent=`Dati fino al ${fd(LAST)}/${LAST.getFullYear()} · ${A.length} sedute`;
-$('#cd').textContent=dr>0?`FIAT Torino HM · T−${dr} giorni`:dr==0?'FIAT Torino HM · oggi':'FIAT Torino HM · conclusa';
-let CUR='';function tab(k){CUR=k;go();scrollTo(0,0);return false}addEventListener('hashchange',()=>{CUR='';go()});go();
+const DATA={"rows": [{"d": "2026-08-19", "km": 7.03, "s": 2493, "rpe": 9, "fe": 1, "ld": 80.584}, {"d": "2026-08-20", "km": 10.37, "s": 3720, "rpe": 3, "fe": 3, "ld": 32.665}, {"d": "2026-08-22", "km": 12.17, "s": 4367, "rpe": 4, "fe": 3, "ld": 51.266}, {"d": "2026-08-24", "km": 10.14, "s": 3603, "rpe": 3, "fe": 3, "ld": 31.914}, {"d": "2026-08-26", "km": 7.15, "s": 2562, "rpe": 3, "fe": 3, "ld": 22.681}, {"d": "2026-08-27", "km": 14.08, "s": 4926, "rpe": 8, "fe": 2, "ld": 129.941}, {"d": "2026-08-31", "km": 7.21, "s": 2646, "rpe": 3, "fe": 3, "ld": 22.66}, {"d": "2026-09-02", "km": 12.36, "s": 4337, "rpe": 5, "fe": 3, "ld": 64.636}, {"d": "2026-09-05", "km": 7.21, "s": 2636, "rpe": 3, "fe": 3, "ld": 22.746}, {"d": "2026-09-06", "km": 12.04, "s": 4343, "rpe": 3, "fe": 3, "ld": 37.725}, {"d": "2026-09-11", "km": 11.01, "s": 4052, "rpe": 3, "fe": 3, "ld": 34.921}, {"d": "2026-09-13", "km": 14.26, "s": 4914, "rpe": 4, "fe": 2, "ld": 65.962}, {"d": "2026-09-14", "km": 6.42, "s": 2438, "rpe": 4, "fe": 2, "ld": 29.928}, {"d": "2026-09-16", "km": 8.15, "s": 2962, "rpe": 2, "fe": 4, "ld": 15.289}, {"d": "2026-09-18", "km": 10.62, "s": 3665, "rpe": 3, "fe": 4, "ld": 30.067}, {"d": "2026-09-20", "km": 16.01, "s": 9310, "rpe": 8, "fe": 2, "ld": 147.774}, {"d": "2026-09-22", "km": 6.18, "s": 2271, "rpe": 3, "fe": 3, "ld": 19.544}, {"d": "2026-09-23", "km": 8.1, "s": 2846, "rpe": 2, "fe": 4, "ld": 15.169}, {"d": "2026-09-24", "km": 11.41, "s": 3986, "rpe": 4, "fe": 3, "ld": 47.609}, {"d": "2026-09-27", "km": 14.25, "s": 4954, "rpe": 5, "fe": 2, "ld": 82.726}, {"d": "2026-09-28", "km": 7.18, "s": 2686, "rpe": 3, "fe": 4, "ld": 20.461}, {"d": "2026-09-30", "km": 13.44, "s": 4652, "rpe": 7, "fe": 3, "ld": 99.379}, {"d": "2026-10-01", "km": 6.1, "s": 2224, "rpe": 2, "fe": 4, "ld": 11.508}, {"d": "2026-10-04", "km": 12, "s": 3966, "rpe": 8, "fe": 2, "ld": 110.712}, {"d": "2026-10-07", "km": 10.6, "s": 3738, "rpe": 5, "fe": 3, "ld": 55.382}, {"d": "2026-10-08", "km": 8.43, "s": 3003, "rpe": 2, "fe": 5, "ld": 14.148}, {"d": "2026-10-11", "km": 10.11, "s": 3697, "rpe": 4, "fe": 3, "ld": 42.726}, {"d": "2026-10-12", "km": 7.1, "s": 2540, "rpe": 3, "fe": 4, "ld": 19.97}, {"d": "2026-10-14", "km": 11.03, "s": 3782, "rpe": 5, "fe": 3, "ld": 57.877}, {"d": "2026-10-15", "km": 8.28, "s": 2935, "rpe": 3, "fe": 3, "ld": 26.126}, {"d": "2026-10-18", "km": 18.38, "s": 6312, "rpe": 8, "fe": 2, "ld": 169.508}, {"d": "2026-10-19", "km": 7.03, "s": 2590, "rpe": 3, "fe": 3, "ld": 22.059}, {"d": "2026-10-21", "km": 11.44, "s": 4090, "rpe": 7, "fe": 3, "ld": 83.878}, {"d": "2026-10-22", "km": 8.31, "s": 3036, "rpe": 4, "fe": 2, "ld": 38.696}, {"d": "2026-10-24", "km": 16.66, "s": 5848, "rpe": 3, "fe": 4, "ld": 47.005}, {"d": "2026-10-26", "km": 12.28, "s": 4167, "rpe": 4, "fe": 3, "ld": 51.242}, {"d": "2026-11-01", "km": 17.09, "s": 5891, "rpe": 6, "fe": 2, "ld": 118.213}, {"d": "2026-11-02", "km": 8.11, "s": 2917, "rpe": 3, "fe": 3, "ld": 25.748}, {"d": "2026-11-04", "km": 10.4, "s": 3718, "rpe": 3, "fe": 4, "ld": 29.5}, {"d": "2026-11-05", "km": 10.61, "s": 3557, "rpe": 5, "fe": 3, "ld": 55.436}], "plan": [{"mon": "2026-08-17", "p": 28}, {"mon": "2026-08-24", "p": 30}, {"mon": "2026-08-31", "p": 32}, {"mon": "2026-09-07", "p": 26}, {"mon": "2026-09-14", "p": 33}, {"mon": "2026-09-21", "p": 35}, {"mon": "2026-09-28", "p": 37}, {"mon": "2026-10-05", "p": 27}, {"mon": "2026-10-12", "p": 38}, {"mon": "2026-10-19", "p": 40}, {"mon": "2026-10-26", "p": 42}, {"mon": "2026-11-02", "p": 44}, {"mon": "2026-11-09", "p": 34}, {"mon": "2026-11-16", "p": 28}, {"mon": "2026-11-23", "p": 36}], "thr": 315, "imp": {"name": "2026_Torino_HM.xlsx", "at": "2026-11-06"}};
+const KEY='athleteos.v1',D=864e5;
+let S={rows:DATA.rows,plan:DATA.plan,imp:DATA.imp,thr:DATA.thr,race:{name:'FIAT Torino City Marathon · Mezza maratona',date:'2026-11-29',target:'2:00:00'},per:'42',from:'',to:'',tab:'stato',q:'',cls:'Tutte',met:'km',wk:null,pc:null,sc:null,cmp:'last',spl:{}};
+try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&x.rows){S.rows=x.rows;S.plan=x.plan||S.plan;S.imp=x.imp||S.imp;S.thr=x.thr||S.thr;Object.assign(S.race,x.race||{});S.spl=x.spl||{}}}catch(e){}
+if(!S.race.target)S.race.target='2:00:00';
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({rows:S.rows,plan:S.plan,imp:S.imp,thr:S.thr,race:S.race,spl:S.spl}))}catch(e){}};
+const $=s=>document.querySelector(s);
+const ds=d=>d.toISOString().slice(0,10),pd=s=>new Date(s+'T00:00:00Z'),addD=(s,n)=>ds(new Date(pd(s).getTime()+n*D));
+const mon=s=>addD(s,-((pd(s).getUTCDay()+6)%7));
+const today=()=>new Date().toLocaleDateString('sv-SE');
+const fk=n=>(+n).toFixed(1),fp=s=>{if(!isFinite(s))return'–';const r=Math.round(s);return Math.floor(r/60)+':'+String(r%60).padStart(2,'0')};
+const ft=s=>{const r=Math.round(s),h=Math.floor(r/3600),m=Math.floor(r%3600/60),x=r%60;return(h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0')};
+const fd=s=>s.slice(8)+'/'+s.slice(5,7),fdy=s=>fd(s)+'/'+s.slice(0,4);
+const pct=(a,b)=>b>0?(a-b)/b*100:null,sg=(v,d=1)=>v==null||!isFinite(v)?'n.d.':(v>0?'+':v<0?'−':'')+Math.abs(v).toFixed(d);
+const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:NaN;
+const HM=21.0975;
+let A=[],DL={},FIRST,REF;
+function derive(){
+ A=S.rows.slice().sort((a,b)=>a.d<b.d?-1:1).map(r=>({...r,p:r.s/r.km,min:Math.round(r.s/60),w:mon(r.d)}));
+ const wm={};A.forEach(a=>wm[a.w]=Math.max(wm[a.w]||0,a.km));
+ A.forEach(a=>{a.c=a.km>=15?'Lungo':a.rpe>=7?'Qualità':(a.km>=13.5&&a.km===wm[a.w])?'Lungo':'Facile';a.n=a.c+' · '+fk(a.km)+' km'});
+ DL={};A.forEach(a=>DL[a.d]=(DL[a.d]||0)+(a.ld||0));
+ FIRST=A.length?A[0].d:today();
+ const t=today(),last=A.length?A[A.length-1].d:t;
+ if(!REF||REF<FIRST)REF=t<FIRST?FIRST:t;
+ const ps=A.map(a=>a.p),mu=avg(ps),sd=Math.sqrt(avg(ps.map(x=>(x-mu)**2)));
+ A.forEach(a=>a.an=sd>0&&Math.abs(a.p-mu)/sd>2.5);
+ A.mu=mu;A.sd=sd;
+}
+const planMap=()=>{const m={};S.plan.forEach(p=>m[p.mon]=p.p);return m};
+function agg(from,to){const L=A.filter(a=>a.d>=from&&a.d<=to),days=Math.round((pd(to)-pd(from))/D)+1,km=L.reduce((x,a)=>x+a.km,0),s=L.reduce((x,a)=>x+a.s,0);let ld=0;for(let i=0;i<days;i++)ld+=DL[addD(from,i)]||0;
+ return{L,n:L.length,km,s,days,ld,ldd:ld/days,kmd:km/days,sd:s/days,nd:L.length/days,p:km?s/km:NaN,rpe:avg(L.map(a=>a.rpe).filter(x=>x!=null)),fe:avg(L.map(a=>a.fe).filter(x=>x!=null))}}
+const mean=(n,end)=>{let t=0;for(let i=0;i<n;i++)t+=DL[addD(end,-i)]||0;return t/n};
+const formAt=d=>pd(d)-pd(FIRST)>=41*D?{f:mean(42,d)-mean(7,d),a7:mean(7,d),a42:mean(42,d)}:null;
+function per(){let to=REF,from;if(S.per==='all')from=FIRST;else if(S.per==='custom'){from=S.from||FIRST;to=S.to||REF}else from=addD(REF,-(+S.per)+1);return{from,to}}
+function prevWin(n){const to=addD(REF,-n),from0=addD(REF,-2*n+1),from=from0<FIRST?FIRST:from0,days=Math.round((pd(to)-pd(from))/D)+1;return days<n*.7?null:agg(from,to)}
+const tone=(m,d)=>{if(d==null)return'n';if(m==='p')return d<-1?'g':d>2?'b':'n';if(m==='fe')return d>5?'g':d<-5?'b':'n';if(m==='vol')return d>25?'w':d<-25?'w':d>=-15&&d<=15?'g':'n';return'n'};
+const arrow=d=>d==null?'':d>1?'▲':d<-1?'▼':'►';
+const dchip=(d,t,txt)=>`<span class="dl ${t}">${arrow(d)} ${txt}</span>`;
+function card(l,v,u,ch,sub){return`<div class="card"><div class="lbl">${l}</div><div class="big">${v}<small>${u}</small></div>${ch||''}<div class="sub">${sub||''}</div></div>`}
+function dc(cur,prev,m,fmt,dig=0,tm){const d=prev&&isFinite(prev[m])&&prev[m]>0?pct(cur[m],prev[m]):null;return d==null?'<span class="dl n">vs prec.: n.d.</span>':dchip(d,tone(tm||m,d),sg(d,dig)+'%')}
+/* ---------- VIEWS ---------- */
+function vStato(){
+ const r=REF,rc=S.race,days=Math.round((pd(rc.date)-pd(today()))/D),w7=agg(addD(r,-6),r),w21=agg(addD(r,-20),r),w42=agg(addD(r,-41),r),w90=agg(addD(r,-89),r);
+ const p7=prevWin(7),p21=prevWin(21),p42=prevWin(42),p90=prevWin(90),pm=planMap(),mw=mon(r),wk=agg(mw,r),pw=agg(addD(mw,-7),addD(mw,-1)),pl=pm[mw];
+ const fm=formAt(r),lg=A.reduce((a,b)=>b.km>a.km?b:a,A[0]);
+ const tg=parseT(rc.target),rp=tg?tg/HM:null,lng=w42.L.filter(a=>a.km>=14&&!a.an),lp=lng.length?lng.reduce((x,a)=>x+a.s,0)/lng.reduce((x,a)=>x+a.km,0):NaN;
+ const done=S.plan.filter(p=>addD(p.mon,6)<=r&&p.p),pa=done.reduce((x,p)=>x+agg(p.mon,addD(p.mon,6)).km,0),pp=done.reduce((x,p)=>x+p.p,0),adh=pp?pa/pp*100:null;
+ let h=`<h2>North Star · Obiettivo</h2><div class="card tint hero"><div><div class="lbl">${rc.name}</div><div class="cd">${days>=0?days:'—'}<small style="font-size:18px;color:var(--t2);font-weight:600"> giorni</small></div><div class="sub" style="margin-top:6px">${days>0?'Gara il '+fdy(rc.date):days===0?'La gara è oggi':'Gara conclusa il '+fdy(rc.date)}</div>
+ <div style="margin-top:14px" class="lbl">Obiettivo cronometrico (mezza, 21,0975 km)</div><div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap"><input id="tg" placeholder="es. 1:55:00" value="${rc.target||''}" onchange="setTg(this.value)" style="width:130px"><span class="sub" style="align-self:center">${rp?'Passo gara richiesto: <b style="color:var(--d)">'+fp(rp)+'/km</b>':'Il file non contiene un obiettivo: inseriscilo qui (resta salvato).'}</span></div>
+ ${rp?`<div class="sub" style="margin-top:8px">Passo medio ultimi 42 g: <b>${fp(w42.p)}</b> · uscite ≥14 km: <b>${fp(lp)}</b>${isFinite(lp)?' ('+sg(lp-rp,0)+' s/km rispetto al passo gara)':''}</div>`:''}</div>
+ <div><div class="lbl">Indicatori di preparazione (oggettivi)</div>
+ <div style="margin-top:10px"><div class="sub">Lungo più lungo: <b>${fk(lg.km)} km</b> = ${(lg.km/HM*100).toFixed(0)}% della distanza gara</div><div class="bar1"><i style="width:${Math.min(100,lg.km/HM*100)}%"></i></div></div>
+ <div style="margin-top:10px"><div class="sub">Aderenza al piano (${done.length} settimane concluse): <b>${adh==null?'n.d.':adh.toFixed(0)+'%'}</b> · ${fk(pa)} / ${pp} km</div><div class="bar1"><i style="width:${Math.min(100,adh||0)}%"></i></div></div>
+ ${(()=>{const P=pot(REF);return P?`<div class="note" style="margin-top:12px">Potenziale stimato: <b>${ft(P.t)}</b> (forbice ${ft(P.lo)}–${ft(P.hi)}), ipotesi da allenamenti: dettagli nel tab Analisi.</div>`:'<div class="note" style="margin-top:12px">Potenziale non calcolabile: poche uscite ≥10 km.</div>'})()}</div></div>
+ <h2>Athlete Vitals · riferimento ${fdy(r)}</h2><div class="grid">`;
+ const wkd=pl?`${(wk.km/pl*100).toFixed(0)}% del piano (${pl} km)`:'piano n.d.';
+ h+=card('Km settimana in corso',fk(wk.km),'km',dc({km:wk.km},{km:pw.km},'km','',0,'vol'),`${wkd} · sett. prec. ${fk(pw.km)} km`);
+ [[7,w7,p7],[21,w21,p21],[42,w42,p42],[90,w90,p90]].forEach(([n,c,p])=>h+=card('Volume '+n+' giorni',fk(c.km),'km',dc(c,p,'kmd','',0,'vol'),`${c.n} uscite · ${fk(c.km/n*7)} km/sett. ${p&&p.days<n?'· prec. parziale':''}`));
+ h+=card('Frequenza 21 g',fk(w21.n/3),'uscite/sett.',dc(w21,p21,'nd'),`${w21.n} uscite in 21 giorni`);
+ h+=card('Durata 21 g',ft(w21.s).replace(/:\d\d$/,''),'h:mm',dc(w21,p21,'sd'),'tempo di corsa complessivo');
+ h+=card('Carico medio/giorno 7 g',fk(w7.ldd),'pt',dc(w7,p7,'ldd'),`42 g: ${fk(w42.ldd)} pt/giorno · carico del file (RPE×durata)`);
+ h+=card('Training Form',fm?sg(fm.f,1):'n.d.','pt',fm?dchip(fm.f,fm.f>.15*fm.a42?'g':fm.f<-.15*fm.a42?'b':'n',fm.f>.15*fm.a42?'carico recente basso':fm.f<-.15*fm.a42?'carico recente alto':'equilibrato'):'',fm?`media 42 g ${fk(fm.a42)} − media 7 g ${fk(fm.a7)}`:'servono ≥42 giorni di storico');
+ h+=card('Passo medio 21 g',fp(w21.p),'/km',dc(w21,p21,'p',0,1),'tempo totale / km totali');
+ h+=card('RPE medio 21 g',fk(w21.rpe),'/10',dc(w21,p21,'rpe',0,'x'),'sforzo percepito dichiarato');
+ h+=card('Sensazioni 21 g',fk(w21.fe),'/5',dc(w21,p21,'fe',0,'fe'),'1 molto debole · 5 molto forte');
+ h+=`</div><div class="note" style="margin-top:14px">Metriche <b>non presenti nel file Excel</b> e quindi non mostrate: frequenza cardiaca, potenza, dislivello, calorie, GPS, split/lap, zone, disciplina (Running/Trail). Il Training Load è quello calcolato nel file (0,1×minuti×RPE×passo soglia/passo×correzione sensazioni×2), non un dato Garmin. Passo soglia nel file: ${fp(S.thr)}/km.</div>
+ <h2>Longest Run</h2><div class="row" onclick="openWk('${lg.d}')"><div><b style="color:var(--d)">${lg.n}</b><div class="sub">${fdy(lg.d)} · ${lg.c}</div></div><div class="m"><span>Distanza <b>${fk(lg.km)} km</b></span><span>Durata <b>${ft(lg.s)}</b></span><span>Passo <b>${fp(lg.p)}</b></span><span>Dislivello <b>n.d.</b></span></div></div>`;
+ return h}
+function parseT(s){if(!s)return null;const p=String(s).trim().split(':').map(Number);if(p.some(isNaN)||p.length<2||p.length>3)return null;return p.length===3?p[0]*3600+p[1]*60+p[2]:p[0]*3600+p[1]*60}
+function setTg(v){S.race.target=v;save();render()}
+function filt(){const{from,to}=per();return A.filter(a=>a.d>=from&&a.d<=to)}
+function weeks(from,to){const o=[];for(let m=mon(from);m<=to;m=addD(m,7)){const e=addD(m,6),g=agg(m<from?from:m,e>to?to:e);o.push({m,e,...g,...(()=>{const fm=formAt(e>REF?REF:e);return{form:fm?fm.f:null}})()})}return o}
+function vAnalisi(){
+ const{from,to}=per(),L=filt();
+ let h=`${vTarget()}<h2>Mappa delle attività · ${L.length} uscite (${fd(from)}–${fd(to)})</h2><div class="card"><div class="ch"><canvas id="cB"></canvas></div><div class="sub" style="margin-top:8px">Ogni nodo è una corsa: dimensione = durata, colore = tipologia derivata (Facile/Qualità/Lungo), contorno scuro = lungo più lungo e sessione a carico massimo. Tocca un nodo per aprire la scheda. Vista 2D scelta al posto del 3D per leggibilità e prestazioni su iPhone.</div></div>
+ <h2>Carico e Training Form</h2>${lfBlock()}
+ <h2>Carico giornaliero e medie</h2><div class="card"><div class="ch"><canvas id="cL"></canvas></div><div class="sub" style="margin-top:8px">Le barre sono il carico di ogni giorno (0 = riposo); la linea blu è la media degli ultimi 7 giorni, quella tratteggiata la media degli ultimi 42 giorni.</div></div>
+ <h2>Training Form (media 42 g − media 7 g)</h2><div class="card"><div class="ch"><canvas id="cF"></canvas></div><div class="sub" style="margin-top:8px"><b>Sopra lo zero</b>: nell'ultima settimana hai corso meno del tuo solito (più fresca). <b>Sotto lo zero</b>: hai corso più del solito (fase di accumulo). Il valore è calcolabile solo dopo 42 giorni di storico (dal ${fdy(addD(FIRST,41))}).</div></div>
+ <h2>Metriche settimanali</h2><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">${[['km','Km'],['h','Durata'],['n','Uscite'],['ld','Carico'],['form','Form'],['p','Passo'],['rpe','RPE'],['fe','Sensazioni']].map(([k,l])=>`<button class="${S.met===k?'on':''}" onclick="S.met='${k}';render()">${l}</button>`).join('')}</div><div class="card"><div class="ch"><canvas id="cM"></canvas></div></div>`;
+ return h}
+
+
+function pot(date){
+ const ru=A.filter(a=>a.d<=date&&a.d>=addD(date,-41)&&a.km>=10&&!a.an);if(ru.length<3)return null;
+ const it=ru.map(a=>{const age=(pd(date)-pd(a.d))/D,w=Math.pow(.5,age/14)*(a.km/HM);const e=a.s*Math.pow(HM/a.km,1.06)*(1-.012*(8-a.rpe))*(1-.004*(a.fe-3));return{a,w,e}});
+ const W=it.reduce((x,y)=>x+y.w,0),c=it.reduce((x,y)=>x+y.w*y.e,0)/W,sd=Math.sqrt(it.reduce((x,y)=>x+y.w*(y.e-c)**2,0)/W),
+ fm=formAt(date),fa=fm&&fm.a42>0?1+Math.min(.05,.1*Math.max(0,-fm.f/fm.a42)):1,lr=Math.max(...ru.map(a=>a.km)),ef=1+.1*Math.max(0,.85-lr/HM),k=fa*ef;
+ return{t:c*k,lo:(c-sd)*k,hi:(c+sd)*k,n:ru.length,fa,ef,lr,c,it,rpe:it.reduce((x,y)=>x+y.w*y.a.rpe,0)/W,fe:it.reduce((x,y)=>x+y.w*y.a.fe,0)/W}}
+function potBlock(tg){const P=pot(REF);if(!P)return'<div class="note" style="margin-top:14px">Potenziale non calcolabile: servono almeno 3 uscite ≥10 km negli ultimi 42 giorni.</div>';
+ const P7=pot(addD(REF,-7)),P14=pot(addD(REF,-14)),gap=P.t-tg,df=a=>(a>0?'+':'−')+ft(Math.abs(a));
+ return`<h2>Potenziale attuale sulla mezza</h2><div class="grid">${card('Tempo potenziale',ft(P.t),'',`<span class="dl ${gap<=0?'g':gap<=120?'w':'b'}">${gap<=0?'sotto il target':'sopra il target'} ${df(gap)}</span>`,`passo ${fp(P.t/HM)}/km · forbice ${ft(P.lo)}–${ft(P.hi)}`)}${card('Vs 7 giorni fa',P7?df(P.t-P7.t):'n.d.','',P7?`<span class="dl ${P.t<P7.t?'g':P.t>P7.t+30?'b':'n'}">era ${ft(P7.t)}</span>`:'',P14?`14 giorni fa ${ft(P14.t)}`:'')}${card('Uscite usate',P.n,'','','≥10 km, ultimi 42 giorni')}</div>
+ <div class="card" style="margin-top:14px"><div class="lbl">Evoluzione del potenziale (su = più veloce)</div><div class="ch s"><canvas id="cPot"></canvas></div></div>
+ <div class="note" style="margin-top:12px"><b>Come è calcolato (ipotesi, non validata da gare).</b> Ogni uscita ≥10 km degli ultimi 42 giorni viene convertita in tempo equivalente sulla mezza (Riegel, esponente 1,06) e corretta per lo sforzo: −1,2% di tempo per ogni punto di RPE sotto 8 (+1,2% sopra), e −0,4% per ogni punto di sensazioni sopra 3. Le uscite recenti e più lunghe pesano di più (dimezza ogni 14 giorni). Oggi in più: ${P.fa>1?'+'+((P.fa-1)*100).toFixed(1)+'% per carico recente alto (Form negativo)':'nessuna penalità da Form'}; ${P.ef>1?'+'+((P.ef-1)*100).toFixed(1)+'% per lungo massimo sotto l\'85% della distanza':'nessuna penalità da resistenza (lungo massimo '+fk(P.lr)+' km)'}. RPE medio pesato ${fk(P.rpe)}, sensazioni ${fk(P.fe)}. I coefficienti sono assunzioni: la forbice indica la dispersione tra le uscite. Cambiando volume, RPE, sensazioni o carico, il valore si aggiorna.</div>`}
+function drawPot(tg){const days=[];for(let d=FIRST;d<=REF;d=addD(d,1))if(pot(d))days.push(d);if(!days.length)return;const o=base();o.scales.y.reverse=true;o.scales.y.ticks={...tick,callback:v=>ft(v)};o.plugins.legend={display:false};o.plugins.tooltip.callbacks={title:i=>fdy(days[i[0].dataIndex]),label:i=>i.dataset.label?i.dataset.label+': '+ft(i.raw):''};
+ mk('cPot',{type:'line',data:{labels:days.map(fd),datasets:[{label:'',data:days.map(d=>pot(d).hi),borderColor:'transparent',pointRadius:0,fill:false},{label:'Forbice',data:days.map(d=>pot(d).lo),borderColor:'transparent',pointRadius:0,backgroundColor:'rgba(143,184,232,.28)',fill:'-1'},{label:'Potenziale',data:days.map(d=>pot(d).t),borderColor:'#1F3A66',borderWidth:2.5,tension:.35,pointRadius:0,pointHoverRadius:5},{label:'Target',data:days.map(d=>tg),borderColor:'#C9974E',borderDash:[6,4],borderWidth:2,pointRadius:0}]},options:o})}
+function lfBlock(){const f=formAt(REF),f14=formAt(addD(REF,-14)),a7=mean(7,REF),a42=mean(42,REF);
+ const days=[];for(let d=addD(FIRST,41);d<=REF;d=addD(d,1))days.push([d,formAt(d).f]);const mn=days.reduce((x,y)=>y[1]<x[1]?y:x,days[0]||[0,0]),mx=days.reduce((x,y)=>y[1]>x[1]?y:x,days[0]||[0,0]);
+ const st=f?(f.f>.15*a42?['g','Più fresca del solito']:f.f<-.15*a42?['b','Accumulo di carico']:['n','Equilibrio']):['n','n.d.'];
+ return`<div class="grid">${card('Form oggi',f?sg(f.f,1):'n.d.','pt',`<span class="dl ${st[0]}">${st[1]}</span>`,f14?`due settimane fa ${sg(f14.f,1)}`:'')}${card('Media 7 giorni',fk(a7),'pt/giorno','',`ultima settimana (${fd(addD(REF,-6))}–${fd(REF)})`)}${card('Media 42 giorni',fk(a42),'pt/giorno','','tuo carico abituale (6 settimane)')}</div>
+ <div class="note" style="margin-top:12px"><b>Come leggerlo.</b> Ogni corsa ha un <b>carico</b> (punteggio del file: sforzo percepito × durata × intensità). La <b>media 7 g</b> dice quanto hai caricato di recente, la <b>media 42 g</b> quanto sei abituata a caricare. Il <b>Form</b> è la differenza: ${f?`oggi ${fk(a42)} − ${fk(a7)} = <b>${sg(f.f,1)}</b>, cioè ${f.f<0?'nell\'ultima settimana hai caricato più del tuo solito':'nell\'ultima settimana hai caricato meno del tuo solito'}.`:'non ancora calcolabile.'}${days.length?` Nel periodo disponibile: punto più basso ${sg(mn[1],1)} il ${fd(mn[0])}, più alto ${sg(mx[1],1)} il ${fd(mx[0])}.`:''} Non è una misura clinica di forma fisica.</div>`}
+function vTarget(){const tg=parseT(S.race.target)||7200,rp=tg/HM,r=REF,days=Math.round((pd(S.race.date)-pd(today()))/D);
+ const L=A.filter(a=>a.d>=addD(r,-41)&&a.km>=10&&!a.an),at=L.filter(a=>a.p<=rp+.5),lgAt=at.reduce((x,a)=>a.km>(x?x.km:0)?a:x,null),l14=L.filter(a=>a.km>=14),p14=l14.length?l14.reduce((x,a)=>x+a.s,0)/l14.reduce((x,a)=>x+a.km,0):NaN;
+ const est=L.map(a=>({a,e:a.s*Math.pow(HM/a.km,1.06)})),hi=est.filter(x=>x.a.rpe>=7).map(x=>x.e).sort((a,b)=>a-b),med=hi.length?hi[Math.floor(hi.length/2)]:NaN;
+ const ins=[];ins.push(['Dato',`Passo gara richiesto per ${ft(tg)} sulla mezza (21,0975 km): <b>${fp(rp)}/km</b>.`]);
+ ins.push(['Dato',`Nelle ultime 6 settimane: ${L.length} uscite ≥10 km, ${at.length} a passo gara o più veloce${lgAt?`. La più lunga a quel ritmo: ${fk(lgAt.km)} km il ${fd(lgAt.d)} (RPE ${lgAt.rpe}, sensazioni ${lgAt.fe}) = ${(lgAt.km/HM*100).toFixed(0)}% della distanza di gara; restano ${fk(HM-lgAt.km)} km mai corsi a quel passo in allenamento`:''}.`]);
+ if(isFinite(p14))ins.push(['Dato',`Sulle uscite ≥14 km (${l14.length}) il passo medio è ${fp(p14)}/km: ${sg(p14-rp,0)} s/km rispetto al passo gara${p14>rp?' (più lente)':' (più veloci)'}. Sono però lunghi, non test a ritmo gara.`]);
+ const P=pot(REF),P14=pot(addD(REF,-14));if(P){const g=P.t-tg;ins.push(['Ipotesi',`Potenziale attuale ${ft(P.t)} (forbice ${ft(P.lo)}–${ft(P.hi)}), da ${P.n} uscite ≥10 km degli ultimi 42 giorni con correzione per RPE, sensazioni, carico recente e lungo massimo.`]);
+ ins.push(['Interpretazione',g<=0?`Il potenziale è ${ft(-g)} sotto il target ${ft(tg)}: sui dati attuali l'obiettivo risulta raggiungibile.`:g<=120?`Il potenziale è ${ft(g)} sopra il target ${ft(tg)}: obiettivo vicino ma non ancora assicurato, serve una giornata favorevole.`:`Il potenziale è ${ft(g)} sopra il target ${ft(tg)}: obiettivo ambizioso rispetto alle condizioni attuali.`]);
+ if(P14)ins.push(['Dato',`Due settimane fa il potenziale era ${ft(P14.t)}: ${P.t<P14.t?'migliorato':'peggiorato'} di ${ft(Math.abs(P.t-P14.t))}.`])}
+ const fm=formAt(r),wl=S.plan.filter(p=>p.mon>r);ins.push(['Dato',`Mancano ${days} giorni. Il piano residuo prevede ${wl.map(p=>p.p).join(' / ')||'n.d.'} km (settimane dal ${wl.length?fd(wl[0].mon):'–'}). Training Form oggi: ${fm?sg(fm.f,1):'n.d.'}.`]);
+ return`<h2>Analisi obiettivo · ${ft(tg)} alla ${S.race.name.split('·')[0].trim()}</h2><div class="grid">${card('Target',ft(tg),'',`<input value="${S.race.target}" onchange="setTg(this.value)" style="width:110px" aria-label="Target">`,`mezza · ${fdy(S.race.date)}`)}${card('Passo gara',fp(rp),'/km','',`${(3600/rp).toFixed(2)} km/h`)}${card('Uscite ≥10 km a passo gara',at.length+' / '+L.length,'','',`ultime 6 settimane`)}${card('Lungo a passo gara',lgAt?fk(lgAt.km):'–','km',lgAt?`<span class="dl n">RPE ${lgAt.rpe}</span>`:'',lgAt?fdy(lgAt.d):'nessuna')}</div>
+ ${potBlock(tg)}<div class="card" style="margin-top:14px"><div class="lbl">Passo delle uscite ≥8 km vs passo gara</div><div class="ch s"><canvas id="cT"></canvas></div><div class="sub">Punti pieni scuri = RPE ≥7. Dimensione = distanza. Linea tratteggiata = passo gara.</div></div>
+ <div class="card" style="margin-top:14px"><div class="lbl">Uscite ≥10 km (ultime 6 settimane)</div><table><tr><th>Data</th><th>Km</th><th>Passo</th><th>Δ gara</th><th>RPE</th><th>Stima mezza*</th></tr>${est.slice().reverse().map(x=>`<tr style="cursor:pointer" onclick="openWk('${x.a.d}')"><td>${fd(x.a.d)}</td><td>${fk(x.a.km)}</td><td>${fp(x.a.p)}</td><td><span class="dl ${x.a.p<=rp+.5?'g':'n'}">${sg(x.a.p-rp,0)} s</span></td><td>${x.a.rpe}</td><td>${ft(x.e)}</td></tr>`).join('')}</table><p class="sub" style="margin-top:6px">*Proiezione di Riegel: ipotesi, più affidabile per RPE alto; con RPE basso sottostima il potenziale.</p></div>
+ <div style="margin-top:14px">${ins.map(([k,x])=>`<div class="ins"><span class="tag ${k}">${k}</span>${x}</div>`).join('')}</div>`}
+function gradient(ctx,c1,c2){const ch=ctx.chart;if(!ch.chartArea)return c2;const g=ch.ctx.createLinearGradient(0,ch.chartArea.top,0,ch.chartArea.bottom);g.addColorStop(0,c1);g.addColorStop(1,c2);return g}
+const CH={};
+function mk(id,cfg){const c=document.getElementById(id);if(!c)return;if(CH[id]){CH[id].destroy();delete CH[id]}if(typeof Chart==='undefined'){c.parentNode.innerHTML='<p class="mut">Grafico non disponibile: libreria non caricata (serve connessione).</p>';return}CH[id]=new Chart(c,cfg)}
+const tick={color:'#6B7C93',font:{size:11}},gr={color:'rgba(143,184,232,.2)'};
+const base=()=>({responsive:true,maintainAspectRatio:false,animation:{duration:700,easing:'easeOutQuart'},interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,color:'#44566F'}},tooltip:{backgroundColor:'rgba(255,255,255,.98)',titleColor:'#17304F',bodyColor:'#44566F',borderColor:'#D5E3F2',borderWidth:1,padding:10,cornerRadius:10,boxPadding:4}},scales:{x:{grid:{display:false},ticks:{...tick,maxRotation:0,autoSkipPadding:14},border:{display:false}},y:{grid:gr,ticks:tick,border:{display:false}}}});
+function drawAnalisi(){
+ const L=filt(),{from,to}=per(),mxm=Math.max(...A.map(a=>a.min),1),lg=A.reduce((a,b)=>b.km>a.km?b:a,A[0]),ml=A.reduce((a,b)=>b.ld>a.ld?b:a,A[0]),col={Facile:'#A9CBEF',Qualità:'#2F5D9E',Lungo:'#6FA3DA'},sm=innerWidth<760?.7:1;
+ const b=base();b.interaction={mode:'nearest',intersect:true};b.scales.x={type:'linear',min:pd(from)-D,max:pd(to)-0+D,grid:{display:false},ticks:{...tick,maxTicksLimit:6,callback:v=>fd(ds(new Date(v)))},border:{display:false}};b.scales.y.title={display:true,text:'km',color:'#6B7C93'};
+ b.plugins.tooltip.callbacks={title:i=>i[0].raw.a?fdy(i[0].raw.a.d)+' · '+i[0].raw.a.n:'',label:i=>i.raw.a?[`Durata ${ft(i.raw.a.s)} · Passo ${fp(i.raw.a.p)}/km`,`RPE ${i.raw.a.rpe} · Sensazioni ${i.raw.a.fe} · Carico ${fk(i.raw.a.ld)}`]:''};
+ b.onClick=(e,el)=>{const x=el.find(z=>z.datasetIndex>0);if(x)openWk(CH.cB.data.datasets[x.datasetIndex].data[x.index].a.d)};
+ b.onHover=(e,el)=>{e.native.target.style.cursor=el.length?'pointer':'default'};
+ const ds_=['Facile','Lungo','Qualità'].map(c=>({type:'bubble',label:c+' ('+L.filter(a=>a.c===c).length+')',backgroundColor:col[c]+'CC',borderColor:L.map(a=>0),data:L.filter(a=>a.c===c).map(a=>({x:pd(a.d)-0,y:a.km,r:(4+a.min/mxm*13)*sm,a})),borderWidth:L.filter(a=>a.c===c).map(a=>a===lg||a===ml?3:1),borderColor:L.filter(a=>a.c===c).map(a=>a===lg||a===ml?'#1F3A66':'#fff'),order:1}));
+ mk('cB',{data:{datasets:[{type:'line',label:'Cronologia',data:L.map(a=>({x:pd(a.d)-0,y:a.km})),borderColor:'rgba(79,134,198,.3)',borderWidth:1.5,pointRadius:0,tension:.35,order:2},...ds_]},options:b});
+ const days=[];for(let d=from;d<=to;d=addD(d,1))days.push(d);const fa=days.map(d=>formAt(d));
+ const o=base();o.scales.y.title={display:true,text:'Carico (punti)',color:'#6B7C93'};o.interaction={mode:'index',intersect:false};
+ o.plugins.tooltip.callbacks={title:i=>fdy(days[i[0].dataIndex]),label:i=>i.dataset.label+': '+(i.raw==null?'n.d.':fk(i.raw))};
+ mk('cL',{data:{labels:days.map(fd),datasets:[{type:'bar',label:'Carico del giorno',data:days.map(d=>DL[d]||0),backgroundColor:'rgba(188,214,238,.85)',borderRadius:4,order:3},{type:'line',label:'Media 7 g',data:days.map(d=>mean(7,d)),borderColor:'#4F86C6',tension:.4,pointRadius:0,borderWidth:2.5,order:1},{type:'line',label:'Media 42 g',data:fa.map(x=>x?x.a42:null),borderColor:'#1F3A66',borderDash:[6,4],tension:.4,pointRadius:0,borderWidth:2,order:2}]},options:o});
+ const o3=base();o3.scales.y.title={display:true,text:'Form (punti)',color:'#6B7C93'};o3.scales.y.grid={color:c=>c.tick.value===0?'#1F3A66':'rgba(143,184,232,.2)',lineWidth:c=>c.tick.value===0?1.8:1};
+ o3.plugins.tooltip.callbacks={title:i=>fdy(days[i[0].dataIndex]),label:i=>i.raw==null?'Form: n.d.':'Form: '+sg(i.raw,1)+(i.raw>=0?' (più fresca)':' (accumulo)')};o3.plugins.legend={display:false};
+ mk('cF',{type:'line',data:{labels:days.map(fd),datasets:[{label:'Training Form',data:fa.map(x=>x?x.f:null),borderColor:'#1F3A66',borderWidth:2.5,tension:.35,pointRadius:0,pointHoverRadius:5,fill:{target:'origin',above:'rgba(143,184,232,.35)',below:'rgba(207,127,127,.28)'}}]},options:o3});
+ const tw=A.filter(a=>a.km>=8&&!a.an&&a.d>=from),tgs=parseT(S.race.target)||7200,rp=tgs/HM,o4=base();o4.scales.y.reverse=true;o4.scales.y.ticks={...tick,callback:v=>fp(v)};o4.scales.y.title={display:true,text:'Passo /km (su = più veloce)',color:'#6B7C93'};
+ o4.plugins.tooltip.callbacks={title:i=>i[0].dataIndex<tw.length?fdy(tw[i[0].dataIndex].d)+' · '+tw[i[0].dataIndex].n:'',label:i=>i.dataset.label+': '+fp(i.raw)+'/km'+(i.datasetIndex===0?' · RPE '+tw[i.dataIndex].rpe:'')};
+ drawPot(tgs);
+ mk('cT',{type:'line',data:{labels:tw.map(a=>fd(a.d)),datasets:[{label:'Passo uscite ≥8 km',data:tw.map(a=>a.p),borderColor:'#4F86C6',backgroundColor:c=>gradient(c,'rgba(143,184,232,.35)','rgba(143,184,232,0)'),fill:true,tension:.3,borderWidth:2.5,pointRadius:tw.map(a=>3+a.km/4),pointBackgroundColor:tw.map(a=>a.rpe>=7?'#1F3A66':'#fff'),pointBorderColor:'#4F86C6',pointBorderWidth:2},{label:'Passo gara '+fp(rp),data:tw.map(a=>rp),borderColor:'#C9974E',borderDash:[6,4],borderWidth:2,pointRadius:0}]},options:o4});
+ const W=weeks(from,to),k=S.met,pm=planMap(),def={km:['Km settimanali',w=>w.km],h:['Durata (h)',w=>w.s/3600],n:['Uscite',w=>w.n],ld:['Carico settimanale',w=>w.ld],form:['Training Form',w=>w.form],p:['Passo medio (/km)',w=>w.n?w.p:null],rpe:['RPE medio',w=>w.n?w.rpe:null],fe:['Sensazioni medie',w=>w.n?w.fe:null]}[k];
+ const bar=['km','h','n','ld'].includes(k),o2=base();if(k==='p'){o2.scales.y.reverse=true;o2.scales.y.ticks={...tick,callback:v=>fp(v)}}
+ o2.plugins.tooltip.callbacks={title:i=>'Settimana dal '+fdy(W[i[0].dataIndex].m),label:i=>i.dataset.label+': '+(i.raw==null?'n.d.':k==='p'?fp(i.raw)+'/km':fk(i.raw))};
+ const dsx=[{label:def[0],data:W.map(def[1]),borderColor:'#4F86C6',backgroundColor:bar?c=>gradient(c,'rgba(79,134,198,.85)','rgba(188,214,238,.55)'):c=>gradient(c,'rgba(143,184,232,.4)','rgba(143,184,232,0)'),fill:!bar,tension:.4,pointRadius:bar?0:4,pointBackgroundColor:'#fff',pointBorderColor:'#4F86C6',borderRadius:8,borderWidth:2}];
+ if(k==='km')dsx.push({type:'line',label:'Piano',data:W.map(w=>pm[w.m]??null),borderColor:'#1F3A66',borderDash:[5,4],pointRadius:3,tension:0,borderWidth:1.5});
+ mk('cM',{type:bar?'bar':'line',data:{labels:W.map(w=>fd(w.m)),datasets:dsx},options:o2})}
+function vStorico(){
+ const q=S.q.toLowerCase().trim();let L=filt().filter(a=>S.cls==='Tutte'||a.c===S.cls).filter(a=>!q||(fd(a.d)+' '+a.d+' '+a.n+' '+a.c+' Running corsa').toLowerCase().includes(q)).reverse();
+ const cnt=c=>filt().filter(a=>c==='Tutte'||a.c===c).length;
+ return`<h2>Storico allenamenti</h2><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><input id="q" placeholder="Cerca per nome, data (05/11) o tipo" value="${S.q}" oninput="S.q=this.value;sRender()" style="flex:1;min-width:200px">${['Tutte','Facile','Qualità','Lungo'].map(c=>`<button class="${S.cls===c?'on':''}" onclick="S.cls='${c}';render()">${c} · ${cnt(c)}</button>`).join('')}</div>
+ <div class="note" style="margin-bottom:12px">Il file non contiene nome né tipologia delle uscite: nome e categoria sono derivati (Lungo ≥15 km o massimo settimanale ≥13,5 km · Qualità RPE ≥7 · altrimenti Facile).</div><div class="list" id="hl">${hl(L)}</div>`}
+const hl=L=>L.length?L.map(a=>`<div class="row" onclick="openWk('${a.d}')"><div><b style="color:var(--d)">${a.n}</b>${a.an?' <span class="dl w">anomalia</span>':''}<div class="sub">${fdy(a.d)} · Running</div></div><div class="m"><span>Durata <b>${ft(a.s)}</b></span><span>Passo <b>${fp(a.p)}</b></span><span>RPE <b>${a.rpe}</b></span><span>Sens. <b>${a.fe}</b></span><span>Carico <b>${fk(a.ld)}</b></span></div></div>`).join(''):'<p class="mut">Nessun allenamento corrisponde ai filtri.</p>';
+function sRender(){const q=S.q.toLowerCase().trim(),L=filt().filter(a=>S.cls==='Tutte'||a.c===S.cls).filter(a=>!q||(fd(a.d)+' '+a.d+' '+a.n+' '+a.c+' running corsa').toLowerCase().includes(q)).reverse();$('#hl').innerHTML=hl(L)}
+/* workout detail */
+const sim=a=>A.filter(b=>b.d!==a.d&&b.c===a.c&&Math.abs(b.km-a.km)/a.km<=.25&&!b.an);
+function openWk(d){S.sel=d;S.cmp='last';drawWk();$('#dt').hidden=false;$('#dt').scrollTop=0}
+function closeWk(){$('#dt').hidden=true;S.sel=null}
+function setCmp(v){S.cmp=v;drawWk()}
+function refObj(a){const s=sim(a),prev=s.filter(b=>b.d<a.d);let L=[],t='';
+ if(S.cmp==='last'){const x=prev[prev.length-1];if(x)L=[x];t='ultima sessione simile ('+(x?fdy(x.d):'')+')'}
+ else if(S.cmp==='best'){const x=s.slice().sort((p,q)=>p.p-q.p)[0];if(x)L=[x];t='migliore sessione simile per passo ('+(x?fdy(x.d):'')+')'}
+ else if(S.cmp==='avg'){L=prev.slice(-5);t='media delle ultime '+L.length+' sessioni simili'}
+ else{const x=A.find(b=>b.d===S.cmp);if(x)L=[x];t='sessione del '+(x?fdy(x.d):'')}
+ if(!L.length)return null;const km=avg(L.map(x=>x.km)),sec=avg(L.map(x=>x.s));return{km,s:sec,p:L.reduce((x,y)=>x+y.s,0)/L.reduce((x,y)=>x+y.km,0),rpe:avg(L.map(x=>x.rpe)),fe:avg(L.map(x=>x.fe)),ld:avg(L.map(x=>x.ld)),t}}
+function cmpRows(x,y){const R=[['Distanza',v=>fk(v)+' km','km',0],['Durata',ft,'s',0],['Passo',v=>fp(v)+'/km','p',1],['RPE',v=>fk(v),'rpe',0],['Sensazioni',v=>fk(v),'fe',0],['Carico',fk,'ld',0]];
+ return`<table><tr><th></th><th>A</th><th>B</th><th>Δ</th><th>Δ%</th></tr>${R.map(([l,f,k,lw])=>{const d=x[k]-y[k],p=pct(x[k],y[k]),t=lw?(d<-1?'g':d>1?'b':'n'):'n';return`<tr><td>${l}</td><td>${f(x[k])}</td><td>${f(y[k])}</td><td>${k==='p'?sg(d,0)+' s':k==='s'?sg(d/60,1)+' min':sg(d,1)}</td><td><span class="dl ${t}">${sg(p,1)}%</span></td></tr>`}).join('')}</table>`}
+
+function parseSp(txt){let s=txt.replace(/,/g,'.').replace(/×/g,'x').replace(/\n/g,'+'),g=0,re=/(\d+)\s*x\s*\(([^()]*)\)/i;while(re.test(s)&&g++<30)s=s.replace(re,(m,n,i)=>Array(+n).fill(i).join('+'));
+ return s.split('+').map(x=>x.trim()).filter(Boolean).map(p=>{const m=p.match(/^(\d+(?:\.\d+)?)\s*(?:km)?\s*@\s*(\d+):(\d{2})\s*(.*)$/i);if(!m)throw new Error('segmento non valido "'+p+'" (usa km@m:ss, es. 4@4:50)');return{km:+m[1],p:+m[2]*60+ +m[3],l:m[4]||''}})}
+function applySp(d){const a=A.find(x=>x.d===d);try{const sg_=parseSp($('#sp').value);if(!sg_.length)throw new Error('nessun segmento');const k=sg_.reduce((x,y)=>x+y.km,0);if(Math.abs(k-a.km)/a.km>.1)throw new Error(`la somma dei segmenti (${fk(k)} km) non coincide con la distanza dell'allenamento (${fk(a.km)} km)`);S.spl[d]=sg_;save();drawWk();toast('Struttura salvata.')}catch(e){toast('Struttura non valida: '+e.message)}}
+function delSp(d){delete S.spl[d];save();drawWk()}
+function spBlock(a){const sp=S.spl[a.d];
+ if(!sp)return`<h2>Struttura e ripetute</h2><div class="note">Il file Excel non contiene split o ripetute per questa uscita, quindi il grafico qui sotto mostra solo il passo medio come riferimento (linea tratteggiata, <b>non dato misurato</b>). Inserisci la struttura per vedere grafico e tabella reali.</div><div class="card" style="margin-top:10px"><div class="ch s"><canvas id="cW"></canvas></div></div><div class="card" style="margin-top:10px"><div class="lbl">Inserisci struttura (km@passo, separati da +)</div><textarea id="sp" rows="2" style="width:100%;margin:8px 0;border:1px solid var(--line);border-radius:10px;padding:8px;font:inherit" placeholder="2@6:00 + 3x(4@5:20 + 1@6:30) + 1@6:00"></textarea><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="on" onclick="applySp('${a.d}')">Salva struttura</button><span class="sub">Esempio: 2 km riscaldamento, 3 ripetute da 4 km veloci con 1 km di recupero, 1 km defaticamento. Si può anche importare un foglio Excel "SPLIT" (colonne DAY, KM, PASSO).</span></div></div>`;
+ const tot=sp.reduce((x,y)=>x+y.km,0),ts=sp.reduce((x,y)=>x+y.km*y.p,0),mp=ts/tot;let c=0;
+ return`<h2>Struttura e ripetute</h2><div class="card"><div class="ch s"><canvas id="cW"></canvas></div></div><div class="card" style="margin-top:10px"><table><tr><th>#</th><th>Da–a km</th><th>Km</th><th>Passo</th><th>Tempo</th><th>Δ medio</th></tr>${sp.map((s,i)=>{const r=`<tr><td>${i+1}${s.l?' · '+s.l:''}</td><td>${fk(c)}–${fk(c+s.km)}</td><td>${fk(s.km)}</td><td><b>${fp(s.p)}</b></td><td>${ft(s.km*s.p)}</td><td><span class="dl ${s.p<mp-5?'g':s.p>mp+5?'n':'n'}">${sg(s.p-mp,0)} s</span></td></tr>`;c+=s.km;return r}).join('')}</table><p class="sub" style="margin-top:8px">Totale ${fk(tot)} km in ${ft(ts)} (passo medio ${fp(mp)}/km); nel file: ${fk(a.km)} km in ${ft(a.s)} (${fp(a.p)}/km).</p><button onclick="delSp('${a.d}')" style="margin-top:8px">Rimuovi struttura</button></div>`}
+function spChart(a){const sp=S.spl[a.d],pts=[];let c=0;if(sp)sp.forEach(s=>{pts.push({x:c,y:s.p});c+=s.km;pts.push({x:c,y:s.p})});else{pts.push({x:0,y:a.p},{x:a.km,y:a.p})}
+ const ps=pts.map(p=>p.y),o=base();o.interaction={mode:'nearest',axis:'x',intersect:false};o.scales.x={type:'linear',min:0,max:sp?c:a.km,grid:{display:false},ticks:{...tick,callback:v=>v+' km'},border:{display:false}};o.scales.y.reverse=true;o.scales.y.min=Math.min(...ps)-20;o.scales.y.max=Math.max(...ps)+20;o.scales.y.ticks={...tick,callback:v=>fp(v)};o.plugins.legend={display:false};
+ o.plugins.tooltip.callbacks={title:i=>fk(i[0].raw.x)+' km',label:i=>'Passo '+fp(i.raw.y)+'/km'+(sp?'':' (medio, non misurato)')};
+ mk('cW',{type:'line',data:{datasets:[{data:pts,borderColor:sp?'#4F86C6':'#9CC0E6',borderDash:sp?[]:[6,4],borderWidth:2.5,stepped:false,pointRadius:0,pointHoverRadius:5,fill:sp?'end':false,backgroundColor:c2=>gradient(c2,'rgba(79,134,198,.45)','rgba(188,214,238,.05)')}]},options:o})}
+function wkIns(a){const o=[],ws=agg(a.w,addD(a.w,6)),rk=A.filter(b=>b.ld<=a.ld).length/A.length*100,s=sim(a),prev=s.filter(b=>b.d<a.d),sdc=a.p/S.thr;
+ o.push(['Dato',`Distanza ${fk(a.km)} km in ${ft(a.s)}, passo ${fp(a.p)}/km; carico ${fk(a.ld)} (superiore al ${rk.toFixed(0)}% delle uscite); pesa il ${ws.ld?(a.ld/ws.ld*100).toFixed(0):0}% del carico e il ${(a.km/ws.km*100).toFixed(0)}% dei km della settimana.`]);
+ o.push(['Dato',`Passo ${a.p>S.thr?(((a.p/S.thr-1)*100).toFixed(0)+'% più lento'):(((1-a.p/S.thr)*100).toFixed(0)+'% più veloce')} del passo soglia del file (${fp(S.thr)}/km). RPE ${a.rpe}/10, sensazioni ${a.fe}/5.`]);
+ const sp=S.spl[a.d];if(sp){const ps=sp.map(s=>s.p),fa=Math.min(...ps),sl=Math.max(...ps),vr=sp.reduce((x,s)=>x+s.km,0);o.push(['Dato',`Passo dei segmenti da ${fp(fa)} a ${fp(sl)}/km (${sl-fa} s/km di escursione su ${sp.length} segmenti).`]);o.push(['Interpretazione',sl-fa<=12?'Ritmo costante: uscita uniforme.':`Uscita strutturata: ${sp.filter(s=>s.p<=fa+8).reduce((x,s)=>x+s.km,0).toFixed(1)} km al passo più veloce (${fp(fa)}/km) alternati a tratti più lenti.`])}
+ if(a.an)o.push(['Interpretazione',`Anomalia: passo ${fp(a.p)}/km, a ${((a.p-A.mu)/A.sd).toFixed(1)} deviazioni standard dalla media di storico (${fp(A.mu)}). Non è confrontabile con le altre corse.`],['Ipotesi',`Potrebbe trattarsi di un tratto camminato/trail, soste lunghe o un errore di inserimento del tempo (RPE ${a.rpe} indica comunque uno sforzo alto). Il file non ha GPS né dislivello per verificarlo.`]);
+ else if(prev.length>=2){const m=avg(prev.slice(-5).map(b=>b.p)),d=a.p-m;o.push([ 'Interpretazione',`Rispetto alla media delle ultime ${Math.min(5,prev.length)} sessioni simili il passo è ${d<0?'più veloce':'più lento'} di ${Math.abs(d).toFixed(0)} s/km${d<-3&&a.rpe<=avg(prev.slice(-5).map(b=>b.rpe))?', con RPE pari o inferiore: segnale di efficienza migliore':d<-3?', ma con RPE superiore: sforzo maggiore, non per forza maggiore efficienza':''}.`]);}
+ else o.push(['Interpretazione','Poche sessioni comparabili nello storico: confronto non affidabile.']);
+ const kind={Facile:'corsa aerobica di volume',Qualità:'seduta ad intensità alta',Lungo:'uscita lunga di specificità'}[a.c];
+ o.push(['Interpretazione',`Classificata come ${kind}. ${a.c==='Facile'&&a.rpe>=5?'RPE alto per una seduta facile: possibile accumulo di fatica.':a.c==='Lungo'?`Corrisponde al ${(a.km/HM*100).toFixed(0)}% della distanza della mezza.`:a.c==='Qualità'&&a.fe<=2?'Sensazioni basse dopo uno sforzo alto: costo di recupero da considerare.':'Intensità coerente con la categoria.'}`]);
+ if(a.rpe>=7&&a.fe<=2)o.push(['Ipotesi','Sforzo alto con sensazioni basse: potrebbe indicare fatica residua o giornata sfavorevole; il file non ha dati fisiologici per confermarlo.']);
+ return o}
+function drawWk(){const a=A.find(x=>x.d===S.sel);if(!a)return;setTimeout(()=>spChart(a),0);const r=refObj(a),opts=sim(a);
+ const sel=`<select onchange="setCmp(this.value)"><option value="last" ${S.cmp==='last'?'selected':''}>Ultima simile</option><option value="best" ${S.cmp==='best'?'selected':''}>Migliore simile</option><option value="avg" ${S.cmp==='avg'?'selected':''}>Media ultime 5 simili</option>${A.filter(b=>b.d!==a.d).reverse().map(b=>`<option value="${b.d}" ${S.cmp===b.d?'selected':''}>${fd(b.d)} · ${b.n}</option>`).join('')}</select>`;
+ $('#dt').innerHTML=`<div class="sheet"><button class="x" onclick="closeWk()">✕ Chiudi</button><div class="lbl">${fdy(a.d)} · Running · ${a.c}</div><h3 style="font-size:22px;color:var(--d);margin:4px 0 14px">${a.n}</h3>
+ <div class="grid">${card('Distanza',fk(a.km),'km')}${card('Durata',ft(a.s),'')}${card('Passo medio',fp(a.p),'/km')}${card('RPE · Sensazioni',a.rpe+' · '+a.fe,'')}${card('Carico',fk(a.ld),'pt')}${card('Dislivello','n.d.','')}</div>
+ <div class="note" style="margin:12px 0">Non presenti nel file per questa uscita: FC, potenza, altitudine, calorie, zone e mappa GPS (gli split si possono inserire sotto). Non vengono simulati.</div>
+ ${spBlock(a)}<h2>Insight</h2>${wkIns(a).map(([t,x])=>`<div class="ins"><span class="tag ${t}">${t}</span>${x}</div>`).join('')}
+ <h2>Confronto</h2><div style="margin-bottom:10px">${sel}</div>${r?`<p class="sub" style="margin-bottom:8px">A = questa uscita · B = ${r.t}. Sessioni comparabili: stessa categoria e distanza ±25% (${opts.length} trovate).</p>${cmpRows(a,r)}`:'<p class="mut">Nessuna sessione comparabile per questa opzione.</p>'}</div>`}
+function vConfronto(){
+ if(!S.pc)S.pc={a1:addD(REF,-20),a2:REF,b1:addD(REF,-41),b2:addD(REF,-21)};if(!S.sc){const l=A[A.length-1],p=sim(l).filter(b=>b.d<l.d).pop()||A[A.length-2];S.sc={a:l.d,b:p.d}}
+ const P=S.pc,a=agg(P.a1,P.a2),b=agg(P.b1,P.b2),mk=(g,f)=>({km:g.km,n:g.n,s:g.s,p:g.p,ld:g.ldd,rpe:g.rpe,fe:g.fe});
+ const rows=[['Distanza (km)','km',fk,0],['Uscite','n',v=>v,0],['Durata','s',ft,0],['Passo/km','p',fp,1],['Carico/giorno','ld',fk,0],['RPE medio','rpe',fk,0],['Sensazioni','fe',fk,0]],x=mk(a),y=mk(b);
+ const di=(k,v)=>`<input type="date" value="${v}" min="${FIRST}" onchange="S.pc.${k}=this.value;render()">`;
+ const so=v=>A.slice().reverse().map(z=>`<option value="${z.d}" ${v===z.d?'selected':''}>${fd(z.d)} · ${z.n}</option>`).join('');
+ const sa=A.find(z=>z.d===S.sc.a),sb=A.find(z=>z.d===S.sc.b);
+ return`<h2>Confronto tra periodi</h2><div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px"><b>A</b>${di('a1',P.a1)}→${di('a2',P.a2)}<b style="margin-left:10px">B</b>${di('b1',P.b1)}→${di('b2',P.b2)}</div>
+ <table><tr><th></th><th>A</th><th>B</th><th>Δ%</th></tr>${rows.map(([l,k,f,lw])=>{const p=pct(x[k],y[k]),t=p==null?'n':lw?(p<-1?'g':p>2?'b':'n'):'n';return`<tr><td>${l}</td><td>${isFinite(x[k])?f(x[k]):'–'}</td><td>${isFinite(y[k])?f(y[k]):'–'}</td><td><span class="dl ${t}">${sg(p,1)}%</span></td></tr>`}).join('')}</table><p class="sub" style="margin-top:8px">Periodi di lunghezza diversa danno totali non omogenei: confronta carico/giorno e passo.</p></div>
+ <h2>Confronto tra sessioni</h2><div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><select onchange="S.sc.a=this.value;render()">${so(S.sc.a)}</select><select onchange="S.sc.b=this.value;render()">${so(S.sc.b)}</select></div>${sa&&sb?cmpRows(sa,sb):''}${sa&&sb&&(sa.c!==sb.c||Math.abs(sa.km-sb.km)/sb.km>.25)?'<div class="note" style="margin-top:10px">Attenzione: le due sessioni non sono comparabili (categoria o distanza diverse).</div>':''}</div>`}
+function vGara(){const W=S.plan.map(p=>({...agg(p.mon,addD(p.mon,6)),...p,fut:p.mon>REF,part:addD(p.mon,6)>REF&&p.mon<=REF}));
+ return`<h2>Preparazione · piano vs realizzato</h2><div class="card"><div class="ch"><canvas id="cP"></canvas></div><div class="sub" style="margin-top:8px">Piano = colonna PLANNED DISTANCE del file. Le settimane future e quella in corso risultano incomplete.</div></div>
+ <h2>Dettaglio settimane</h2><div class="card"><table><tr><th>Sett.</th><th>Dal</th><th>Piano</th><th>Fatto</th><th>Δ%</th></tr>${W.map((w,i)=>`<tr><td>${i+1}</td><td>${fd(w.mon)}</td><td>${w.p} km</td><td>${w.fut?'–':fk(w.km)+(w.part?' (in corso)':'')}</td><td>${w.fut||w.part?'–':`<span class="dl ${Math.abs(pct(w.km,w.p))<=15?'g':'n'}">${sg(pct(w.km,w.p),0)}%</span>`}</td></tr>`).join('')}</table></div>`}
+function drawGara(){const W=S.plan.map(p=>({...agg(p.mon,addD(p.mon,6)),...p,fut:p.mon>REF})),o=base();o.plugins.tooltip.callbacks={title:i=>'Settimana dal '+fdy(W[i[0].dataIndex].mon)};
+ mk('cP',{type:'bar',data:{labels:W.map((w,i)=>'S'+(i+1)),datasets:[{label:'Piano',data:W.map(w=>w.p),backgroundColor:'rgba(188,214,238,.8)',borderRadius:8},{label:'Realizzato',data:W.map(w=>w.fut?null:+w.km.toFixed(1)),backgroundColor:c=>gradient(c,'#4F86C6','#8FB8E8'),borderRadius:8}]},options:o})}
+function vReport(){if(!S.wk)S.wk=mon(REF);const wk=S.wk,e=addD(wk,6),to=e>REF?REF:e,g=agg(wk,to),pv=agg(addD(wk,-7),addD(wk,-1)),pm=planMap(),fm=formAt(to),best=g.L.reduce((a,b)=>b.ld>(a?a.ld:-1)?b:a,null),ws=[];for(let m=mon(FIRST);m<=mon(REF);m=addD(m,7))ws.push(m);
+ return`<h2>Report settimanale</h2><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button onclick="S.wk=addD(S.wk,-7);render()" ${wk<=mon(FIRST)?'disabled':''}>◀</button><select onchange="S.wk=this.value;render()">${ws.reverse().map(m=>`<option value="${m}" ${m===wk?'selected':''}>${fd(m)} – ${fd(addD(m,6))}${m===mon(REF)?' (in corso)':''}</option>`).join('')}</select><button onclick="S.wk=addD(S.wk,7);render()" ${wk>=mon(REF)?'disabled':''}>▶</button></div>
+ <div class="grid">${card('Allenamenti',g.n,'')}${card('Distanza',fk(g.km),'km',dc({km:g.km},pv.n?{km:pv.km}:null,'km','',0,'vol'),pm[wk]?`piano ${pm[wk]} km`:'')}${card('Durata',ft(g.s),'')}${card('Training Load',fk(g.ld),'pt',dc(g,pv,'ld'),'somma carichi sett.')}${card('Training Form',fm?sg(fm.f,1):'n.d.','pt','',fm?'a fine settimana':'storico <42 g')}${card('Passo',fp(g.p),'/km')}</div>
+ <h2>Migliore allenamento</h2>${best?`<div class="row" onclick="openWk('${best.d}')"><div><b style="color:var(--d)">${best.n}</b><div class="sub">${fdy(best.d)} · carico più alto</div></div><div class="m"><span>Passo <b>${fp(best.p)}</b></span><span>RPE <b>${best.rpe}</b></span></div></div>`:'<p class="mut">Nessuna uscita.</p>'}
+ <h2>Commento</h2><div class="ins">${repText(wk).map(x=>`<p>${x}</p>`).join('')}</div>`}
+function repText(wk){const e=addD(wk,6),to=e>REF?REF:e,g=agg(wk,to),pv=agg(addD(wk,-7),addD(wk,-1)),pm=planMap(),t=[],fm=formAt(to);
+ if(!g.n)return['Nessuna corsa registrata in questa settimana.'];
+ t.push(`${g.n} uscite per ${fk(g.km)} km in ${ft(g.s)}${e>REF?' (settimana ancora in corso)':''}.`);
+ if(pv.n)t.push(`Rispetto alla settimana precedente (${fk(pv.km)} km) il volume è ${sg(pct(g.km,pv.km),0)}%, il carico ${sg(pct(g.ld,pv.ld),0)}%${e>REF?' (confronto con una settimana completa: il dato è parziale)':''}.`);
+ if(pm[wk])t.push(`Il piano prevedeva ${pm[wk]} km: ${e>REF?'finora fatto':'fatto'} il ${(g.km/pm[wk]*100).toFixed(0)}%.`);
+ const hard=g.L.filter(a=>a.rpe>=7);if(hard.length)t.push(`${hard.length} seduta/e con RPE ≥7 (${hard.map(a=>fd(a.d)+' '+fk(a.km)+' km').join(', ')}); sensazioni medie ${fk(avg(hard.map(a=>a.fe)))}/5.`);
+ if(fm)t.push(`Training Form a fine settimana: ${sg(fm.f,1)} (media 42 g ${fk(fm.a42)}, media 7 g ${fk(fm.a7)}).`);
+ const an=g.L.filter(a=>a.an);if(an.length)t.push(`Nota: ${fd(an[0].d)} è un'anomalia di passo (${fp(an[0].p)}/km).`);return t}
+function insights(){const r=REF,o=[],w21=agg(addD(r,-20),r),p21=agg(addD(r,-41),addD(r,-21)),p21ok=pd(addD(r,-41))>=pd(FIRST);
+ if(p21ok&&p21.km){const d=pct(w21.km,p21.km),dp=w21.p-p21.p;o.push({t:'Dato',tn:tone('vol',d),h:'Volume ultimi 21 giorni',x:`Dal ${fd(addD(r,-20))} al ${fd(r)}: ${fk(w21.km)} km (${w21.n} uscite) contro ${fk(p21.km)} km nei 21 giorni precedenti (${sg(d,0)}%). Passo medio ${fp(w21.p)} vs ${fp(p21.p)}/km (${sg(dp,0)} s/km).`})}
+ const done=S.plan.filter(p=>addD(p.mon,6)<=r&&p.p).slice(-3);if(done.length){const x=done.map(p=>{const k=agg(p.mon,addD(p.mon,6)).km;return{p,k,d:pct(k,p.p)}});o.push({t:'Dato',tn:x.every(v=>Math.abs(v.d)<=15)?'g':x.slice(-2).every(v=>v.d<-15)?'w':'n',h:'Aderenza al piano',x:x.map(v=>`sett. dal ${fd(v.p.mon)}: ${fk(v.k)} su ${v.p.p} km (${sg(v.d,0)}%)`).join(' · ')+'.'});
+  if(x.slice(-2).every(v=>v.d<-15))o.push({t:'Interpretazione',tn:'w',h:'Volume sotto il piano',x:'Le ultime due settimane concluse sono sotto il piano di oltre il 15%: il carico di rifinitura è di fatto già in corso, con meno corse della programmazione.'})}
+ const fm=formAt(r),fo=formAt(addD(r,-14));if(fm)o.push({t:'Dato',tn:fm.f>.15*fm.a42?'g':fm.f<-.15*fm.a42?'b':'n',h:'Training Form',x:`Form ${sg(fm.f,1)}: carico medio 42 g ${fk(fm.a42)}/giorno, ultimi 7 g ${fk(fm.a7)}/giorno${fo?`. Due settimane fa era ${sg(fo.f,1)}`:''}.`});
+ if(fm)o.push({t:'Interpretazione',tn:'n',h:'Lettura del Form',x:fm.f>0?'Il carico recente è inferiore alla media cronica: situazione di scarico/recupero. Non è una misura clinica di forma fisica.':'Il carico recente supera la media cronica: fase di accumulo, più fatica attesa.'});
+ const ez=(f,t)=>A.filter(a=>a.d>=f&&a.d<=t&&a.rpe<=4&&a.km>=6&&!a.an),e1=ez(addD(r,-27),r),e0=ez(addD(r,-55),addD(r,-28));if(e1.length>=2&&e0.length>=2&&pd(addD(r,-55))>=pd(FIRST)){const f=a=>a.reduce((x,y)=>x+y.s,0)/a.reduce((x,y)=>x+y.km,0);o.push({t:'Dato',tn:tone('p',(f(e1)-f(e0))/f(e0)*100),h:'Passo a parità di sforzo (RPE ≤4)',x:`Corse facili ≥6 km: ${fp(f(e1))}/km negli ultimi 28 g (${e1.length} uscite) vs ${fp(f(e0))}/km nei 28 g precedenti (${e0.length}): ${sg(f(e1)-f(e0),0)} s/km con RPE medio ${fk(avg(e1.map(a=>a.rpe)))} vs ${fk(avg(e0.map(a=>a.rpe)))}.`})}
+ const lg=A.reduce((a,b)=>b.km>a.km?b:a,A[0]),l15=A.filter(a=>a.km>=15&&!a.an);o.push({t:'Dato',tn:'n',h:'Uscite lunghe',x:`${l15.length} uscite ≥15 km; la più lunga è ${fk(lg.km)} km il ${fdy(lg.d)} (${(lg.km/HM*100).toFixed(0)}% della mezza), l'ultima ≥15 km il ${l15.length?fdy(l15[l15.length-1].d):'n.d.'}.`});
+ const wl=S.plan.filter(p=>p.mon>r);if(wl.length)o.push({t:'Dato',tn:'n',h:'Piano residuo',x:`Il piano prevede ${wl.map(p=>p.p).join(' / ')} km nelle settimane rimanenti (dal ${fd(wl[0].mon)}).`});
+ const cw=[];for(let m=mon(FIRST);addD(m,6)<=r;m=addD(m,7))cw.push(agg(m,addD(m,6)));let gap=0,run=0;for(let d=FIRST;d<=r;d=addD(d,1)){if(DL[d]>0)run=0;else{run++;gap=Math.max(gap,run)}}
+ o.push({t:'Dato',tn:cw.filter(w=>w.n>=3).length/cw.length>=.8?'g':'n',h:'Regolarità',x:`${cw.filter(w=>w.n>=3).length} settimane su ${cw.length} concluse con almeno 3 uscite (media ${fk(avg(cw.map(w=>w.n)))} uscite/sett.). Pausa più lunga: ${gap} giorni consecutivi senza correre.`});
+ const e42=A.filter(a=>a.d>=addD(r,-41)),hr=e42.filter(a=>a.rpe>=7),ez2=e42.filter(a=>a.rpe<=4);o.push({t:'Dato',tn:'n',h:'Distribuzione dell\'intensità (42 g)',x:`${ez2.length} uscite su ${e42.length} con RPE ≤4 (${(ez2.reduce((x,a)=>x+a.km,0)/e42.reduce((x,a)=>x+a.km,0)*100).toFixed(0)}% dei km), ${hr.length} con RPE ≥7 (${(hr.reduce((x,a)=>x+a.km,0)/e42.reduce((x,a)=>x+a.km,0)*100).toFixed(0)}% dei km).`});
+ const R=A.map(a=>a.rpe),F=A.map(a=>a.fe),mr=avg(R),mf=avg(F),cor=avg(A.map((a,i)=>(R[i]-mr)*(F[i]-mf)))/Math.sqrt(avg(R.map(x=>(x-mr)**2))*avg(F.map(x=>(x-mf)**2)));o.push({t:'Dato',tn:'n',h:'Sforzo e sensazioni',x:`Correlazione RPE–sensazioni nello storico: r = ${cor.toFixed(2)} (${A.length} uscite).`});
+ o.push({t:'Ipotesi',tn:'n',h:'Significato',x:cor<-.3?'Le uscite più dure lasciano sensazioni peggiori: coerente con un costo di recupero reale delle sedute intense. Ipotesi non verificabile senza dati fisiologici.':'Il legame tra sforzo e sensazioni è debole: le sensazioni dipendono anche da altri fattori.'});
+ const fast=A.filter(a=>a.km>=10&&!a.an).sort((a,b)=>a.p-b.p)[0],bw=weeks(FIRST,r).filter(w=>w.n).sort((a,b)=>b.km-a.km)[0];o.push({t:'Dato',tn:'g',h:'Migliori prestazioni',x:`Passo più veloce su ≥10 km: ${fp(fast.p)}/km il ${fdy(fast.d)} su ${fk(fast.km)} km. Settimana di maggior volume: ${fk(bw.km)} km (dal ${fd(bw.m)}).`});
+ const an=A.filter(a=>a.an);an.forEach(a=>o.push({t:'Dato',tn:'w',h:'Anomalia di passo',x:`${fdy(a.d)}: ${fk(a.km)} km a ${fp(a.p)}/km contro una media di ${fp(A.mu)}/km. Possibile tratto camminato/trail o errore di inserimento; il file non permette di verificarlo.`}));
+ return o}
+function vInsight(){return`<h2>Insight Engine</h2><div class="note" style="margin-bottom:12px">Ogni insight è calcolato dai ${A.length} allenamenti del file (riferimento ${fdy(REF)}). Etichette: <b>Dato</b> = misura diretta, <b>Interpretazione</b> = lettura del dato, <b>Ipotesi</b> = spiegazione plausibile non verificabile.</div>${insights().map(i=>`<div class="ins ${i.tn}"><h4><span class="tag ${i.t}">${i.t}</span>${i.h}</h4><p>${i.x}</p></div>`).join('')}`}
+/* ---------- shell ---------- */
+const TABS=[['stato','Stato'],['analisi','Analisi'],['storico','Storico'],['confronto','Confronto'],['gara','Gara'],['report','Report'],['insight','Insight']];
+function setTab(t){S.tab=t;render();scrollTo(0,0)}
+function setPer(p){S.per=p;render()}
+function chips(){const l=A[A.length-1];const n=new Date();$('#chips').innerHTML=`<span class="chip"><span class="dot"></span><b>Dati caricati</b> · ${S.imp.name}</span><span class="chip"><b>${A.length}</b> allenamenti</span><span class="chip">Ultima corsa <b>${l?fdy(l.d):'–'}</b></span><span class="chip">Agg. dataset <b>${S.imp.at.split('-').reverse().join('/')}</b></span><span class="chip">${n.toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'short'})} · ${n.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})}</span>`}
+function render(){derive();chips();
+ $('#nav').innerHTML=TABS.map(([k,l])=>`<button class="${S.tab===k?'on':''}" onclick="setTab('${k}')">${l}</button>`).join('');
+ const showBar=['analisi','storico'].includes(S.tab);$('#bar').style.display=showBar?'flex':'none';
+ $('#bar').innerHTML=[['7','7 g'],['21','21 g'],['42','42 g'],['90','90 g'],['180','6 mesi'],['365','1 anno'],['all','Storico']].map(([k,l])=>`<button class="${S.per===k?'on':''}" onclick="setPer('${k}')">${l}</button>`).join('')+`<button class="${S.per==='custom'?'on':''}" onclick="setPer('custom')">Personalizzato</button>`+(S.per==='custom'?`<input type="date" value="${S.from||FIRST}" onchange="S.from=this.value;render()"><input type="date" value="${S.to||REF}" onchange="S.to=this.value;render()">`:'')+`<span class="lg">Running: <b>${A.length}</b> · Trail: n.d. (non nel file)</span>`;
+ const v={stato:vStato,analisi:vAnalisi,storico:vStorico,confronto:vConfronto,gara:vGara,report:vReport,insight:vInsight}[S.tab];
+ try{$('#main').innerHTML=v();if(S.tab==='analisi')drawAnalisi();if(S.tab==='gara')drawGara();if(S.sel)drawWk()}catch(e){$('#main').innerHTML='<div class="note">Errore di rendering: '+e.message+'</div>';console.error(e)}}
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',5000)}
+function dl(name,txt,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function expCsv(){dl('allenamenti.csv','data;km;durata_s;passo_s_km;rpe;sensazioni;carico;categoria\n'+A.map(a=>[a.d,a.km,a.s,a.p.toFixed(1),a.rpe,a.fe,a.ld,a.c].join(';')).join('\n'),'text/csv')}
+function expRep(){dl('report_'+S.wk+'.txt','REPORT SETTIMANALE dal '+fdy(S.wk||mon(REF))+'\n\n'+repText(S.wk||mon(REF)).join('\n'),'text/plain')}
+/* import */
+$('#f').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(typeof XLSX==='undefined')return toast('Importazione non disponibile: libreria XLSX non caricata (serve connessione).');
+ const r=new FileReader();r.onerror=()=>toast('Impossibile leggere il file.');r.onload=ev=>{try{
+  const wb=XLSX.read(ev.target.result,{type:'array'});let hdr=-1,rows,sh;
+  for(const n of wb.SheetNames){const R=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:true,defval:null});const i=R.findIndex(r=>r.includes('DAY')&&r.includes('DISTANCE'));if(i>=0){hdr=i;rows=R;sh=n;break}}
+  if(hdr<0)throw new Error('Nessun foglio con colonne DAY e DISTANCE.');
+  const H=rows[hdr],c=k=>H.findIndex(x=>typeof x==='string'&&x.trim().toUpperCase().startsWith(k)),ci={d:c('DAY'),km:c('DISTANCE'),t:c('TIME'),rpe:c('RPE'),fe:c('SENS'),ld:H.findIndex(x=>x==='LOAD')},pc=H.lastIndexOf('WEEK'),pl=H.indexOf('PLANNED DISTANCE');
+  if(ci.d<0||ci.km<0||ci.t<0)throw new Error('Colonne DAY/DISTANCE/TIME mancanti.');
+  const iso=n=>ds(new Date(Math.round((n-25569)*864e5)));let add=0,upd=0,bad=0,fd0=null;const old=Object.fromEntries(S.rows.map(r=>[r.d,r]));
+  for(const r of rows.slice(hdr+1)){const dv=r[ci.d];if(typeof dv!=='number')continue;const d=iso(dv);if(!fd0||d<fd0)fd0=d;const km=+r[ci.km];if(!(km>0))continue;const tv=r[ci.t],s=typeof tv==='number'?Math.round(tv*86400):0;if(!s){bad++;continue}
+   let ld=ci.ld>=0&&typeof r[ci.ld]==='number'?r[ci.ld]:null;const rpe=r[ci.rpe],fe=r[ci.fe];if(ld==null&&rpe!=null&&fe!=null)ld=.1*Math.round(s/60)*rpe*(S.thr/(s/km))*(1+(3-fe)*.1)*2;
+   const n={d,km,s,rpe,fe,ld:ld==null?0:+ld.toFixed(3)};if(old[d]){if(JSON.stringify(old[d])!==JSON.stringify(n))upd++}else add++;old[d]=n}
+  if(!add&&!upd&&!bad&&!Object.keys(old).length)throw new Error('Nessuna corsa trovata.');
+  S.rows=Object.values(old);
+  if(pc>=0&&pl>=0&&fd0){const P=[];for(const r of rows.slice(hdr+1)){if(typeof r[pc]==='number'&&typeof r[pl]==='number')P.push({mon:addD(mon(fd0),7*(r[pc]-1)),p:r[pl]})}if(P.length)S.plan=P}
+  let ns=0;for(const n of wb.SheetNames){if(!/split|lap|ripet/i.test(n))continue;const R=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:true,defval:null}),hi=R.findIndex(r=>r.some(x=>/^(DAY|DATA|DATE)$/i.test(String(x).trim()))&&r.some(x=>/PASSO|PACE/i.test(String(x))));if(hi<0)continue;const Hh=R[hi].map(x=>String(x).trim().toUpperCase()),cd=Hh.findIndex(x=>/^(DAY|DATA|DATE)$/.test(x)),ck=Hh.findIndex(x=>/^(KM|DISTANCE|DISTANZA)/.test(x)),cp=Hh.findIndex(x=>/PASSO|PACE/.test(x)),G={};for(const r of R.slice(hi+1)){if(typeof r[cd]!=='number'||!(r[ck]>0))continue;const pv=r[cp],ps=typeof pv==='number'?(pv<1?pv*86400:pv):(String(pv).match(/(\d+):(\d{2})/)?+RegExp.$1*60+ +RegExp.$2:0);if(!ps)continue;(G[iso(r[cd])]=G[iso(r[cd])]||[]).push({km:+r[ck],p:Math.round(ps),l:''})}for(const d in G){S.spl[d]=G[d];ns++}}
+  S.imp={name:f.name,at:today()};save();render();toast(`Importato "${f.name}" (foglio ${sh}): ${add} nuove, ${upd} aggiornate, nessun duplicato${ns?`, split per ${ns} allenamenti`:''}${bad?`, ${bad} righe senza tempo scartate`:''}.`)}catch(x){toast('Errore di importazione: '+x.message)}};r.readAsArrayBuffer(f)});
+addEventListener('keydown',e=>{if(e.key==='Escape')closeWk()});
+setInterval(()=>{if(!$('#dt').hidden)return;chips()},30000);
+render();
 </script></body></html>
