@@ -140,7 +140,7 @@ const dispPace=a=>isRun(a)||a.c=="Camminata"?fpace(a.dur,a.km)+" /km":f1(ISPEED(
 const nm=a=>a.n,col=a=>COL[a.c];
 function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("s");setTimeout(()=>e.classList.remove("s"),3200)}
 async function copy(t,m){try{await navigator.clipboard.writeText(t);toast(m||"Copiato negli appunti")}catch(e){toast("Copia non consentita dal browser in questa vista")}}
-function upd(){copy("Aggiorna la mia dashboard ATHLETE · OS: recupera con il connettore Running Workout le nuove attività Garmin successive al 05/11/2026 e rigenera dashboard.html incorporando i dati e pubblicalo su GitHub come elia/index.html (repository albaneseeelia/albaneseeelia.github.io, branch main), sovrascrivendo il file esistente. Ti incollo qui il token GitHub: ","Prompt di aggiornamento copiato: incollalo in Claude. La pagina pubblicata non può interrogare Garmin da sola.")}
+function upd(){copy("Aggiorna la mia dashboard ATHLETE · OS: recupera con il connettore Running Workout le nuove attività Garmin successive al 05/11/2026 e rigenera dashboard.html incorporando i dati e pubblicalo su GitHub come elia/index.html (repository albaneseeelia/albaneseeelia.github.io, branch main), sovrascrivendo il file esistente. Usa lo stesso token GitHub già fornito, finché è valido.","Prompt di aggiornamento copiato: incollalo in Claude. La pagina pubblicata non può interrogare Garmin da sola.")}
 // ===== INSIGHT =====
 const tg={d:'<span class="tag t-d">Dato</span>',i:'<span class="tag t-i">Interpretazione</span>',h:'<span class="tag t-h">Ipotesi</span>'};
 function riegel(){let best=null;A.filter(a=>isRun(a)&&a.km>=20).forEach(a=>{const t=a.dur*Math.pow(GOAL.km/a.km,1.06);if(!best||t<best.t)best={t,a}});return best}
