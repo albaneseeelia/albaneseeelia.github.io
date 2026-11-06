@@ -1,1 +1,275 @@
+<!DOCTYPE html>
+<html lang="it"><head><meta charset="utf-8"><title>ATHLETE · OS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#f4f7fc;--card:#fff;--ink:#12244a;--mut:#667799;--line:#e0e8f5;--b1:#2349c9;--b2:#5b8def;--b3:#d5e3fb;--ok:#1b9e74;--warn:#e58a2f;--bad:#d44a5a;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:10px 18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:#fff;z-index:30}
+.logo{font-weight:800;letter-spacing:.04em;font-size:17px;color:var(--b1)}.logo i{font-style:normal;color:var(--b2)}
+.hm{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--mut);flex:1}.hm b{color:var(--ink);font-weight:600}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:5px}
+button,select,input{font:inherit;color:inherit}
+.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 14px;cursor:pointer;min-height:38px}.btn:hover{border-color:var(--b2)}
+.btn.p{background:var(--b1);color:#fff;border-color:var(--b1)}
+nav{display:flex;gap:6px;overflow-x:auto;padding:10px 18px;background:#fff;border-bottom:1px solid var(--line);scrollbar-width:none}
+nav button{border:0;background:transparent;padding:9px 14px;border-radius:999px;white-space:nowrap;cursor:pointer;color:var(--mut);font-weight:500;min-height:40px}
+nav button.on{background:var(--b3);color:var(--b1);font-weight:700}
+#fbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:12px 18px 0}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;cursor:pointer;font-size:13px;min-height:36px;display:inline-flex;align-items:center;gap:6px}
+.chip.on{border-color:var(--b1);background:var(--b3);color:var(--b1)}.sw{width:10px;height:10px;border-radius:50%}
+main{padding:14px 18px 40px;max-width:1280px;margin:0 auto}
+.g{display:grid;gap:14px;grid-template-columns:repeat(12,1fr)}.c3{grid-column:span 3}.c4{grid-column:span 4}.c6{grid-column:span 6}.c8{grid-column:span 8}.c12{grid-column:span 12}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 2px 12px rgba(35,73,201,.06);min-width:0}
+.card h3{margin:0 0 10px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);font-weight:700}
+.big{font-size:30px;font-weight:750;line-height:1.1;letter-spacing:-.02em}.u{font-size:13px;color:var(--mut);font-weight:500;margin-left:4px}
+.mut{color:var(--mut);font-size:13px}.up{color:var(--ok)}.dn{color:var(--bad)}.nu{color:var(--warn)}
+.star{background:linear-gradient(135deg,#1f3fae,#4a7be8);color:#fff;border:0}.star h3,.star .mut{color:#cfe0ff}
+.cd{display:flex;gap:12px;margin:10px 0}.cd div{background:rgba(255,255,255,.15);border-radius:12px;padding:8px 12px;text-align:center;min-width:62px}.cd b{display:block;font-size:26px}.cd span{font-size:11px;opacity:.85}
+.bar{height:10px;border-radius:9px;background:rgba(255,255,255,.25);overflow:hidden}.bar i{display:block;height:100%;background:#fff;border-radius:9px}
+.tag{font-size:11px;font-weight:700;border-radius:6px;padding:2px 7px;margin-right:6px}.t-d{background:#dce8ff;color:#1b3fa8}.t-i{background:#e0f5ee;color:#13795a}.t-h{background:#fdecd9;color:#a8590f}
+.ins{padding:12px 0;border-bottom:1px solid var(--line)}.ins:last-child{border:0}.ins b{display:block;margin-bottom:2px}
+.row{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.wk{border:1px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;background:#fff}.wk:hover{border-color:var(--b2);box-shadow:0 4px 14px rgba(35,73,201,.1)}
+.wk b{display:block}.tb{width:100%;border-collapse:collapse;font-size:14px}.tb th,.tb td{text-align:right;padding:7px 6px;border-bottom:1px solid var(--line)}.tb th:first-child,.tb td:first-child{text-align:left}.tb th{color:var(--mut);font-weight:600;font-size:12px}
+.cv{position:relative;height:300px}#three{height:360px;border-radius:14px;background:linear-gradient(#f9fbff,#e9f0fc);position:relative;overflow:hidden}
+#tip{position:absolute;left:10px;top:10px;font-size:12px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px 8px;pointer-events:none}
+#three canvas{touch-action:pan-y;display:block}
+input,select{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;min-height:38px;max-width:100%}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:13px;opacity:0;transition:.3s;pointer-events:none;z-index:50;max-width:92vw}
+#toast.s{opacity:1}
+@media(max-width:800px){.c3,.c4,.c6,.c8{grid-column:span 12}.hm{display:none}main,#fbar,nav,header{padding-left:12px;padding-right:12px}.big{font-size:26px}#three{height:300px}.cv{height:260px}.tb{font-size:13px}.cd div{min-width:54px;padding:6px 8px}}
+@media(min-width:801px) and (max-width:1100px){.c3{grid-column:span 6}}
+</style></head><body>
+<header><div class="logo">ATHLETE <i>·</i> OS</div>
+<div class="hm"><span><span class="dot"></span><b>Garmin</b> · via Running Workout</span><span id="clk"></span><span><b id="nact"></b> allenamenti</span><span>Aggiornato: <b>05/11/2026</b></span></div>
+<button class="btn p" onclick="upd()">Aggiorna dati</button></header>
+<nav id="nav"></nav><div id="fbar"></div><main id="app"></main><div id="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ===== DATI (Garmin via Running Workout, 22/09/2026 – 05/11/2026 ore 14:37) =====
+// [id, data, tipo, nome, durata s, km, FC media, FC max, cadenza, kcal]
+const RAW=[
+["24976669997","2026-11-05 14:37","RUNNING","San Martino di Lupari - UnderOver OneK",3477,13.56,152,179,181,844],
+["24973736742","2026-11-05 08:25","CYCLING","San Martino di Lupari Cycling",3396,27.4,100,124,46,396],
+["24963426227","2026-11-04 10:54","ROAD_BIKING","San Martino di Lupari Road Cycling",7781,66.0,113,151,87,1316],
+["24947719421","2026-11-03 05:40","RUNNING","San Martino di Lupari - UnderOver Miles",3918,14.4,143,170,null,859],
+["24935896777","2026-11-02 05:40","RUNNING","San Martino di Lupari Running",4263,14.2,137,154,null,881],
+["24926739256","2026-11-01 08:08","ROAD_BIKING","San Martino di Lupari Road Cycling",9829,78.5,113,144,88,1560],
+["24916434277","2026-10-31 07:42","ROAD_BIKING","San Martino di Lupari Road Cycling",17464,143.4,119,139,91,2946],
+["24900933181","2026-10-30 05:28","RUNNING","San Martino di Lupari - TempoRun",3628,12.9,145,172,null,798],
+["24893149948","2026-10-29 10:51","ROAD_BIKING","San Martino di Lupari Road Cycling",8955,74.9,119,145,90,1613],
+["24884263750","2026-10-28 16:42","RUNNING","San Martino di Lupari Running",3053,10.2,142,160,null,620],
+["24872045551","2026-10-27 16:45","RUNNING","San Martino di Lupari - Fast Intervals",2801,9.0,139,172,null,584],
+["24859917052","2026-10-26 16:54","RUNNING","San Martino di Lupari Running",2934,10.0,143,154,null,609],
+["24854637704","2026-10-26 06:47","ROAD_BIKING","San Martino di Lupari Road Cycling",8221,66.5,114,141,90,1293],
+["24843824002","2026-10-25 06:53","ROAD_BIKING","San Martino di Lupari Road Cycling",8344,68.4,112,136,91,1385],
+["24832854828","2026-10-24 06:12","RUNNING","San Martino di Lupari - HurtsMoreToLose",9344,36.0,151,177,183,2080],
+["24813013199","2026-10-22 10:13","RUNNING","San Martino di Lupari - ProgressiveRun",3943,15.0,154,181,null,947],
+["24793145304","2026-10-20 15:40","RUNNING","San Martino di Lupari Running",3662,12.0,138,157,null,737],
+["24781116304","2026-10-19 15:50","RUNNING","San Martino di Lupari - ProgressiveMile",3728,13.0,143,178,null,782],
+["24764644222","2026-10-18 06:45","ROAD_BIKING","San Martino di Lupari Road Cycling",7911,63.9,114,152,91,1306],
+["24758029314","2026-10-17 13:17","ROAD_BIKING","San Martino di Lupari Road Cycling",6478,52.9,111,125,93,991],
+["24753435155","2026-10-17 06:38","RUNNING","San Martino di Lupari - CruiseControl",8682,33.0,151,164,181,2068],
+["24732137674","2026-10-15 10:12","RUNNING","San Martino di Lupari - BrokenMiles",3665,12.6,149,181,null,816],
+["24711472232","2026-10-13 15:41","RUNNING","San Martino di Lupari Running",3724,14.1,148,174,null,845],
+["24697711779","2026-10-12 12:00","ROAD_BIKING","San Martino di Lupari Road Cycling",7972,66.7,115,132,91,1247],
+["24693923300","2026-10-12 07:35","RUNNING","San Martino di Lupari - Tempo",2831,10.0,144,174,null,638],
+["24680857889","2026-10-11 04:57","RUNNING","San Martino di Lupari Running",3238,10.0,127,137,null,635],
+["24675231831","2026-10-10 12:28","ROAD_BIKING","San Martino di Lupari Road Cycling",7060,58.2,114,134,93,1094],
+["24670565365","2026-10-10 05:58","RUNNING","San Martino di Lupari - RacePracticeRun",7336,28.1,156,176,185,1707],
+["24641739867","2026-10-07 15:05","RUNNING","San Martino di Lupari Running",4079,15.0,150,169,null,944],
+["24635256641","2026-10-07 04:48","RUNNING","San Martino di Lupari - OneK Intervals",1562,5.0,136,146,null,330],
+["24622253708","2026-10-06 04:40","RUNNING","San Martino di Lupari Running",3469,10.5,131,138,null,683],
+["24600474245","2026-10-04 07:45","RUNNING","Levico Terme Running",7335,30.4,165,179,187,1905],
+["24585734980","2026-10-03 04:55","ROAD_BIKING","San Martino di Lupari Road Cycling",6736,54.0,null,null,89,1149],
+["24580811302","2026-10-02 15:57","RUNNING","San Martino di Lupari Running",2995,10.2,143,152,null,668],
+["24562448200","2026-10-01 04:29","RUNNING","San Martino di Lupari - 800 Repeats",2961,10.2,146,179,null,669],
+["24550678849","2026-09-30 04:34","ROAD_BIKING","San Martino di Lupari Road Cycling",9050,75.5,120,145,90,1621],
+["24536861865","2026-09-29 04:38","RUNNING","San Martino di Lupari Running",2975,10.2,139,161,null,622],
+["24528883174","2026-09-28 10:47","ROAD_BIKING","San Martino di Lupari Road Cycling",9641,82.4,126,167,91,1735],
+["24518359844","2026-09-27 11:52","ROAD_BIKING","San Martino di Lupari Road Cycling",7100,60.1,120,135,89,1196],
+["24512858063","2026-09-27 04:46","WALKING","San Martino di Lupari Walking",9601,14.0,100,143,null,784],
+["24505160015","2026-09-26 11:45","WALKING","San Martino di Lupari Walking",4999,6.9,109,127,null,527],
+["24500995369","2026-09-26 04:51","WALKING","San Martino di Lupari Walking",8569,12.1,118,137,null,920],
+["24494066069","2026-09-25 12:10","WALKING","San Martino di Lupari Walking",7242,10.0,92,131,null,713],
+["24471872665","2026-09-23 14:59","ROAD_BIKING","San Martino di Lupari Road Cycling",6914,58.4,116,134,89,1139],
+["24458869744","2026-09-22 15:45","RUNNING","San Martino di Lupari Running",4109,15.0,144,157,null,985]];
+// Lap disponibili dal connettore: [km, durata s, FC media]
+const LAPS={"24976669997":[[3,890,132],[0.38,120,132],[1,240,152],[1,216,166],[1,238,163],[1,216,169],[1,235,167],[1,213,173],[1,234,169],[1,202,177],[0.19,120,136],[1.98,553,146]],
+"24832854828":[[5,1482,137],[5,1462,139],[4,955,156],[1,289,145],[4,940,160],[1,292,145],[4,933,161],[1,294,145],[4,931,163],[1,288,149],[4,903,166],[2,571,150]],
+"24753435155":[[3,805,146],[6,1607,150],[6,1596,150],[6,1592,149],[6,1575,150],[6,1504,157]],
+"24670565365":[[9,2577,143],[5,1171,168],[1,297,155],[5,1170,171],[1,316,154],[5,1154,167],[2,619,146]],
+"24600474245":[[30.44,7335,165]]};
+const GOAL={n:"Maratona di Torino",d:new Date(2026,10,29,0,0,0),t:9900,km:42.195,pr:"B"};
+const FCM=181,FCR=73;
+const CAT={RUNNING:"Corsa",ROAD_BIKING:"Ciclismo",CYCLING:"Ciclismo",WALKING:"Camminata"};
+const COL={Corsa:"#2349c9",Ciclismo:"#2bb3d4",Camminata:"#f0a35e"};
+const A=RAW.map(r=>{const[id,ds,ty,n,dur,km,hr,hx,cad,kc]=r,t=new Date(ds.replace(" ","T"));
+return{id,t,c:CAT[ty],n:n.replace(/^San Martino di Lupari[\s-]*/,"")||CAT[ty],dur,km,hr,hx,cad,kc,load:hr?dur/60*Math.max(0,(hr-FCR)/(FCM-FCR)):null,laps:LAPS[id]}}).filter(a=>a.c=="Corsa").sort((a,b)=>a.t-b.t);
+A.forEach(a=>{if(a.n=="Road Cycling")a.n="Uscita in bici";if(a.n=="Cycling")a.n="Bici";if(a.n=="Running")a.n="Corsa libera";if(a.n=="Walking")a.n="Camminata"});
+// ===== UTILITÀ =====
+const $=s=>document.querySelector(s),DAY=864e5,sd=d=>new Date(d.getFullYear(),d.getMonth(),d.getDate()),TODAY=sd(new Date());
+const f1=(x,d=1)=>x==null||isNaN(x)?"—":x.toFixed(d).replace(".",",");
+const fdur=s=>{const h=Math.floor(s/3600),m=Math.floor(s%3600/60);return h?h+"h "+String(m).padStart(2,"0")+"m":m+" min"};
+const fpace=(s,km)=>{if(!km||!s)return"—";const p=s/km;let m=Math.floor(p/60),x=Math.round(p%60);if(x==60){m++;x=0}return m+":"+String(x).padStart(2,"0")};
+const fdate=d=>d.toLocaleDateString("it-IT",{day:"2-digit",month:"short",year:"numeric"});
+const fdt=d=>fdate(d)+" · "+d.toLocaleTimeString("it-IT",{hour:"2-digit",minute:"2-digit"});
+const key=d=>d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+const sum=(x,k)=>x.reduce((s,a)=>s+(a[k]||0),0),wkS=d=>{const x=sd(d);return new Date(x-((x.getDay()+6)%7)*DAY)};
+const pct=(a,b)=>b?(a-b)/b*100:null,sg=(v,d=1)=>v==null?"—":(v>0?"+":"")+f1(v,d);
+const S={view:"stato",per:42,from:"",to:"",disc:"Corsa",sel:null,q:"",cmpA:21,mode:"last",man:null,wk:null};
+const CH={};const mk=(id,cfg)=>{CH[id]=new Chart(document.getElementById(id),cfg)};
+Chart.defaults.font.family="system-ui,sans-serif";Chart.defaults.color="#667799";Chart.defaults.maintainAspectRatio=false;
+const grad=c=>x=>{const g=x.chart.ctx.createLinearGradient(0,0,0,300);g.addColorStop(0,c+"55");g.addColorStop(1,c+"05");return g};
+function rng(){if(S.per=="all")return[sd(A[0].t),TODAY];if(S.per=="custom"&&S.from&&S.to){let a=sd(new Date(S.from)),b=sd(new Date(S.to));return a>b?[b,a]:[a,b]}return[new Date(+TODAY-(S.per-1)*DAY),TODAY]}
+const inR=(a,[s,e])=>a.t>=s&&a.t<new Date(+e+DAY),inD=(a,s,e)=>inR(a,[s,e]);
+const sel=(r,d)=>A.filter(a=>inR(a,r)&&(d=="Tutte"||a.c==d));
+const DL={};A.forEach(a=>{if(a.load!=null){const k=key(a.t);DL[k]=(DL[k]||0)+a.load}});
+const avgL=(end,n)=>{let s=0;for(let i=0;i<n;i++)s+=DL[key(new Date(+end-i*DAY))]||0;return s/n};
+const form=e=>avgL(e,42)-avgL(e,7);
+function st(x){const r=x.filter(a=>a.c=="Corsa"),rh=r.filter(a=>a.hr),rd=sum(rh,"dur"),rk=sum(r,"km"),rdu=sum(r,"dur");
+const pace=rk?rdu/rk:null,hr=rd?rh.reduce((s,a)=>s+a.hr*a.dur,0)/rd:null;
+return{n:x.length,km:sum(x,"km"),dur:sum(x,"dur"),load:sum(x,"load"),rk,rn:r.length,pace,hr,eff:pace&&hr?60000/pace/hr:null,kc:sum(x,"kc")}}
+const win=(e,n,off=0)=>A.filter(a=>inD(a,new Date(+e-(n-1+off)*DAY),new Date(+e-off*DAY)));
+const ISPEED=a=>a.km/a.dur*3600; // km/h
+const isRun=a=>a.c=="Corsa";
+const dispPace=a=>isRun(a)||a.c=="Camminata"?fpace(a.dur,a.km)+" /km":f1(ISPEED(a))+" km/h";
+const nm=a=>a.n,col=a=>COL[a.c];
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("s");setTimeout(()=>e.classList.remove("s"),3200)}
+async function copy(t,m){try{await navigator.clipboard.writeText(t);toast(m||"Copiato negli appunti")}catch(e){toast("Copia non consentita dal browser in questa vista")}}
+function upd(){copy("Aggiorna la mia dashboard ATHLETE · OS: recupera con il connettore Running Workout le nuove attività Garmin successive al 05/11/2026 e rigenera dashboard.html incorporando i dati.","Prompt di aggiornamento copiato: incollalo in Claude. La pagina pubblicata non può interrogare Garmin da sola.")}
+// ===== INSIGHT =====
+const tg={d:'<span class="tag t-d">Dato</span>',i:'<span class="tag t-i">Interpretazione</span>',h:'<span class="tag t-h">Ipotesi</span>'};
+function riegel(){let best=null;A.filter(a=>isRun(a)&&a.km>=20).forEach(a=>{const t=a.dur*Math.pow(GOAL.km/a.km,1.06);if(!best||t<best.t)best={t,a}});return best}
+function blocks(a,tp){if(!a.laps||a.laps.length<3)return null;const b=a.laps.filter(l=>l[0]>=4&&l[1]/l[0]<=tp+6);return b.length?b:null}
+function insights(){const o=[],E=TODAY,c=st(win(E,7)),p=st(win(E,7,7));
+const d=pct(c.rk,p.rk);o.push({t:"Volume di corsa",x:tg.d+`Ultimi 7 giorni: ${f1(c.rk)} km di corsa in ${c.rn} uscite, contro ${f1(p.rk)} km nei 7 giorni precedenti (${sg(d,0)}%). Ore di corsa: ${f1(c.dur/3600)} contro ${f1(p.dur/3600)}.`+(d<-10?"<br>"+tg.i+"Il calo coincide con le ultime settimane prima della gara: è coerente con uno scarico pre-maratona.":"")});
+const a7=avgL(E,7),a42=avgL(E,42);o.push({t:"Carico e forma (stima)",x:tg.d+`Carico medio giornaliero stimato: ${f1(a7)} (7 giorni) vs ${f1(a42)} (42 giorni). Training Form = ${sg(a42-a7)} (media 42g − media 7g).<br>`+tg.i+(a42-a7>=0?"Il carico recente è inferiore alla media di lungo periodo: segnale di recupero in corso.":"Il carico recente supera la media di lungo periodo: fase di accumulo, con affaticamento atteso.")+" Il carico è una stima basata su durata e intensità della FC, non il Training Load Garmin."});
+const r1=win(E,21).filter(a=>isRun(a)&&a.km>=10&&a.hr),r0=win(E,21,21).filter(a=>isRun(a)&&a.km>=10&&a.hr),e1=st(r1).eff,e0=st(r0).eff;
+if(e1&&e0)o.push({t:"Efficienza aerobica",x:tg.d+`Corse ≥10 km: ${f1(e1,2)} m per battito negli ultimi 21 giorni vs ${f1(e0,2)} nei 21 precedenti (${sg(pct(e1,e0))}%). Passo medio ${fpace(st(r1).pace,1)} vs ${fpace(st(r0).pace,1)} /km, FC ${f1(st(r1).hr,0)} vs ${f1(st(r0).hr,0)} bpm.<br>`+tg.i+(e1>e0*1.01?"A parità di battiti percorri più strada: efficienza in miglioramento.":e1<e0*.99?"Efficienza in calo: più battiti per metro; possibile fatica o intensità maggiore delle uscite recenti.":"Efficienza sostanzialmente stabile.")});
+const L=A.filter(a=>isRun(a)&&a.km>=28);o.push({t:"Lunghi specifici maratona",x:tg.d+`${L.length} corse ≥28 km: `+L.map(a=>`${fdate(a.t).slice(0,6)} ${f1(a.km)} km a ${fpace(a.dur,a.km)}`).join("; ")+".<br>"+tg.i+"La preparazione include lunghi progressivi o con blocchi a ritmo gara; l’ultimo lungo risale a "+Math.round((E-sd(L[L.length-1].t))/DAY)+" giorni fa."});
+const tp=GOAL.t/GOAL.km,bl=A.filter(a=>blocks(a,tp)).map(a=>({a,b:blocks(a,tp)}));
+if(bl.length)o.push({t:"Blocchi a ritmo gara",x:tg.d+bl.map(({a,b})=>`${nm(a)} (${fdate(a.t).slice(0,6)}): ${b.length} blocchi da ${b[0][0]} km tra ${fpace(Math.max(...b.map(l=>l[1]/l[0])),1)} e ${fpace(Math.min(...b.map(l=>l[1]/l[0])),1)} /km, FC ${b[0][2]}→${b[b.length-1][2]} bpm`).join("<br>")+`.<br>`+tg.i+`Obiettivo ${fpace(GOAL.t,GOAL.km)}/km: i blocchi sono nell’intorno del ritmo gara, ma la FC sale lungo la sessione.<br>`+tg.h+"La FC crescente a passo quasi costante può indicare deriva cardiaca o fatica accumulata; da verificare con idratazione e sonno (non disponibili qui)."});
+const days=new Set(win(E,28).map(a=>key(a.t))).size;o.push({t:"Regolarità",x:tg.d+`Hai allenato in ${days} giorni su gli ultimi 28 (${f1(days/28*100,0)}%), con ${win(E,28).length} sessioni.<br>`+tg.i+"Con questa frequenza di corsa conviene verificare che ci siano giorni di recupero completo."});
 
+const R=riegel();if(R){const gap=R.t-GOAL.t;o.push({t:"Proiezione maratona",x:tg.d+`Miglior riferimento: ${nm(R.a)} del ${fdate(R.a.t)}, ${f1(R.a.km)} km in ${fdur(R.a.dur)}.<br>`+tg.h+`Con la formula di Riegel (esponente 1,06) il tempo stimato sulla maratona è ${hms(R.t)}, ${gap>0?"+":""}${hms(Math.abs(gap))} ${gap>0?"oltre":"sotto"} l’obiettivo di ${hms(GOAL.t)}. Assume sforzo massimale su quel riferimento e condizioni simili: non è una previsione certa.`})}
+return o}
+const hms=s=>{s=Math.round(s);return Math.floor(s/3600)+":"+String(Math.floor(s%3600/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")};
+// ===== VISTE =====
+const NAV=[["stato","Stato"],["performance","Performance"],["storico","Storico"],["workout","Workout"],["confronto","Confronto"],["gara","Gara"],["settimana","Report settimanale"],["insight","Insight"]];
+function go(v,id){S.view=v;if(id)S.sel=id;render()}
+function vit(l,v,u,pv,d,up,txt){const dl=pv?pct(v,pv):null;let cl="nu",tr="stabile";if(dl!=null&&Math.abs(dl)>=5){tr=dl>0?"in aumento":"in calo";cl=up===null?"nu":(dl>0)==up?"up":"dn"}
+return`<div class="card c3"><h3>${l}</h3><div class="big">${f1(v,d)}<span class="u">${u}</span></div><div class="mut">Prec.: ${f1(pv,d)} ${u} · <span class="${cl}">${tr}${dl!=null?" ("+sg(dl,0)+"%)":""}</span></div><p class="mut" style="margin:8px 0 0">${txt}</p></div>`}
+function longest(){return A.filter(isRun).reduce((m,a)=>!m||a.km>m.km?a:m,null)}
+const V={};
+V.stato=()=>{const E=TODAY,c=st(win(E,7)),p=st(win(E,7,7)),a7=avgL(E,7),a42=avgL(E,42),fm=form(E),fp=form(new Date(+E-7*DAY)),pr=st(sel(rng(),S.disc)),Lg=longest(),R=riegel();
+const days=Math.ceil((GOAL.d-new Date())/DAY),prog=R?Math.min(100,GOAL.t/R.t*100):0;
+return`<div class="g"><div class="card star c8"><h3>North Star · obiettivo ${GOAL.pr}</h3><div style="font-size:22px;font-weight:750">${GOAL.n}</div><div class="mut">${fdate(GOAL.d)} · obiettivo ${hms(GOAL.t)} (${fpace(GOAL.t,GOAL.km)} /km)</div><div class="cd" id="cd"></div>
+${R?`<div class="mut" style="margin-bottom:6px">Proiezione (stima Riegel): <b style="color:#fff">${hms(R.t)}</b> · allineamento all’obiettivo ${f1(prog,0)}%</div><div class="bar"><i style="width:${prog}%"></i></div>`:""}</div>
+<div class="card c4" style="cursor:pointer" onclick="go('workout','${Lg.id}')"><h3>Longest Run</h3><div class="big">${f1(Lg.km)}<span class="u">km</span></div><b>${nm(Lg)}</b><div class="mut">${fdate(Lg.t)} · ${fdur(Lg.dur)} · ${fpace(Lg.dur,Lg.km)} /km</div><div class="mut">Dislivello: dato non affidabile</div></div>
+${vit("Km di corsa · 7 giorni",c.rk,"km",p.rk,1,null,"Chilometri di corsa negli ultimi 7 giorni.")}
+${vit("Sessioni · 7 giorni",c.n,"",p.n,0,null,"Numero di corse.")}
+${vit("Durata · 7 giorni",c.dur/3600,"h",p.dur/3600,1,null,"Ore di corsa.")}
+${vit("Carico medio (stima)",a7,"/giorno",avgL(new Date(+E-7*DAY),7),1,null,"Durata × intensità FC, media giornaliera a 7 giorni.")}
+<div class="card c3"><h3>Training Form</h3><div class="big ${fm>=0?"up":"nu"}">${sg(fm)}</div><div class="mut">Precedente: ${sg(fp)} · media 42g ${f1(a42)} − media 7g ${f1(a7)}</div><p class="mut" style="margin:8px 0 0">${fm>=0?"Carico recente sotto la media: fase di recupero.":"Carico recente sopra la media: fase di accumulo."}</p></div>
+${vit("Passo medio corsa · 7 giorni",c.pace,"s/km",p.pace,0,false,c.pace?"Passo medio "+fpace(c.pace,1)+" /km (prec. "+fpace(p.pace,1)+").":"Nessuna corsa nel periodo.")}
+${vit("FC media corsa · 7 giorni",c.hr,"bpm",p.hr,0,null,"Frequenza cardiaca media ponderata per durata.")}
+<div class="card c3"><h3>FC riposo · FC max</h3><div class="big">73<span class="u">bpm</span> / ${FCM}<span class="u">bpm</span></div><p class="mut" style="margin:8px 0 0">Valori calcolati da Running Workout sui campioni (non test).</p></div>
+<div class="card c3"><h3>Metriche non disponibili</h3><p class="mut" style="margin:0">Body Battery, HRV, sonno, potenza, mappa GPS e Training Load Garmin non sono esposti dal connettore. Il dislivello ha unità incoerenti e non viene mostrato.</p></div>
+<div class="card c12"><h3>Riepilogo periodo selezionato (${S.disc})</h3><div class="row"><div><div class="big">${pr.n}</div><span class="mut">sessioni</span></div><div><div class="big">${f1(pr.km,0)}<span class="u">km</span></div><span class="mut">distanza totale</span></div><div><div class="big">${f1(pr.dur/3600)}<span class="u">h</span></div><span class="mut">durata</span></div><div><div class="big">${f1(pr.load,0)}</div><span class="mut">carico stimato</span></div></div></div>
+<div class="card c12"><h3>Insight principali</h3>${insights().slice(0,3).map(i=>`<div class="ins"><b>${i.t}</b>${i.x}</div>`).join("")}<button class="btn" onclick="go('insight')">Tutti gli insight</button></div></div>`};
+const MET={km:["Distanza settimanale","km",x=>sum(x,"km"),"bar"],dur:["Durata","h",x=>sum(x,"dur")/3600,"bar"],n:["Frequenza (sessioni)","",x=>x.length,"bar"],load:["Training Load (stima)","",x=>sum(x,"load"),"bar"],pace:["Passo medio corsa","min/km",x=>st(x).pace,"line"],hr:["Frequenza cardiaca media","bpm",x=>st(x).hr,"line"]};
+function buckets(s,e,step){const o=[];let b=step==7?wkS(s):s;while(b<=e){o.push(b);b=new Date(+b+step*DAY)}return o}
+V.performance=()=>`<div class="g"><div class="card c12"><h3>Grafico di performance</h3><div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px"><select id="met" onchange="perf()">${Object.entries(MET).map(([k,v])=>`<option value="${k}">${v[0]}</option>`).join("")}</select><label class="chip"><input type="checkbox" id="cmp" onchange="perf()"> Confronta con periodo precedente</label></div><div class="cv"><canvas id="c1"></canvas></div><p class="mut" id="cnote"></p></div>
+<div class="card c12"><h3>Training Load e Training Form (stima)</h3><div class="cv"><canvas id="c2"></canvas></div><p class="mut">Training Form = media del carico giornaliero degli ultimi 42 giorni − media degli ultimi 7 giorni. Carico per attività = minuti × (FC media − 73) / (181 − 73). Giorni senza allenamento contano zero. Indicatore di tendenza del carico, non misura clinica della forma fisica.</p></div>
+<div class="card c12"><h3>Mappa 3D degli allenamenti</h3><div id="three"><div id="tip">Tocca o clicca un nodo · trascina per ruotare</div></div><p class="mut">Asse orizzontale: tempo · altezza: FC media · profondità: distanza · dimensione: durata · anello chiaro: sessione più lunga per disciplina · linea: media settimanale.</p></div></div>`;
+function perf(){const m=MET[$("#met").value],r=rng(),len=(r[1]-r[0])/DAY+1,step=len<=28?1:7,B=buckets(r[0],r[1],step),val=(bs,s0)=>bs.map(b=>{const x=sel([b,new Date(+b+(step-1)*DAY)],S.disc).filter(a=>a.t>=s0&&a.t<new Date(+r[1]+DAY));return x.length||m[3]=="bar"?m[2](x):null});
+const lab=B.map(b=>b.toLocaleDateString("it-IT",{day:"2-digit",month:"short"})),ds=[{label:"Periodo selezionato",data:val(B,r[0]),borderColor:"#2349c9",backgroundColor:m[3]=="bar"?"#5b8defcc":grad("#2349c9"),fill:m[3]=="line",tension:.35,borderRadius:6,spanGaps:true,pointRadius:3}];
+if($("#cmp").checked){const ps=new Date(+r[0]-len*DAY),pe=new Date(+r[0]-DAY),PB=buckets(ps,pe,step);ds.push({label:"Periodo precedente",data:PB.map(b=>{const x=sel([b,new Date(+b+(step-1)*DAY)],S.disc).filter(a=>a.t>=ps&&a.t<=new Date(+pe+DAY));return x.length||m[3]=="bar"?m[2](x):null}).slice(0,B.length),borderColor:"#9bb0d9",backgroundColor:"#d5e3fb",borderDash:[5,4],tension:.35,borderRadius:6,spanGaps:true,pointRadius:2})}
+if(CH.c1)CH.c1.destroy();const isP=$("#met").value=="pace";
+mk("c1",{type:m[3],data:{labels:lab,datasets:ds},options:{scales:{y:{reverse:isP,beginAtZero:m[3]=="bar",ticks:{callback:v=>isP?fpace(v,1):v}}},plugins:{tooltip:{callbacks:{label:c=>c.dataset.label+": "+(isP?fpace(c.parsed.y,1)+" /km":f1(c.parsed.y,1)+" "+m[1])}}}}});
+$("#cnote").textContent=`Dati per ${step==1?"giorno":"settimana"} · ${S.disc} · ${fdate(r[0])} – ${fdate(r[1])}. I vuoti indicano periodi senza dati.`}
+V.storico=()=>{const r=rng(),x=sel(r,S.disc).filter(a=>{const q=S.q.toLowerCase();return!q||(nm(a)+" "+a.c+" "+fdate(a.t)+" "+a.t.toISOString().slice(0,10)).toLowerCase().includes(q)}).reverse();
+return`<div class="card"><h3>Storico · ${x.length} allenamenti</h3><div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px"><input type="search" placeholder="Cerca per nome, data o tipo" value="${S.q}" oninput="S.q=this.value;hist()" style="flex:1;min-width:200px"><button class="btn" onclick="expCSV()">Copia CSV</button></div><div class="row" id="hl">${hist(x,1)}</div></div>`};
+function hist(x,ret){if(!x){const r=rng(),q=S.q.toLowerCase();x=sel(r,S.disc).filter(a=>!q||(nm(a)+" "+a.c+" "+fdate(a.t)+" "+a.t.toISOString().slice(0,10)).toLowerCase().includes(q)).reverse()}
+const h=x.map(a=>`<div class="wk" onclick="go('workout','${a.id}')" style="border-left:5px solid ${col(a)}"><b>${nm(a)}</b><span class="mut">${fdt(a.t)} · ${a.c}</span><div>${f1(a.km)} km · ${fdur(a.dur)}</div><div class="mut">${dispPace(a)} · FC ${a.hr||"—"} bpm</div></div>`).join("")||'<p class="mut">Nessun allenamento trovato.</p>';if(ret)return h;$("#hl").innerHTML=h}
+function expCSV(){const x=sel(rng(),S.disc);copy("data;disciplina;nome;km;durata_s;fc_media;fc_max;kcal\n"+x.map(a=>[a.t.toISOString().slice(0,16),a.c,nm(a),a.km,a.dur,a.hr??"",a.hx??"",a.kc].join(";")).join("\n"),"CSV copiato ("+x.length+" righe)")}
+function similar(a){let s=A.filter(b=>b.c==a.c&&b.id!=a.id&&b.t<a.t&&Math.abs(b.km-a.km)<=a.km*.35);if(!s.length)s=A.filter(b=>b.c==a.c&&b.id!=a.id&&b.t<a.t);return s}
+const better=(a,b)=>isRun(a)?a.dur/a.km<b.dur/b.km:ISPEED(a)>ISPEED(b);
+V.workout=()=>{const a=A.find(x=>x.id==S.sel)||[...A].reverse().find(isRun),sm=similar(a),sf=Math.max(...[0]);S.sel=a.id;
+let ref=null,lab="";const last=sm[sm.length-1],best=sm.length?sm.reduce((m,b)=>better(b,m)?b:m):null;
+if(S.mode=="last"){ref=last;lab="Ultima sessione comparabile"}else if(S.mode=="best"){ref=best;lab="Migliore sessione comparabile"}else if(S.mode=="avg"){const z=sm.slice(-5);if(z.length){ref={n:"Media ultime "+z.length,km:sum(z,"km")/z.length,dur:sum(z,"dur")/z.length,hr:sum(z.filter(q=>q.hr),"hr")/(z.filter(q=>q.hr).length||1),hx:sum(z.filter(q=>q.hx),"hx")/(z.filter(q=>q.hx).length||1),kc:sum(z,"kc")/z.length,load:sum(z,"load")/z.length,c:a.c,t:null}}lab="Media ultime sessioni comparabili"}else{ref=A.find(q=>q.id==S.man);lab="Selezione manuale"}
+const row=(l,v,w,f,u)=>`<tr><td>${l}</td><td>${f(v)}${u}</td><td>${w==null?"—":f(w)+u}</td><td>${w==null||v==null?"—":sg(v-w,1)}</td><td>${w?sg(pct(v,w),1)+"%":"—"}</td></tr>`;
+const sp=x=>isRun(x)||x.c=="Camminata"?x.dur/x.km:ISPEED(x);
+return`<div class="g"><div class="card c12"><h3>Allenamento</h3><select onchange="S.sel=this.value;render()" style="width:100%">${[...A].reverse().map(b=>`<option value="${b.id}" ${b.id==a.id?"selected":""}>${fdate(b.t)} · ${nm(b)} · ${f1(b.km)} km</option>`).join("")}</select>
+<div style="margin-top:12px"><span class="sw" style="display:inline-block;background:${col(a)}"></span> <b style="font-size:20px">${nm(a)}</b><div class="mut">${fdt(a.t)} · ${a.c}</div></div>
+<div class="row" style="margin-top:12px">${[["Distanza",f1(a.km)+" km"],["Durata",fdur(a.dur)],[isRun(a)||a.c=="Camminata"?"Passo medio":"Velocità media",dispPace(a)],["FC media",(a.hr||"—")+" bpm"],["FC max",(a.hx||"—")+" bpm"],["Carico (stima)",a.load!=null?f1(a.load,0):"—"],["Calorie",a.kc+" kcal"],["Cadenza",a.cad?a.cad+(isRun(a)?" spm":" rpm"):"—"]].map(([l,v])=>`<div><div class="mut">${l}</div><div style="font-size:20px;font-weight:700">${v}</div></div>`).join("")}</div><p class="mut">Dislivello, potenza, mappa GPS e zone non sono disponibili per questa attività dal connettore.</p></div>
+<div class="card c8"><h3>Lap e splits</h3>${a.laps&&a.laps.length>1?`<div class="cv"><canvas id="c3"></canvas></div><table class="tb"><tr><th>Lap</th><th>Dist.</th><th>Tempo</th><th>Passo</th><th>FC</th></tr>${a.laps.map((l,i)=>`<tr><td>${i+1}</td><td>${f1(l[0],2)} km</td><td>${fdur(l[1])}</td><td>${fpace(l[1],l[0])}</td><td>${l[2]}</td></tr>`).join("")}</table>`:'<p class="mut">Lap dettagliati non disponibili per questa attività: nessuna suddivisione inventata.</p>'}</div>
+<div class="card c4"><h3>Insight automatici</h3>${wins(a,sm)}</div>
+<div class="card c12"><h3>Confronto con sessioni precedenti</h3><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${[["last","Ultima"],["best","Migliore"],["avg","Media ultime 5"],["man","Manuale"]].map(([k,l])=>`<button class="chip ${S.mode==k?"on":""}" onclick="S.mode='${k}';render()">${l}</button>`).join("")}${S.mode=="man"?`<select onchange="S.man=this.value;render()"><option value="">Scegli…</option>${A.filter(b=>b.id!=a.id).reverse().map(b=>`<option value="${b.id}" ${b.id==S.man?"selected":""}>${fdate(b.t)} · ${nm(b)}</option>`).join("")}</select>`:""}</div>
+${ref?`<p class="mut">${lab}: <b>${ref.t?nm(ref)+" · "+fdate(ref.t):ref.n}</b></p><table class="tb"><tr><th>Metrica</th><th>Questa</th><th>Rif.</th><th>Δ</th><th>Δ%</th></tr>${row("Distanza (km)",a.km,ref.km,x=>f1(x),"")}${row("Durata (min)",a.dur/60,ref.dur/60,x=>f1(x,0),"")}${row("Passo (s/km)",isRun(a)?a.dur/a.km:null,isRun(a)&&ref.km?ref.dur/ref.km:null,x=>x==null?"—":f1(x,0),"")}${row("FC media (bpm)",a.hr,ref.hr,x=>f1(x,0),"")}${row("Calorie",a.kc,ref.kc,x=>f1(x,0),"")}</table>`:'<p class="mut">Nessuna sessione comparabile disponibile.</p>'}</div></div>`};
+function wins(a,sm){const o=[];if(a.laps&&a.laps.length>=3){const L=a.laps.filter(l=>l[0]>=.9),T=sum(L.map(l=>({k:l[0]})),"k"),h=[];let acc=0;const half=T/2;let t1=0,k1=0,t2=0,k2=0;L.forEach(l=>{if(acc<half){t1+=l[1];k1+=l[0]}else{t2+=l[1];k2+=l[0]}acc+=l[0]});
+const p1=t1/k1,p2=t2/k2,h1=L.filter((l,i)=>i<L.length/2),h2=L.filter((l,i)=>i>=L.length/2);const ps=L.map(l=>l[1]/l[0]),mean=ps.reduce((s,x)=>s+x,0)/ps.length,cv=Math.sqrt(ps.reduce((s,x)=>s+(x-mean)**2,0)/ps.length)/mean*100;
+o.push(tg.d+`Prima metà ${fpace(p1,1)} /km, seconda metà ${fpace(p2,1)} /km (${p2<p1?"negative split":"positive split"}, ${sg(p2-p1,0)} s/km). Variabilità dei passi lap: ${f1(cv,1)}%.`);
+o.push(tg.i+(cv>6?"Passo molto variabile: struttura a blocchi o ripetute, non un’andatura uniforme.":"Esecuzione regolare, con passo costante tra i lap."));
+const hh=(x)=>sum(x.map(l=>({v:l[2]*l[1]})),"v")/sum(x.map(l=>({v:l[1]})),"v");if(h1.length&&h2.length)o.push(tg.d+`FC media: ${f1(hh(h1),0)} bpm nella prima metà vs ${f1(hh(h2),0)} bpm nella seconda.`)}
+else o.push(tg.d+`Sessione di ${f1(a.km)} km in ${fdur(a.dur)}, ${dispPace(a)}. Senza lap non è possibile valutare la distribuzione dello sforzo.`);
+if(a.hr){o.push(tg.i+`FC media pari al ${f1(a.hr/FCM*100,0)}% della FC max osservata (181 bpm): intensità media ${a.hr/FCM<.7?"leggera/aerobica di base":a.hr/FCM<.8?"aerobica moderata":a.hr/FCM<.9?"sostenuta (soglia/ritmo gara)":"molto alta"}.`)}
+if(sm.length){const sa=st(sm.concat([]).filter(x=>x.hr)),mp=sm.reduce((s,x)=>s+x.dur/x.km,0)/sm.length,dd=pct(a.dur/a.km,mp);if(isRun(a))o.push(tg.d+`Rispetto a ${sm.length} sessioni comparabili (distanza ±35%), il passo è ${sg(dd,1)}% ${dd<0?"più veloce":"più lento"}.`)}
+if(a.id==longest().id)o.push(tg.i+"È la corsa più lunga dello storico e il riferimento principale per la preparazione di maratona.");
+return o.map(x=>`<div class="ins">${x}</div>`).join("")}
+V.confronto=()=>{const n=S.cmpA,E=TODAY,A1=st(win(E,n)),B1=st(win(E,n,n)),r=(l,a,b,f,d=1)=>`<tr><td>${l}</td><td>${f(a)}</td><td>${f(b)}</td><td>${a!=null&&b!=null?sg(a-b,d):"—"}</td><td>${b?sg(pct(a,b),1)+"%":"—"}</td></tr>`;
+return`<div class="card"><h3>Confronto tra periodi</h3><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">${[7,14,21,28,42].map(k=>`<button class="chip ${n==k?"on":""}" onclick="S.cmpA=${k};render()">Ultimi ${k}g vs ${k}g precedenti</button>`).join("")}</div>
+<p class="mut">Periodo A: ${fdate(new Date(+E-(n-1)*DAY))} – ${fdate(E)} · Periodo B: ${fdate(new Date(+E-(2*n-1)*DAY))} – ${fdate(new Date(+E-n*DAY))}</p>
+<table class="tb"><tr><th>Metrica</th><th>A</th><th>B</th><th>Δ</th><th>Δ%</th></tr>${r("Sessioni",A1.n,B1.n,x=>x,0)}${r("Km totali",A1.km,B1.km,x=>f1(x,0))}${r("Km di corsa",A1.rk,B1.rk,x=>f1(x,0))}${r("Ore",A1.dur/3600,B1.dur/3600,x=>f1(x))}${r("Carico (stima)",A1.load,B1.load,x=>f1(x,0))}${r("Passo corsa (s/km)",A1.pace,B1.pace,x=>x==null?"—":fpace(x,1)+" /km",0)}${r("FC media corsa",A1.hr,B1.hr,x=>f1(x,0))}${r("Efficienza (m/battito)",A1.eff,B1.eff,x=>f1(x,2),2)}</table>
+<p class="mut">Il passo è tanto migliore quanto più basso; la riga Δ del passo è in secondi/km. Per confrontare singole sessioni usa la scheda Workout.</p></div>`};
+V.gara=()=>{const R=riegel(),L=A.filter(a=>isRun(a)&&a.km>=25).reverse(),w=[0,1,2,3].map(i=>st(win(new Date(+TODAY-i*7*DAY),7)));
+return`<div class="g"><div class="card star c12"><h3>${GOAL.n} · priorità ${GOAL.pr}</h3><div class="cd" id="cd"></div><div class="mut">${fdate(GOAL.d)} · obiettivo ${hms(GOAL.t)} · ritmo ${fpace(GOAL.t,GOAL.km)} /km (dati dal profilo Running Workout)</div></div>
+<div class="card c6"><h3>Proiezione e preparazione</h3>${R?`<div class="big">${hms(R.t)}</div><p class="mut">${tg.h}Stima di Riegel da ${nm(R.a)} (${fdate(R.a.t)}): ${f1(R.a.km)} km in ${fdur(R.a.dur)}. Distanza dall’obiettivo: ${R.t>GOAL.t?"+":"−"}${hms(Math.abs(R.t-GOAL.t))}. Ritmo richiesto ${fpace(GOAL.t,GOAL.km)} contro ${fpace(R.a.dur,R.a.km)} su quel riferimento (FC media ${R.a.hr} bpm).</p>`:'<p class="mut">Servono corse ≥20 km per una proiezione.</p>'}<p class="mut">Nessuna VMA o test registrato: la proiezione si basa solo sui dati osservati.</p></div>
+<div class="card c6"><h3>Ultime 4 settimane (corsa)</h3><table class="tb"><tr><th>Settimana</th><th>Km corsa</th><th>Sessioni</th></tr>${w.map((s,i)=>`<tr><td>${i?i+" sett. fa":"Ultimi 7g"}</td><td>${f1(s.rk)}</td><td>${s.rn}</td></tr>`).join("")}</table></div>
+<div class="card c12"><h3>Corse lunghe (≥25 km)</h3><div class="row">${L.map(a=>`<div class="wk" onclick="go('workout','${a.id}')"><b>${nm(a)}</b><span class="mut">${fdate(a.t)}</span><div>${f1(a.km)} km · ${fpace(a.dur,a.km)} /km · FC ${a.hr}</div></div>`).join("")}</div></div></div>`};
+function weeks(){const o=[];for(let b=wkS(A[0].t);b<=TODAY;b=new Date(+b+7*DAY))o.push(b);return o.reverse()}
+V.settimana=()=>{const W=weeks(),w0=S.wk?new Date(+S.wk):W[0],x=A.filter(a=>inD(a,w0,new Date(+w0+6*DAY))),y=A.filter(a=>inD(a,new Date(+w0-7*DAY),new Date(+w0-DAY))),c=st(x),p=st(y);
+const best=x.filter(a=>a.load!=null).reduce((m,a)=>!m||a.load>m.load?a:m,null),fm=form(new Date(Math.min(+TODAY,+w0+6*DAY))),dv=pct(c.km,p.km);
+const com=`${c.n} sessioni per ${f1(c.km,0)} km e ${f1(c.dur/3600)} ore${y.length?`, volume ${sg(dv,0)}% rispetto alla settimana precedente`:""}. La corsa pesa ${f1(c.rk,0)} km in ${c.rn} uscite${c.pace?` a ${fpace(c.pace,1)} /km`:""}. Form a fine settimana ${sg(fm)}${fm>=0?": carico recente sotto la media 42g, fase di recupero":": carico recente sopra la media 42g, fase di accumulo"}.`;
+return`<div class="card"><h3>Report settimanale</h3><div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px"><select onchange="S.wk=this.value;render()">${W.map(b=>`<option value="${+b}" ${+b==+w0?"selected":""}>${fdate(b)} – ${fdate(new Date(+b+6*DAY))}</option>`).join("")}</select><button class="btn" onclick="copy('Report settimana '+fdate(new Date(${+w0}))+': ${com.replace(/'/g,"’")}','Report copiato')">Copia report</button></div>
+<div class="row"><div><div class="big">${c.n}</div><span class="mut">allenamenti (prec. ${p.n})</span></div><div><div class="big">${f1(c.km,0)}<span class="u">km</span></div><span class="mut">distanza (prec. ${f1(p.km,0)})</span></div><div><div class="big">${f1(c.dur/3600)}<span class="u">h</span></div><span class="mut">durata (prec. ${f1(p.dur/3600)})</span></div><div><div class="big">${f1(c.load,0)}</div><span class="mut">carico stimato (prec. ${f1(p.load,0)})</span></div><div><div class="big">${sg(fm)}</div><span class="mut">Training Form</span></div></div>
+${best?`<p><b>Migliore allenamento (maggior carico):</b> <a href="#" onclick="go('workout','${best.id}');return false">${nm(best)} · ${f1(best.km)} km · ${fdate(best.t)}</a></p>`:""}<div class="ins">${tg.i}${com}</div></div>`};
+V.insight=()=>`<div class="card"><h3>Insight Engine</h3><p class="mut">${tg.d} dato misurato · ${tg.i} lettura dei dati · ${tg.h} supposizione da verificare.</p>${insights().map(i=>`<div class="ins"><b>${i.t}</b>${i.x}</div>`).join("")}</div>`;
+// ===== 3D =====
+let TH=null;
+function init3d(){if(TH)TH.stop=true;const box=$("#three");if(!box||!window.THREE)return;const list=sel(rng(),S.disc);if(!list.length)return;
+const w=box.clientWidth,h=box.clientHeight,sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(45,w/h,.1,100);cam.position.set(0,3.2,14);cam.lookAt(0,1,0);
+const r=new THREE.WebGLRenderer({antialias:true,alpha:true});r.setSize(w,h);r.setPixelRatio(Math.min(devicePixelRatio,2));box.appendChild(r.domElement);
+sc.add(new THREE.AmbientLight(0xffffff,.8));const dl=new THREE.DirectionalLight(0xffffff,.55);dl.position.set(5,8,6);sc.add(dl);
+const g=new THREE.Group();g.rotation.x=.25;g.rotation.y=-.35;sc.add(g);const gr=new THREE.GridHelper(12,12,0xcfe0fb,0xe3ecfa);gr.position.y=-.5;g.add(gr);
+const t0=+list[0].t,span=Math.max(+list[list.length-1].t-t0,DAY),lane={Corsa:1.5,Ciclismo:0,Camminata:-1.5},big={};list.forEach(a=>{if(!big[a.c]||a.dur>big[a.c].dur)big[a.c]=a});
+const M=[],wk={};list.forEach(a=>{const isB=big[a.c]===a,m=new THREE.Mesh(new THREE.SphereGeometry(.12+Math.sqrt(a.dur/3600)*.17,22,16),new THREE.MeshStandardMaterial({color:COL[a.c],roughness:.35,metalness:.1,emissive:new THREE.Color(isB?0xffffff:COL[a.c]),emissiveIntensity:isB?.35:.12}));
+const x=(a.t-t0)/span*10-5,y=a.hr?(a.hr-90)/50*2.4:.2,z=a.km/36*3-1.5;m.position.set(x,y,z);m.userData.a=a;g.add(m);M.push(m);if(isB){const rg=new THREE.Mesh(new THREE.TorusGeometry(m.geometry.parameters.radius*1.5,.03,8,32),new THREE.MeshBasicMaterial({color:0x12244a}));rg.position.copy(m.position);g.add(rg)}
+const k=+wkS(a.t);(wk[k]=wk[k]||[]).push([x,y,z])});
+const pts=Object.keys(wk).sort().map(k=>{const q=wk[k],n=q.length;return new THREE.Vector3(q.reduce((s,v)=>s+v[0],0)/n,q.reduce((s,v)=>s+v[1],0)/n,q.reduce((s,v)=>s+v[2],0)/n)});
+if(pts.length>1)g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0x7d9be0})));
+const rc=new THREE.Raycaster(),mv=new THREE.Vector2();let down=null,moved=0,me=this;const tip=$("#tip"),cv=r.domElement;
+const pick=e=>{const b=cv.getBoundingClientRect();mv.set((e.clientX-b.left)/b.width*2-1,-(e.clientY-b.top)/b.height*2+1);rc.setFromCamera(mv,cam);const i=rc.intersectObjects(M);return i.length?i[0].object.userData.a:null};
+cv.addEventListener("pointerdown",e=>{down=[e.clientX,e.clientY];moved=0});
+cv.addEventListener("pointermove",e=>{if(down){const dx=e.clientX-down[0],dy=e.clientY-down[1];moved+=Math.abs(dx)+Math.abs(dy);g.rotation.y+=dx*.008;g.rotation.x=Math.max(-.2,Math.min(.9,g.rotation.x+dy*.005));down=[e.clientX,e.clientY]}else{const a=pick(e);tip.textContent=a?`${nm(a)} · ${fdate(a.t)} · ${f1(a.km)} km · ${fdur(a.dur)}`:"Tocca o clicca un nodo · trascina per ruotare"}});
+cv.addEventListener("pointerup",e=>{if(moved<6){const a=pick(e);if(a){tip.textContent=nm(a);go("workout",a.id)}}down=null});
+const T={stop:false};TH=T;(function an(){if(T.stop||!box.isConnected){r.dispose();return}r.render(sc,cam);requestAnimationFrame(an)})()}
+// ===== AVVIO =====
+function lc(){const c=st(win(TODAY,7)),b=sel(rng(),S.disc)}
+function fbar(){const r=rng(),cnt={Tutte:sel(r,"Tutte").length};["Corsa"].forEach(d=>cnt[d]=sel(r,d).length);
+$("#fbar").innerHTML=`<select onchange="S.per=this.value=='all'||this.value=='custom'?this.value:+this.value;if(S.per=='custom'&&!S.from){S.to=TODAY.toISOString().slice(0,10);S.from=new Date(+TODAY-30*DAY).toISOString().slice(0,10)}render()">${[[7,"Ultimi 7 giorni"],[21,"Ultimi 21 giorni"],[42,"Ultimi 42 giorni"],[90,"Ultimi 90 giorni"],[182,"Ultimi 6 mesi"],[365,"Ultimo anno"],["all","Intero storico"],["custom","Intervallo personalizzato"]].map(([v,l])=>`<option value="${v}" ${S.per==v?"selected":""}>${l}</option>`).join("")}</select>${S.per=="custom"?`<input type="date" value="${S.from}" onchange="S.from=this.value;render()"><input type="date" value="${S.to}" onchange="S.to=this.value;render()">`:""}`+["Corsa"].map(d=>`<button class="chip ${S.disc==d?"on":""}" onclick="S.disc='${d}';render()">${d!="Tutte"?`<span class="sw" style="background:${COL[d]}"></span>`:""}${d} · ${cnt[d]}</button>`).join("")}
+function render(){Object.keys(CH).forEach(k=>{CH[k].destroy();delete CH[k]});$("#app").innerHTML=V[S.view]();
+document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.v==S.view));$("#fbar").style.display=["stato","performance","storico"].includes(S.view)?"":"none";fbar();
+if(S.view=="performance"){perf();l2();init3d()}if(S.view=="workout")l3();tick();window.scrollTo(0,0)}
+function l2(){const r=rng(),D=[];for(let d=r[0];d<=r[1];d=new Date(+d+DAY))D.push(d);
+mk("c2",{data:{labels:D.map(d=>d.toLocaleDateString("it-IT",{day:"2-digit",month:"short"})),datasets:[{type:"bar",label:"Training Form",data:D.map(form),backgroundColor:D.map(d=>form(d)>=0?"#1b9e74aa":"#e58a2faa"),borderRadius:3,order:3},{type:"line",label:"Carico medio 7g",data:D.map(d=>avgL(d,7)),borderColor:"#2349c9",backgroundColor:grad("#2349c9"),fill:true,tension:.35,pointRadius:0,order:1},{type:"line",label:"Carico medio 42g",data:D.map(d=>avgL(d,42)),borderColor:"#2bb3d4",tension:.35,pointRadius:0,borderDash:[4,3],order:2}]},options:{interaction:{mode:"index",intersect:false},scales:{x:{ticks:{maxTicksLimit:8}}}}})}
+function l3(){const a=A.find(x=>x.id==S.sel);if(!a||!a.laps||a.laps.length<2)return;const L=a.laps.filter(l=>l[0]>=.5);
+mk("c3",{data:{labels:L.map((l,i)=>"Lap "+(i+1)),datasets:[{type:"bar",label:"Passo (min/km)",data:L.map(l=>l[1]/l[0]),backgroundColor:"#5b8defcc",borderRadius:6,yAxisID:"y"},{type:"line",label:"FC (bpm)",data:L.map(l=>l[2]),borderColor:"#d44a5a",tension:.3,pointRadius:3,yAxisID:"y2"}]},options:{interaction:{mode:"index",intersect:false},scales:{y:{reverse:true,min:Math.min(...L.map(l=>l[1]/l[0]))-30,ticks:{callback:v=>fpace(v,1)}},y2:{position:"right",grid:{drawOnChartArea:false}}},plugins:{tooltip:{callbacks:{label:c=>c.dataset.label+": "+(c.datasetIndex?c.parsed.y:fpace(c.parsed.y,1))}}}}})}
+function tick(){$("#clk").innerHTML="<b>"+new Date().toLocaleString("it-IT",{weekday:"short",day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"})+"</b>";const c=$("#cd");if(c){let s=Math.max(0,Math.floor((GOAL.d-new Date())/1000));const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);c.innerHTML=[[d,"giorni"],[h,"ore"],[m,"min"],[s%60,"sec"]].map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join("")}}
+$("#nav").innerHTML=NAV.map(([v,l])=>`<button data-v="${v}" onclick="go('${v}')">${l}</button>`).join("");$("#nact").textContent=A.length;
+setInterval(tick,1000);render();
+</script></body></html>
