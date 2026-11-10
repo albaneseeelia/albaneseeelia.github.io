@@ -1,7 +1,8 @@
 'use client';
 import {useMemo,useState} from 'react';
 import ReactECharts from 'echarts-for-react';
-import {activities,Activity} from '../data/activities';
+import {activities} from '../data/activities';
+import type {Activity} from '../data/activities';
 
 type View='overview'|'performance'|'history'|'compare'|'race';
 type Range=7|21|42|90|999;
@@ -11,7 +12,7 @@ const duration=(s:number)=>{const h=Math.floor(s/3600),m=Math.floor(s%3600/60);r
 const day=(s:string)=>new Date(s.replace(' ','T')).toLocaleDateString('it-IT',{day:'2-digit',month:'short'});
 const avg=(a:Activity[],key:'distance'|'duration'|'load')=>a.length?a.reduce((s,x)=>s+(x[key]||0),0)/a.length:0;
 const sum=(a:Activity[],key:'distance'|'duration'|'load')=>a.reduce((s,x)=>s+(x[key]||0),0);
-const chartBase={backgroundColor:'transparent',textStyle:{fontFamily:'DM Sans',color:'#78858f'},grid:{left:42,right:18,top:22,bottom:30},tooltip:{trigger:'axis',backgroundColor:'#172c36',borderWidth:0,textStyle:{color:'#fff',fontSize:11},axisPointer:{type:'line',lineStyle:{color:'#9bb5b6',type:'dashed'}}},xAxis:{type:'category',boundaryGap:false,axisLine:{lineStyle:{color:'#e8edef'}},axisTick:{show:false},axisLabel:{fontSize:10,color:'#89969d'}},yAxis:{type:'value',splitLine:{lineStyle:{color:'#edf1f2',type:'dashed'}},axisLabel:{fontSize:10,color:'#89969d'},axisLine:{show:false}}};
+const chartBase:any={backgroundColor:'transparent',textStyle:{fontFamily:'DM Sans',color:'#78858f'},grid:{left:42,right:18,top:22,bottom:30},tooltip:{trigger:'axis',backgroundColor:'#172c36',borderWidth:0,textStyle:{color:'#fff',fontSize:11},axisPointer:{type:'line',lineStyle:{color:'#9bb5b6',type:'dashed'}}},xAxis:{type:'category',boundaryGap:false,axisLine:{lineStyle:{color:'#e8edef'}},axisTick:{show:false},axisLabel:{fontSize:10,color:'#89969d'}},yAxis:{type:'value',splitLine:{lineStyle:{color:'#edf1f2',type:'dashed'}},axisLabel:{fontSize:10,color:'#89969d'},axisLine:{show:false}}};
 function Stat({label,value,foot,delta}:{label:string;value:string;foot:string;delta?:string}){return <div className="panel kpi"><div className="kpi-label">{label}</div><div className="kpi-value">{value}</div><div className="kpi-foot">{delta&&<span className="delta">{delta} · </span>}{foot}</div></div>}
 export default function Dashboard(){
  const [view,setView]=useState<View>('overview');const [range,setRange]=useState<Range>(42);const [selected,setSelected]=useState<string|null>(null);const [query,setQuery]=useState('');const [kind,setKind]=useState('Tutte');const [compare,setCompare]=useState<'weeks'|'months'>('weeks');
