@@ -11,9 +11,8 @@ header h1{font-size:clamp(48px,9vw,92px);line-height:1;margin:10px 0 12px}
 header p{max-width:560px;color:var(--mut);font-size:17px;margin:0}
 .rule{width:56px;height:3px;background:var(--acc2);border-radius:3px;margin:20px 0 0}
 .bar{position:sticky;top:0;z-index:20;background:rgba(247,244,238,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.tabs{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));z-index:50;display:flex;gap:6px;padding:6px;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:99px;box-shadow:0 8px 30px rgba(28,35,38,.18)}
-.tabs button{width:76px;height:52px;border:0;border-radius:99px;background:none;font-size:26px;line-height:1;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:background .2s,transform .15s}.tabs button:active{transform:scale(.94)}.tabs button.on{background:#e7f1ec;box-shadow:inset 0 0 0 2px var(--acc)}
-body{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+.tabs{display:flex;gap:6px;padding:8px 0}
+.tabs button{flex:1;max-width:120px;height:46px;border:1px solid var(--line);border-radius:14px;background:#fff;font-size:24px;line-height:1;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:background .2s,transform .15s}.tabs button:active{transform:scale(.95)}.tabs button.on{background:#e7f1ec;border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
 #sb{padding:0 0 12px}#q{width:100%;max-width:440px;padding:10px 16px;border:1px solid var(--line);border-radius:99px;font-size:14.5px;background:#fff;outline:none}#q:focus{border-color:var(--acc)}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.chips button{border:1px solid var(--line);background:#fff;border-radius:99px;padding:5px 12px;font-size:13px;cursor:pointer;color:var(--ink)}.chips button.on{background:var(--acc);border-color:var(--acc);color:#fff}
 main{padding:28px 0 70px}[hidden]{display:none!important}
@@ -36,14 +35,14 @@ h2.s{font-size:28px;margin:34px 0 6px}h3.gh{font-size:21px;margin:30px 0 12px}.s
 .tr{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}.tr .box{margin:0}.tr b{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--acc)}
 .ck label{display:flex;gap:10px;align-items:flex-start;font-size:14px;padding:5px 0;cursor:pointer}.ck input{margin-top:4px;accent-color:var(--acc)}.ck input:checked+span{text-decoration:line-through;color:var(--mut)}
 .warn{font-size:12.5px;color:var(--mut);border-top:1px solid var(--line);padding-top:16px;margin-top:34px}
-#t{position:fixed;bottom:calc(98px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:9px 18px;border-radius:99px;font-size:14px;opacity:0;transition:.3s;pointer-events:none}#t.on{opacity:1}
+#t{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:9px 18px;border-radius:99px;font-size:14px;opacity:0;transition:.3s;pointer-events:none}#t.on{opacity:1}
 @media(max-width:720px){.glance,.wx,.tr{grid-template-columns:1fr}.grid{grid-template-columns:1fr}header{padding-top:36px}}
 </style></head><body>
 <header><div class="wrap"><div class="eyebrow">Guida di viaggio · 28–30 novembre 2026</div><h1>Torino</h1><p>Maratona, colazioni d'autore, caffè storici e musei: il tuo weekend piemontese, tappa per tappa.</p><div class="rule"></div></div></header>
-<div class="bar" id="bar" hidden><div class="wrap"><div id="sb"><input id="q" type="search" placeholder="Cerca luoghi, locali, piatti…"><div class="chips" id="ch"></div></div></div></div>
+<div class="bar" id="bar"><div class="wrap"><div class="tabs" id="tabs" role="tablist"><button class="on" data-t="t" aria-label="Viaggio" title="Viaggio">🗓</button><button data-t="v" aria-label="Da visitare" title="Da visitare">🏛</button><button data-t="e" aria-label="Dove mangiare" title="Dove mangiare">🍽</button></div><div id="sb"><input id="q" type="search" placeholder="Cerca luoghi, locali, piatti…"><div class="chips" id="ch"></div></div></div></div>
 <main><div class="wrap"><section id="pt"></section><section id="pv" hidden><p class="sub" id="c1"></p><div class="grid" id="g1"></div></section>
 <section id="pe" hidden><p class="sub" id="c2"></p><div id="g2"></div><div id="pd"><h3 class="gh">🍝 Piatti e specialità</h3><p class="sub">Cosa ordinare a Torino e dove provarlo.</p><div class="grid" id="g3"></div></div></section>
-<div class="warn"><b>Nota (verifica del 10/11/2026).</b> Gli orari in verde sono stati controllati su fonti web (Museo Egizio dal sito ufficiale; Palazzo Madama, Lavazza e Bicerin da più fonti o dal sito del locale); gli altri sono da verificare. Molti locali chiudono la domenica sera o il lunedì: chiama o prenota. Indirizzi e distanze dall'alloggio vengono dal tuo file Torino_Guida.docx; gli altri indirizzi controllali su Google Maps.</div></div></main><nav class="tabs" id="tabs" aria-label="Sezioni"><button class="on" data-t="t" aria-label="Viaggio" title="Viaggio">🗓</button><button data-t="v" aria-label="Da visitare" title="Da visitare">🏛</button><button data-t="e" aria-label="Dove mangiare" title="Dove mangiare">🍽</button></nav><div id="t"></div>
+<div class="warn"><b>Nota (verifica del 10/11/2026).</b> Gli orari in verde sono stati controllati su fonti web (Museo Egizio dal sito ufficiale; Palazzo Madama, Lavazza e Bicerin da più fonti o dal sito del locale); gli altri sono da verificare. Molti locali chiudono la domenica sera o il lunedì: chiama o prenota. Indirizzi e distanze dall'alloggio vengono dal tuo file Torino_Guida.docx; gli altri indirizzi controllali su Google Maps.</div></div></main><div id="t"></div>
 <script>
 const CITY={name:"Torino",center:[45.0703,7.6869],zoom:13};
 const CATS={mon:["Monumenti","🏛","#5d6b73"],mus:["Musei","🖼","#3d6a8f"],piaz:["Piazze","⛲","#b07d2b"],chi:["Chiese","⛪","#7a5c93"],par:["Parchi","🌳","#3f7d58"],pan:["Panorami","🌄","#2f8791"],gem:["Gemme nascoste","💎","#9a4f7d"],
@@ -197,7 +196,7 @@ const f=p=>(!cat||p.c===cat)&&(!q||`${p.n} ${p.x} ${p.d} ${CATS[p.c][0]} ${(p.sp
 if(tab==="v"){const v=P.filter(p=>!isFood(p)&&f(p));$("#g1").innerHTML=v.map(card).join("")||none;$("#c1").textContent=v.length+" luoghi"}
 else{const e=P.filter(p=>isFood(p)&&f(p));$("#c2").textContent=e.length+" locali";$("#g2").innerHTML=FOODC.map(k=>{const l=e.filter(p=>p.c===k);return l.length?`<h3 class="gh">${CATS[k][1]} ${CATS[k][0]}</h3><div class="grid">${l.map(card).join("")}</div>`:""}).join("")||none;
 const ds=DISH.filter(d=>!q||(d.n+d.x).toLowerCase().includes(q));$("#g3").innerHTML=ds.map(dish).join("");$("#pd").hidden=!!cat||!ds.length}}
-function setTab(t){tab=t;document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x.dataset.t===t));$("#pt").hidden=t!=="t";$("#pv").hidden=t!=="v";$("#pe").hidden=t!=="e";$("#bar").hidden=t==="t";chips();render()}
+function setTab(t){tab=t;document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x.dataset.t===t));$("#pt").hidden=t!=="t";$("#pv").hidden=t!=="v";$("#pe").hidden=t!=="e";$("#sb").hidden=t==="t";chips();render()}
 $("#ch").onclick=e=>{const b=e.target.closest("button");if(!b)return;cat=b.dataset.c;document.querySelectorAll("#ch button").forEach(x=>x.classList.toggle("on",x===b));render()};
 $("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;setTab(b.dataset.t);scrollTo(0,0)};
 $("#q").oninput=render;
