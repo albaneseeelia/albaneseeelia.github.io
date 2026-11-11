@@ -197,7 +197,7 @@ if(rows){const lab=g[2]||"";last=lab;todo+=`<div class="cg"><b>${g[0]}</b>${rows
 return `<div class="cc"><div class="ch"><h3>${title}</h3><span class="pill" style="--k:#1f5f5b">${n} / ${t}</span></div>${todo||`<p class="sub">Tutto preso! 🎉</p>`}<div class="cd"><b>✅ Già preso (${n})</b>${done||`<p class="sub">Niente ancora: spunta un elemento per spostarlo qui.</p>`}</div></div>`}
 function renderChecklist(){const ck=LS.get("ck")||{};
 $("#pc").innerHTML=`<div class="dh" style="margin-top:6px"><div class="e">✅</div><div><h2>Checklist</h2><small>Materiale da ricordarsi · spunta per spostare in «Già preso», togli la spunta per riportarlo su</small></div></div>
-<div class="cols">${ckCol("🧳 Valigia · 3 giorni",CKL,(g,i)=>"L"+g+"_"+i,ck)}${ckCol("🏕️ Checklist Materiale Gara",CKR,(g,i)=>g+"_"+i,ck)}</div>
+<div class="cols">${ckCol("🧳 Valigia · 3 giorni",CKL,(g,i)=>"L"+g+"_"+i,ck)}${ckCol("🏃 Race Day",CKR,(g,i)=>g+"_"+i,ck)}</div>
 <div class="btn" style="margin-top:14px"><button onclick="resetCk()">Azzera tutte le spunte</button></div>`}
 function togCk(k,v){const c=LS.get("ck")||{};if(v)c[k]=true;else delete c[k];LS.set("ck",c);const y=window.scrollY;renderChecklist();window.scrollTo(0,y)}
 function resetCk(){if(confirm("Togliere tutte le spunte?")){LS.set("ck",{});renderChecklist()}}
