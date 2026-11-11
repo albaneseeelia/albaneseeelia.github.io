@@ -128,7 +128,7 @@ const DISH=[
 {k:"tramezzino",n:"Tramezzino",tp:"Street food",x:"Sandwich morbido a triangolo con farciture varie.",ing:"Pane in cassetta, ripieni diversi.",hist:"Reso famoso dai caffè storici del centro."}
 ];
 
-const $=s=>document.querySelector(s);let cat="",tab="t";
+const $=s=>document.querySelector(s);let cats=new Set(),tab="t";
 const LS={get(k){try{return JSON.parse(localStorage.getItem(k)||"null")}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 const FOODC=["colaz","caf","vino","tratt","rist","mer"];const isFood=p=>FOODC.includes(p.c);
 const gm=p=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.n+", "+p.a+", Torino")}`;const web=p=>p.s||gm(p);
@@ -249,14 +249,14 @@ ${row("Da verificare:","punto esatto di partenza, ingresso alle gabbie e deposit
 <div class="btn"><a href="${GMD("Via Milano 18, Torino","Piazza San Carlo, Torino")}" target="_blank" rel="noopener">Alloggio → Piazza San Carlo</a><a href="${GMD("Via Milano 18, Torino","Piazza Castello, Torino")}" target="_blank" rel="noopener">Alloggio → Piazza Castello</a></div></div>
 <h2 class="s">Sabato: ritiro pettorale a Green Pea</h2><div class="box"><p>📍 Torino City Marathon Village, Green Pea, Via Ermanno Fenoglietti 20 (indirizzo dall'edizione 2025: verificalo sul sito ufficiale).</p><p>🕒 Venerdì 27 e sabato 28 per tutta la giornata (${lk("https://www.finishers.com/it/evento/maratona-di-torino","Finishers")}); gli orari esatti non sono indicati.</p><p>🚇 Da Porta Nuova con la metro linea 1 fino a Lingotto, poi un breve tratto a piedi. Con le valigie puoi andare prima a Green Pea, oppure passare dall'alloggio (check‑in dalle 15:00).</p><div class="btn"><a href="${GMD("Torino Porta Nuova","Green Pea, Via Ermanno Fenoglietti 20, Torino")}" target="_blank" rel="noopener">Percorso in Maps</a></div></div>`}
 /* ---------- ELENCHI ---------- */
-function chips(){if(tab==="t"||tab==="a"||tab==="c")return;const ks=tab==="e"?FOODC:Object.keys(CATS).filter(k=>!FOODC.includes(k));cat="";$("#ch").innerHTML=`<button class="on" data-c="">Tutti</button>`+ks.map(k=>`<button data-c="${k}">${CATS[k][1]} ${CATS[k][0]}</button>`).join("")}
+function chips(){if(tab==="t"||tab==="a"||tab==="c")return;const ks=tab==="e"?FOODC:Object.keys(CATS).filter(k=>!FOODC.includes(k));cats.clear();$("#ch").innerHTML=`<button class="on" data-c="">Tutti</button>`+ks.map(k=>`<button data-c="${k}">${CATS[k][1]} ${CATS[k][0]}</button>`).join("")}
 function render(){if(tab==="t"){renderTrip();return}if(tab==="a"){renderStay();return}if(tab==="c"){renderChecklist();return}const q=$("#q").value.toLowerCase().trim();
-const f=p=>(!cat||p.c===cat)&&(!onow||isOpen(p))&&(!q||`${p.n} ${p.x} ${p.d} ${CATS[p.c][0]} ${(p.sp||[]).join(" ")}`.toLowerCase().includes(q));const none="<p class=sub>Nessun risultato.</p>";
+const f=p=>(!cats.size||cats.has(p.c))&&(!onow||isOpen(p))&&(!q||`${p.n} ${p.x} ${p.d} ${CATS[p.c][0]} ${(p.sp||[]).join(" ")}`.toLowerCase().includes(q));const none="<p class=sub>Nessun risultato.</p>";
 if(tab==="v"){const v=P.filter(p=>!isFood(p)&&f(p));$("#g1").innerHTML=v.map(card).join("")||none;$("#c1").textContent=v.length+" luoghi"+(onow?" aperti ora (solo luoghi con orari verificati)":"")}
 else{const e=P.filter(p=>isFood(p)&&f(p));$("#c2").textContent=e.length+" locali"+(onow?" aperti ora (solo locali con orari verificati)":"");$("#g2").innerHTML=FOODC.map(k=>{const l=e.filter(p=>p.c===k);return l.length?`<h3 class="gh">${CATS[k][1]} ${CATS[k][0]}</h3><div class="grid">${l.map(card).join("")}</div>`:""}).join("")||none;
-const ds=DISH.filter(d=>!q||(d.n+d.x).toLowerCase().includes(q));$("#g3").innerHTML=ds.map(dish).join("");$("#pd").hidden=!!cat||!ds.length}}
+const ds=DISH.filter(d=>!q||(d.n+d.x).toLowerCase().includes(q));$("#g3").innerHTML=ds.map(dish).join("");$("#pd").hidden=!!cats.size||!ds.length}}
 function setTab(t){tab=t;document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x.dataset.t===t));$("#pt").hidden=t!=="t";$("#pa").hidden=t!=="a";$("#pc").hidden=t!=="c";$("#pv").hidden=t!=="v";$("#pe").hidden=t!=="e";$("#sb").hidden=t==="t"||t==="a"||t==="c";chips();render()}
-$("#ch").onclick=e=>{const b=e.target.closest("button");if(!b)return;cat=b.dataset.c;document.querySelectorAll("#ch button").forEach(x=>x.classList.toggle("on",x===b));render()};
+$("#ch").onclick=e=>{const b=e.target.closest("button");if(!b)return;const c=b.dataset.c;if(!c)cats.clear();else if(cats.has(c))cats.delete(c);else cats.add(c);document.querySelectorAll("#ch button").forEach(x=>x.classList.toggle("on",x.dataset.c?cats.has(x.dataset.c):!cats.size));render()};
 $("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;setTab(b.dataset.t);scrollTo(0,0)};
 $("#q").oninput=render;$("#on").onclick=e=>{onow=!onow;const b=e.currentTarget;b.classList.toggle("on",onow);b.setAttribute("aria-pressed",onow);render()};
 loadWxNow();try{setTab("t")}catch(e){document.body.insertAdjacentHTML("beforeend","<p style='padding:20px'>Errore: "+e.message+"</p>");console.error(e)}
