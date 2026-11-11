@@ -141,7 +141,21 @@ bicerin:["Tutti i giorni 8:45–19:30, chiuso il mercoledì (sito ufficiale): ap
 tari:["Da fonte Gambero Rosso: mer–ven 8–13, sab–dom 9–13 (da riconfermare): probabilmente chiuso lunedì 30.","nv"],
 maicol:["Orari non verificati; alla presentazione era indicata apertura dalle 8, solo asporto.","nv"],
 roccioso:["Orari e giorni di apertura non indicati nelle fonti consultate: verifica prima di andare. Il Borgo Medievale vicino ha ingresso libero (orario invernale 9–19, da fonte Fondazione Torino Musei, non aggiornata).","nv"],
-farmaciacambio:["Orari non verificati. Un commento utente riporta apertura alle 9 e fila già dalle 8:30.","nv"]};
+farmaciacambio:["Orari non verificati. Un commento utente riporta apertura alle 9 e fila già dalle 8:30.","nv"],
+castello:["Musei Reali (Palazzo Reale): lun, mar e gio–dom 9–19, chiuso il mercoledì; biglietteria chiude alle 18 (cultura.gov.it). Aperto sab 28, dom 29 e lun 30. La piazza è sempre libera.", "ok"],
+giardinireali:["Fanno parte dei Musei Reali (chiusi il mercoledì); orari specifici dei giardini non trovati: verifica sul sito dei Musei Reali.", "nv"],
+duomo:["Tutti i giorni 9–12:30 e 15–19, ingresso gratuito (scheda museionline, non datata). Orari della Cappella della Sindone non indicati; durante le messe la visita può essere limitata. Da riconfermare.", "nv"],
+auto:["Lun 10–14 (biglietteria 10–13); mar–dom 10–19 (biglietteria 18) (cultura.gov.it). Aperto sab 28, dom 29 e lun 30 fino alle 14.", "ok"],
+superga:["Basilica chiusa il mercoledì; in inverno aperta sab, dom e festivi 10–18, feriali non indicati (scheda museionline). Tel. 011 8997456. Orari della tranvia Sassi-Superga non trovati. Da riconfermare.", "nv"],
+cappuccini:["Fonti discordanti: museo mar–dom 10–18, ven 12–20, lunedì chiuso (museionline) oppure tutti i giorni 10–18 (idealista). Terrazza 3 €; chiesa indicativamente 9–19. Da riconfermare.", "nv"],
+carignano:["Museo del Risorgimento: mar–dom 10–18, lunedì chiuso (scheda museionline, non datata). Da riconfermare.", "nv"],
+gam:["Tutti i giorni 10–19, biglietteria e prenotazioni chiudono alle 18 (comune.torino.it). Aperto sab 28, dom 29 e lun 30.", "ok"],
+pinacoteca:["Mar–dom 10–19, lunedì chiuso (scheda museionline, non datata): chiusa lun 30. Tel. 011 0062713. Da riconfermare.", "nv"],
+cimitero:["Mar–dom 8:30–17:30, lunedì chiuso (scheda museionline, non datata). Ingresso gratuito. Da riconfermare.", "nv"],
+consolata:["Tutti i giorni 8–19:30 (scheda museionline, non datata). Da riconfermare.", "nv"],
+granmadre:["Tutti i giorni 7:30–19, senza pausa (Guida Torino, articolo non recente). Messa il sabato alle 18, la domenica più messe. Da riconfermare.", "nv"],
+pepino:["Lun 9–16; mar e gio 9–20; mer, ven e sab 9–21; dom 9–20 (italia.it).", "ok"],
+mercatocentrale:["Tutti i giorni 8–24 (Guida Torino, 2019). Da riconfermare.", "nv"]};
 const DIST={panificiobasilica:"0,9 km · 12 min",mercatocentrale:"0,9 km · 12 min",cerea:"1,0 km · 13 min",maicol:"1,1 km · 14 min",consorzio:"1,2 km · 16 min",piattini:"1,2 km · 16 min",baudracco:"1,3 km · 17 min",cianci:"1,3 km · 17 min",tari:"1,6 km · 21 min",mulassano:"1,6 km · 21 min",lavazza:"1,6 km · 21 min",sorso:"1,7 km · 22 min",caffesancarlo:"1,7 km · 22 min",piola1706:"1,8 km · 23 min",piscitella:"1,9 km · 25 min",portosavona:"2,5 km · 32 min",scannabue:"2,5 km · 32 min",orologio:"2,8 km · 36 min",granmadre:"3,0 km · 39 min",cocoi:"3,3 km · 43 min",genui:"3,5 km · 45 min"};
 function hrs(p){const h=HRS[p.id],d=DIST[p.id];return `<div class="hr ${h?h[1]:"nv"}">🕒 ${h?h[0]:"Orari e giorni non verificati: controlla il sito o chiama prima di andare."}</div>${d?`<div class="hr d">🚶 Dall'alloggio: ${d} (stima)</div>`:""}`}
 function card(p){const c=CATS[p.c],d=(p.sp||[]).map(k=>DISH.find(x=>x.k===k).n).join(", ");
