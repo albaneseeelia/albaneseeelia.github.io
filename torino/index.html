@@ -161,22 +161,23 @@ const TRIP=[
 ["15:30","Facoltativo, da seduti: Museo Lavazza (aperto la domenica 10–18, 1–1,5 ore). Dall'alloggio conviene taxi o tram. Se sei stanco, salta e riposa.","lavazza"],
 ["17:45","Cioccolata e gianduiotti da Baratti & Milano, nella Galleria Subalpina (orari da verificare).","baratti"],
 ["20:00","Cena della domenica: Piola 1706 (plin, vitello tonnato, bonet) oppure Scannabue per una serata speciale. Prenota da subito: è il weekend della maratona. Con le gambe stanche valuta il taxi.","piola1706"]]},
-{e:"🥐",d:"Lunedì 30 novembre",t:"Colazione, Egizio, Palazzo Madama, Bicerin e ritorno",items:[
-["8:10","Check-out (entro le 10:00, self check-in con cassetta: segui le istruzioni dell'host per le chiavi) e passeggiata verso Piazza Carignano (circa 20 minuti). Hai i bagagli con te: chiedi se Farmacia del Cambio, Egizio o Palazzo Madama hanno un guardaroba, oppure cerca un deposito bagagli (non verificato)."],
-["8:30","Colazione alla Farmacia del Cambio: apre alle 9 secondo un commento utente, con fila già dalle 8:30. Prova il cubo e la sfera.","farmaciacambio"],
-["10:00","Museo Egizio, a pochi passi: il lunedì apre solo 9–14, quindi è la visita giusta del mattino (2–2,5 ore, entra entro le 13). Biglietti solo online: prenota. Controlla le novità del 20 novembre.","egizio"],
-["12:30","Pranzo in Piazza Castello: tramezzini e vermouth da Mulassano, oppure una piola.","mulassano"],
+{e:"🥐",d:"Lunedì 30 novembre",t:"Check-out, colazione, Egizio, Palazzo Madama, Bicerin e treno delle 17:05",items:[
+["8:15","Sveglia tranquilla (il giorno dopo la gara) e preparazione dei bagagli. Il check-out è entro le 10:00, con self check-in e cassetta delle chiavi: segui le istruzioni dell'host."],
+["8:40","Esci dall'alloggio con i bagagli e portali in un deposito in centro (circa 13 minuti a piedi): Bounce in Via Barbaroux 4 o SouvenirTo in Piazza Castello 10, entrambi a pochi passi da Farmacia del Cambio e dall'Egizio. Gli orari del lunedì mattina non sono verificati (Google li dà aperti fino alle 19:30 e alle 20 nei giorni feriali): controlla l'apertura o prenota online, prezzi non verificati. Alternativa gratuita da provare: scrivere a Bruno su Airbnb per chiedere se puoi lasciare i bagagli fino al pomeriggio."],
+["9:00","Colazione alla Farmacia del Cambio, in Piazza Carignano: aperta tutti i giorni 9–20:30 (Google Maps, 11 nov 2026), spesso con fila. Prova il cubo e la sfera.","farmaciacambio"],
+["10:00","Museo Egizio, a due passi: il lunedì apre solo 9–14, quindi è la visita giusta del mattino (2–2,5 ore, entra entro le 13). Biglietti solo online: prenota. Controlla le novità del 20 novembre.","egizio"],
+["12:30","Pranzo in Piazza Castello: tramezzini e vermouth da Mulassano (lunedì 11–20), oppure una piola.","mulassano"],
 ["13:45","Palazzo Madama, in Piazza Castello: lunedì aperto 10–18, biglietteria fino alle 17 (1–1,5 ore).","madama"],
-["15:15","Merenda al Bicerin e visita al Santuario della Consolata (Bicerin aperto lunedì fino alle 19:30). È vicino all'alloggio, quindi poi recuperi il bagaglio.","bicerin"],
-["16:00","Recupera i bagagli dal deposito o dal guardaroba e vai in stazione in taxi o a piedi."],
-["16:40","Torino Porta Nuova: il treno diretto per Vicenza parte alle 17:05, arrivo 19:55."],
-["~20:30","Da Vicenza circa 30 minuti per tornare a Cittadella."]]}];
+["15:15","Merenda al Bicerin (lunedì aperto 9–19:15) e visita al Santuario della Consolata, a circa 12 minuti a piedi da Piazza Castello.","bicerin"],
+["16:00","Torna al deposito in centro e ritira i bagagli (circa 10 minuti dalla Consolata). Vai poi in stazione in taxi (5–10 minuti) oppure a piedi (circa 20 minuti con i bagagli)."],
+["16:40","Torino Porta Nuova: sii al binario con un margine di 20–25 minuti. Il treno diretto per Vicenza parte alle 17:05, arrivo 19:55. Se i bagagli ti pesano, puoi anche lasciarli al Kipoint dentro la stazione (Via Sacchi 1, aperto 8–20 tutti i giorni): prezzi non verificati."],
+["~20:30","Da Vicenza circa 30 minuti per tornare a Cittadella."]]}]}];
 function goCard(id){const p=P.find(x=>x.id===id);setTab(isFood(p)?"e":"v");$("#q").value="";render();const c=$("#c-"+id);if(c){c.classList.add("open");c.scrollIntoView({behavior:"smooth",block:"center"})}}
 function renderTrip(){
 $("#pt").innerHTML=`<div class="glance"><div class="gl"><b>Sab 28</b><span>Arrivo e Village</span><small>Treno 14:04, pettorale a Green Pea</small></div><div class="gl"><b>Dom 29</b><span>Maratona</span><small>Via alle 8:30, poi relax</small></div><div class="gl"><b>Lun 30</b><span>Colazione e musei</span><small>Treno di ritorno 17:05</small></div></div>
 <h2 class="s">Treni</h2><div class="tr"><div class="box"><b>Andata · sabato 28</b><p>Vicenza 14:04 → Milano Centrale 15:45</p><p>Cambio di 17 minuti</p><p>Milano Centrale 16:02 → Torino Porta Nuova 17:00</p></div><div class="box"><b>Ritorno · lunedì 30</b><p>Torino Porta Nuova 17:05 → Vicenza 19:55 (diretto)</p><p>Poi circa 30 minuti fino a Cittadella</p></div></div>`+
 TRIP.map(d=>`<div class="day"><div class="dh"><div class="e">${d.e}</div><div><h2>${d.d}</h2><small>${d.t}</small></div></div><div class="tl">${d.items.map(i=>`<div class="it"><b>${i[0]}</b>${i[1]}${i[2]?`<a class="lk" href="#" onclick="goCard('${i[2]}');return false">Scheda</a>`:""}</div>`).join("")}</div></div>`).join("")+
-`<h2 class="s">Se cambia qualcosa</h2><div class="box"><p><b>Pioggia:</b> Egizio e Palazzo Madama sono al coperto; tra una tappa e l'altra puoi fermarti nei caffè storici.</p><p><b>Stanchezza dopo la gara:</b> salta il Lavazza e fai solo una pausa dolce vicino all'alloggio.</p><p><b>Treno di andata perso a Milano:</b> informati subito in stazione sulle condizioni del biglietto; il Village chiude alle 20.</p></div>`;}
+`<h2 class="s">Se cambia qualcosa</h2><div class="box"><p><b>Pioggia:</b> Egizio e Palazzo Madama sono al coperto; tra una tappa e l'altra puoi fermarti nei caffè storici.</p><p><b>Deposito bagagli chiuso o pieno:</b> alternative in stazione: Kipoint (Via Sacchi 1, 8–20) e Stow Your Bags (Via Volta 1G, locker da 2,49 €, 7–23), con orari verificati su Google Maps.</p><p><b>Stanchezza dopo la gara:</b> salta il Lavazza e fai solo una pausa dolce vicino all'alloggio.</p><p><b>Treno di andata perso a Milano:</b> informati subito in stazione sulle condizioni del biglietto; il Village chiude alle 20.</p></div>`;}
 /* ---------- CHECKLIST ---------- */
 const CKL=[["👕 Vestiti",["Felpe","Jeans e pantaloni","Magliette","Biancheria intima e calzini","Pigiama","Giubbino","Sciarpa e guanti","Scarpe comode per girare","Ombrello pieghevole"]],
 ["🧴 Igiene e farmaci",["Shampoo e bagnoschiuma","Asciugamano","Spazzolino e dentifricio","Deodorante","Imodium","Oki","Altri farmaci personali","Lenti a contatto","Assorbenti"]],
