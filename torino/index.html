@@ -171,7 +171,7 @@ const TRIP=[
 ["15:15","Merenda al Bicerin (lunedì aperto 9–19:15) e visita al Santuario della Consolata, a circa 12 minuti a piedi da Piazza Castello.","bicerin"],
 ["16:00","Torna al deposito in centro e ritira i bagagli (circa 10 minuti dalla Consolata). Vai poi in stazione in taxi (5–10 minuti) oppure a piedi (circa 20 minuti con i bagagli)."],
 ["16:40","Torino Porta Nuova: sii al binario con un margine di 20–25 minuti. Il treno diretto per Vicenza parte alle 17:05, arrivo 19:55. Se i bagagli ti pesano, puoi anche lasciarli al Kipoint dentro la stazione (Via Sacchi 1, aperto 8–20 tutti i giorni): prezzi non verificati."],
-["~20:30","Da Vicenza circa 30 minuti per tornare a Cittadella."]]}]}];
+["~20:30","Da Vicenza circa 30 minuti per tornare a Cittadella."]]}];
 function goCard(id){const p=P.find(x=>x.id===id);setTab(isFood(p)?"e":"v");$("#q").value="";render();const c=$("#c-"+id);if(c){c.classList.add("open");c.scrollIntoView({behavior:"smooth",block:"center"})}}
 function renderTrip(){
 $("#pt").innerHTML=`<div class="glance"><div class="gl"><b>Sab 28</b><span>Arrivo e Village</span><small>Treno 14:04, pettorale a Green Pea</small></div><div class="gl"><b>Dom 29</b><span>Maratona</span><small>Via alle 8:30, poi relax</small></div><div class="gl"><b>Lun 30</b><span>Colazione e musei</span><small>Treno di ritorno 17:05</small></div></div>
