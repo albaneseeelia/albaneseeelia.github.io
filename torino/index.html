@@ -9,7 +9,10 @@ header{padding:56px 0 28px;background:radial-gradient(900px 300px at 85% -20%,#e
 .eyebrow{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--acc);font-weight:700}
 header h1{font-size:clamp(48px,9vw,92px);line-height:1;margin:10px 0 12px}
 header p{max-width:560px;color:var(--mut);font-size:17px;margin:0}
-.ttl{display:flex;align-items:center;flex-wrap:wrap;gap:6px 22px}.ttl h1{margin:10px 0 12px}.wxn{display:flex;gap:8px;flex-wrap:wrap}.wxd{display:flex;flex-direction:column;align-items:center;min-width:66px;padding:6px 10px 7px;border-radius:16px;background:#fff;border:1px solid var(--line);box-shadow:var(--sh)}.wxd.now{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc),var(--sh)}.wxd b{font:700 10.5px system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}.wxd .i{font-size:26px;line-height:1.2}.wxd .t{font:600 19px Georgia,serif;line-height:1.1}.wxd small{font-size:10.5px;color:var(--mut);margin-top:2px}
+.ttl{display:flex;align-items:center;flex-wrap:wrap;gap:6px 22px}.ttl h1{margin:10px 0 12px}.wxn{display:flex;gap:10px;flex-wrap:wrap}.wxd{display:flex;flex-direction:column;align-items:center;min-width:78px;padding:10px 12px 9px;border-radius:22px;border:1px solid rgba(255,255,255,.7);box-shadow:0 6px 18px rgba(28,35,38,.08);background:#f1f4f6;transition:transform .2s}.wxd:hover{transform:translateY(-2px)}
+.wxd.now{min-width:92px;box-shadow:0 8px 22px rgba(31,95,91,.22);outline:2px solid var(--acc);outline-offset:-2px}
+.wxd[data-k=sun]{background:linear-gradient(180deg,#fff4d6,#ffe8b0)}.wxd[data-k=part]{background:linear-gradient(180deg,#fff6e0,#e8eef2)}.wxd[data-k=cloud]{background:linear-gradient(180deg,#f2f5f7,#dfe6eb)}.wxd[data-k=rain]{background:linear-gradient(180deg,#eaf3fb,#cfe2f3)}.wxd[data-k=snow]{background:linear-gradient(180deg,#f4f9fd,#dcebf6)}.wxd[data-k=storm]{background:linear-gradient(180deg,#ece9f6,#d3cfe6)}.wxd[data-k=fog]{background:linear-gradient(180deg,#f4f4f1,#e2e2dd)}.wxd[data-k=night]{background:linear-gradient(180deg,#e6e9f6,#c9cfe8)}
+.wxd b{font:700 10.5px system-ui;letter-spacing:.1em;text-transform:uppercase;color:#5d686e}.wxd svg{width:42px;height:42px;margin:2px 0}.wxd.now svg{width:50px;height:50px}.wxd .t{font:600 21px Georgia,serif;line-height:1.1;color:var(--ink)}.wxd.now .t{font-size:25px}.wxd small{font-size:10.5px;color:#5d686e;margin-top:2px}
 .rule{width:56px;height:3px;background:var(--acc2);border-radius:3px;margin:20px 0 0}
 .bar{position:sticky;top:0;z-index:20;background:rgba(247,244,238,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .tabs{display:flex;gap:6px;padding:8px 0}
@@ -201,11 +204,24 @@ $("#pc").innerHTML=`<div class="dh" style="margin-top:6px"><div class="e">✅</d
 function togCk(k,v){const c=LS.get("ck")||{};if(v)c[k]=true;else delete c[k];LS.set("ck",c);const y=window.scrollY;renderChecklist();window.scrollTo(0,y)}
 function resetCk(){if(confirm("Togliere tutte le spunte?")){LS.set("ck",{});renderChecklist()}}
 /* ---------- METEO (oggi + prossimi 3 giorni, accanto al titolo) ---------- */
-function wxIcon(c,day){return c==0?(day?"☀️":"🌙"):c<3?(day?"🌤️":"☁️"):c==3?"☁️":c<50?"🌫️":c<60?"🌦️":c<70?"🌧️":c<80?"❄️":c<90?"🌦️":"⛈️"}
-async function loadWxNow(){try{const r=await fetch("https://api.open-meteo.com/v1/forecast?latitude=45.07&longitude=7.69&current=temperature_2m,weather_code,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min&forecast_days=4&timezone=Europe%2FRome");if(!r.ok)throw 0;const d=await r.json(),c=d.current,y=d.daily;if(!c||c.temperature_2m==null||!y||!y.time||!y.time.length)throw 0;
+const WX_CLOUD='<path d="M14 36h20a8.5 8.5 0 0 0 1-16.9A11.5 11.5 0 0 0 13.2 22 7.5 7.5 0 0 0 14 36z" fill="#c3d0da" stroke="#a9b9c6" stroke-width="1.4" stroke-linejoin="round"/>';
+const WX_SUN=(x,y,r)=>`<g stroke="#f4a81d" stroke-width="2.6" stroke-linecap="round">${[0,45,90,135,180,225,270,315].map(a=>{const t=a*Math.PI/180;return `<line x1="${(x+Math.cos(t)*(r+3)).toFixed(1)}" y1="${(y+Math.sin(t)*(r+3)).toFixed(1)}" x2="${(x+Math.cos(t)*(r+6.5)).toFixed(1)}" y2="${(y+Math.sin(t)*(r+6.5)).toFixed(1)}"/>`}).join("")}</g><circle cx="${x}" cy="${y}" r="${r}" fill="#ffc83d" stroke="#f4a81d" stroke-width="1.6"/>`;
+function wxKind(c,day){return c==0?(day?"sun":"night"):c<3?(day?"part":"night"):c==3?"cloud":c<50?"fog":c<70||(c>=80&&c<83)?"rain":c<80||(c>=85&&c<87)?"snow":c>=95?"storm":"rain"}
+const WX_TXT={sun:"Sereno",night:"Sereno",part:"Poco nuvoloso",cloud:"Nuvoloso",fog:"Nebbia",rain:"Pioggia",snow:"Neve",storm:"Temporale"};
+function wxSvg(k){let g="";
+if(k=="sun")g=WX_SUN(24,24,9);
+else if(k=="night")g='<path d="M31 9a15 15 0 1 0 8 27A13 13 0 0 1 31 9z" fill="#f3e6a8" stroke="#d9c777" stroke-width="1.5" stroke-linejoin="round"/><circle cx="36" cy="14" r="1.4" fill="#f3e6a8"/><circle cx="41" cy="22" r="1" fill="#f3e6a8"/>';
+else if(k=="part")g=WX_SUN(17,17,7)+WX_CLOUD.replace('M14 36h20','M17 39h19').replace('a8.5 8.5 0 0 0 1-16.9A11.5 11.5 0 0 0 13.2 22 7.5 7.5 0 0 0 14 36z','a8 8 0 0 0 1-15.9A10.5 10.5 0 0 0 16.2 25 7 7 0 0 0 17 39z');
+else if(k=="cloud")g=WX_CLOUD;
+else if(k=="fog")g=WX_CLOUD.replace('M14 36h20','M14 30h20').replace('a8.5 8.5 0 0 0 1-16.9A11.5 11.5 0 0 0 13.2 22 7.5 7.5 0 0 0 14 36z','a8 8 0 0 0 1-15.9A11 11 0 0 0 13.2 16 7 7 0 0 0 14 30z')+'<g stroke="#a9b9c6" stroke-width="2.6" stroke-linecap="round"><line x1="12" y1="36" x2="36" y2="36"/><line x1="16" y1="41" x2="40" y2="41"/></g>';
+else if(k=="rain")g=WX_CLOUD.replace('fill="#c3d0da"','fill="#b3c3d2"')+'<g stroke="#3f8fe0" stroke-width="2.8" stroke-linecap="round"><line x1="17" y1="40" x2="15" y2="45"/><line x1="25" y1="40" x2="23" y2="45"/><line x1="33" y1="40" x2="31" y2="45"/></g>';
+else if(k=="snow")g=WX_CLOUD+'<g fill="#7fb7e6"><circle cx="17" cy="42" r="2.2"/><circle cx="25" cy="44" r="2.2"/><circle cx="33" cy="42" r="2.2"/></g>';
+else g=WX_CLOUD.replace('fill="#c3d0da"','fill="#9aa5b8"')+'<polygon points="26,34 20,43 25,43 22,51 32,40 26.500,40 29,34" fill="#ffc83d" stroke="#f4a81d" stroke-width="1.2" stroke-linejoin="round"/>';
+return `<svg viewBox="0 0 48 52" aria-hidden="true">${g}</svg>`}
+async function loadWxNow(){try{const r=await fetch("https://api.open-meteo.com/v1/forecast?latitude=45.07&longitude=7.69&current=temperature_2m,weather_code,is_day&daily=weather_code,temperature_2m_max&forecast_days=4&timezone=Europe%2FRome");if(!r.ok)throw 0;const d=await r.json(),c=d.current,y=d.daily;if(!c||c.temperature_2m==null||!y||!y.time||!y.time.length)throw 0;
 const G=["Dom","Lun","Mar","Mer","Gio","Ven","Sab"];
-const e=$("#wxn");e.innerHTML=y.time.slice(0,4).map((t,i)=>{const lab=i==0?"Oggi":G[new Date(t+"T12:00:00").getDay()],now=i==0;
-return `<div class="wxd${now?" now":""}"><b>${lab}</b><span class="i">${now?wxIcon(c.weather_code,c.is_day):wxIcon(y.weather_code[i],1)}</span><span class="t">${Math.round(now?c.temperature_2m:y.temperature_2m_max[i])}°</span><small>${Math.round(y.temperature_2m_min[i])}° / ${Math.round(y.temperature_2m_max[i])}°</small></div>`}).join("");e.title="Meteo a Torino: oggi e prossimi 3 giorni";e.hidden=false}catch(e){}}
+const e=$("#wxn");e.innerHTML=y.time.slice(0,4).map((t,i)=>{const now=i==0,lab=now?"Oggi":G[new Date(t+"T12:00:00").getDay()],k=wxKind(now?c.weather_code:y.weather_code[i],now?c.is_day:1),T=Math.round(now?c.temperature_2m:y.temperature_2m_max[i]);
+return `<div class="wxd${now?" now":""}" data-k="${k}" title="${WX_TXT[k]}"><b>${lab}</b>${wxSvg(k)}<span class="t">${T}°</span><small>${WX_TXT[k]}</small></div>`}).join("");e.title="Meteo a Torino: oggi e prossimi 3 giorni";e.hidden=false}catch(e){}}
 /* ---------- ALLOGGIO ---------- */
 const AB="https://www.airbnb.it/rooms/1412833783266933263",ADDR="Via Milano 18, 10122 Torino";
 const GMS=q=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q);
