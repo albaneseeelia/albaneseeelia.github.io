@@ -9,6 +9,7 @@ header{padding:56px 0 28px;background:radial-gradient(900px 300px at 85% -20%,#e
 .eyebrow{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--acc);font-weight:700}
 header h1{font-size:clamp(48px,9vw,92px);line-height:1;margin:10px 0 12px}
 header p{max-width:560px;color:var(--mut);font-size:17px;margin:0}
+.ttl{display:flex;align-items:center;flex-wrap:wrap;gap:6px 22px}.ttl h1{margin:10px 0 12px}.wxn{display:flex;align-items:center;gap:8px;padding:6px 16px 6px 12px;border-radius:99px;background:#fff;border:1px solid var(--line);box-shadow:var(--sh)}.wxn .i{font-size:34px;line-height:1}.wxn .t{font:600 26px Georgia,serif}
 .rule{width:56px;height:3px;background:var(--acc2);border-radius:3px;margin:20px 0 0}
 .bar{position:sticky;top:0;z-index:20;background:rgba(247,244,238,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .tabs{display:flex;gap:6px;padding:8px 0}
@@ -38,7 +39,7 @@ h2.s{font-size:28px;margin:34px 0 6px}h3.gh{font-size:21px;margin:30px 0 12px}.s
 #t{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:9px 18px;border-radius:99px;font-size:14px;opacity:0;transition:.3s;pointer-events:none}#t.on{opacity:1}
 @media(max-width:720px){.glance,.wx,.tr{grid-template-columns:1fr}.grid{grid-template-columns:1fr}header{padding-top:36px}}
 </style></head><body>
-<header><div class="wrap"><div class="eyebrow">Guida di viaggio · 28–30 novembre 2026</div><h1>Torino</h1><p>Maratona, colazioni d'autore, caffè storici e musei: il tuo weekend piemontese, tappa per tappa.</p><div class="rule"></div></div></header>
+<header><div class="wrap"><div class="eyebrow">Guida di viaggio · 28–30 novembre 2026</div><div class="ttl"><h1>Torino</h1><div class="wxn" id="wxn" hidden aria-live="polite"></div></div><p>Maratona, colazioni d'autore, caffè storici e musei: il tuo weekend piemontese, tappa per tappa.</p><div class="rule"></div></div></header>
 <div class="bar" id="bar"><div class="wrap"><div class="tabs" id="tabs" role="tablist"><button class="on" data-t="t" aria-label="Viaggio" title="Viaggio">🗓</button><button data-t="v" aria-label="Da visitare" title="Da visitare">🏛</button><button data-t="e" aria-label="Dove mangiare" title="Dove mangiare">🍽</button></div><div id="sb"><input id="q" type="search" placeholder="Cerca luoghi, locali, piatti…"><div class="chips" id="ch"></div></div></div></div>
 <main><div class="wrap"><section id="pt"></section><section id="pv" hidden><p class="sub" id="c1"></p><div class="grid" id="g1"></div></section>
 <section id="pe" hidden><p class="sub" id="c2"></p><div id="g2"></div><div id="pd"><h3 class="gh">🍝 Piatti e specialità</h3><p class="sub">Cosa ordinare a Torino e dove provarlo.</p><div class="grid" id="g3"></div></div></section>
@@ -175,20 +176,17 @@ const CKN=CK.reduce((a,g)=>a+g[1].length,0);
 function goCard(id){const p=P.find(x=>x.id===id);setTab(isFood(p)?"e":"v");$("#q").value="";render();const c=$("#c-"+id);if(c){c.classList.add("open");c.scrollIntoView({behavior:"smooth",block:"center"})}}
 function renderTrip(){const ck=LS.get("ck")||{};
 $("#pt").innerHTML=`<div class="glance"><div class="gl"><b>Sab 28</b><span>Arrivo e Village</span><small>Treno 14:04, pettorale a Green Pea</small></div><div class="gl"><b>Dom 29</b><span>Maratona</span><small>Via alle 8:30, poi relax</small></div><div class="gl"><b>Lun 30</b><span>Colazione e musei</span><small>Treno di ritorno 17:05</small></div></div>
-<h2 class="s">Meteo</h2><div id="wx"></div>
 <h2 class="s">Treni</h2><div class="tr"><div class="box"><b>Andata · sabato 28</b><p>Vicenza 14:04 → Milano Centrale 15:45</p><p>Cambio di 17 minuti</p><p>Milano Centrale 16:02 → Torino Porta Nuova 17:00</p></div><div class="box"><b>Ritorno · lunedì 30</b><p>Torino Porta Nuova 17:05 → Vicenza 19:55 (diretto)</p><p>Poi circa 30 minuti fino a Cittadella</p></div></div>`+
 TRIP.map(d=>`<div class="day"><div class="dh"><div class="e">${d.e}</div><div><h2>${d.d}</h2><small>${d.t}</small></div></div><div class="tl">${d.items.map(i=>`<div class="it"><b>${i[0]}</b>${i[1]}${i[2]?`<a class="lk" href="#" onclick="goCard('${i[2]}');return false">Scheda</a>`:""}</div>`).join("")}</div></div>`).join("")+
 `<h2 class="s">Se cambia qualcosa</h2><div class="box"><p><b>Pioggia:</b> Egizio e Palazzo Madama sono al coperto; tra una tappa e l'altra puoi fermarti nei caffè storici.</p><p><b>Stanchezza dopo la gara:</b> salta il Lavazza e fai solo una pausa dolce vicino all'alloggio.</p><p><b>Treno di andata perso a Milano:</b> informati subito in stazione sulle condizioni del biglietto; il Village chiude alle 20.</p></div>
 <h2 class="s">Checklist gara e viaggio <span id="ckp" class="pill" style="--k:#1f5f5b"></span></h2>${CK.map((g,gi)=>`<div class="box ck"><b style="font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--acc)">${g[0]}</b>${g[1].map((t,i)=>`<label><input type="checkbox" ${ck[gi+"_"+i]?"checked":""} onchange="setCk('${gi}_${i}',this.checked)"><span>${t}</span></label>`).join("")}</div>`).join("")}`;
-wxFallback();loadWx();ckProg()}
+ckProg()}
 function setCk(i,v){const c=LS.get("ck")||{};c[i]=v;LS.set("ck",c);ckProg()}
 function ckProg(){const c=LS.get("ck")||{},n=Object.keys(c).filter(k=>c[k]&&/^\d+_\d+$/.test(k)).length,e=$("#ckp");if(e)e.textContent=n+" / "+CKN}
-/* ---------- METEO ---------- */
-function wxFallback(){$("#wx").innerHTML=`<div class="box"><p><b>Previsioni non ancora disponibili</b> per il 28–30 novembre: appariranno qui da sole circa 16 giorni prima.</p><p>Indicazione climatica per novembre a Torino: in media circa 6 °C di minima e 11 °C di massima, con pioggia in circa metà dei giorni e frequenti nebbie al mattino (dove-e-quando.it, dati 2009–2025). Vestiti a strati.</p><p><a class="lk" href="https://www.meteo.it/meteo/torino-14-giorni-1272" target="_blank" rel="noopener">Previsioni Torino a 14 giorni</a></p></div>`}
-function wxIcon(c){return c==0?"☀️":c<3?"🌤":c==3?"☁️":c<50?"🌫":c<60?"🌦":c<70?"🌧":c<80?"❄️":c<90?"🌦":"⛈"}
-async function loadWx(){try{const r=await fetch("https://api.open-meteo.com/v1/forecast?latitude=45.07&longitude=7.69&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&hourly=temperature_2m&timezone=Europe%2FRome&start_date=2026-11-28&end_date=2026-11-30");if(!r.ok)throw 0;const d=await r.json();if(!d.daily||!d.daily.time.length||d.daily.temperature_2m_max[0]==null)throw 0;
-const L=["Sab 28","Dom 29","Lun 30"],h=d.hourly,k=h.time.indexOf("2026-11-29T08:00");
-$("#wx").innerHTML=`<div class="wx">${d.daily.time.map((x,i)=>`<div class="wd"><b>${L[i]}</b><div class="i">${wxIcon(d.daily.weather_code[i])}</div><div class="t">${Math.round(d.daily.temperature_2m_min[i])}° / ${Math.round(d.daily.temperature_2m_max[i])}°</div><small>${d.daily.precipitation_probability_max[i]!=null?"Pioggia "+d.daily.precipitation_probability_max[i]+"%":""}</small></div>`).join("")}</div><p class="sub" style="margin-top:10px">${k>=0?`Alla partenza della gara (ore 8) circa ${Math.round(h.temperature_2m[k])} °C. `:""}Previsioni Open-Meteo, aggiornate al caricamento.</p>`}catch(e){}}
+/* ---------- METEO ATTUALE (accanto al titolo) ---------- */
+function wxIcon(c,day){return c==0?(day?"☀️":"🌙"):c<3?(day?"🌤":"☁️"):c==3?"☁️":c<50?"🌫":c<60?"🌦":c<70?"🌧":c<80?"❄️":c<90?"🌦":"⛈"}
+async function loadWxNow(){try{const r=await fetch("https://api.open-meteo.com/v1/forecast?latitude=45.07&longitude=7.69&current=temperature_2m,weather_code,is_day&timezone=Europe%2FRome");if(!r.ok)throw 0;const d=await r.json(),c=d.current;if(!c||c.temperature_2m==null)throw 0;
+const e=$("#wxn");e.innerHTML=`<span class="i">${wxIcon(c.weather_code,c.is_day)}</span><span class="t">${Math.round(c.temperature_2m)}°</span>`;e.title="Meteo attuale a Torino";e.hidden=false}catch(e){}}
 /* ---------- ELENCHI ---------- */
 function chips(){if(tab==="t")return;const ks=tab==="e"?FOODC:Object.keys(CATS).filter(k=>!FOODC.includes(k));cat="";$("#ch").innerHTML=`<button class="on" data-c="">Tutti</button>`+ks.map(k=>`<button data-c="${k}">${CATS[k][1]} ${CATS[k][0]}</button>`).join("")}
 function render(){if(tab==="t"){renderTrip();return}const q=$("#q").value.toLowerCase().trim();
@@ -200,5 +198,5 @@ function setTab(t){tab=t;document.querySelectorAll("#tabs button").forEach(x=>x.
 $("#ch").onclick=e=>{const b=e.target.closest("button");if(!b)return;cat=b.dataset.c;document.querySelectorAll("#ch button").forEach(x=>x.classList.toggle("on",x===b));render()};
 $("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;setTab(b.dataset.t);scrollTo(0,0)};
 $("#q").oninput=render;
-try{setTab("t")}catch(e){document.body.insertAdjacentHTML("beforeend","<p style='padding:20px'>Errore: "+e.message+"</p>");console.error(e)}
+loadWxNow();try{setTab("t")}catch(e){document.body.insertAdjacentHTML("beforeend","<p style='padding:20px'>Errore: "+e.message+"</p>");console.error(e)}
 </script></body></html>
