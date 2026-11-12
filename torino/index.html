@@ -190,7 +190,7 @@ let tripSel=null;
 function setTrip(k){tripSel=k;renderTrip()}
 function renderTrip(){
 if(tripSel===null){const d=new Date().toLocaleDateString("sv-SE",{timeZone:"Europe/Rome"});tripSel={"2026-11-28":1,"2026-11-29":2,"2026-11-30":3}[d];if(tripSel===undefined)tripSel=0}
-const lab=["DOCS","SAB 28","DOM 29","LUN 30"];
+const lab=["TOOL","SAB 28","DOM 29","LUN 30"];
 const seg=`<div class="seg" role="tablist">${lab.map((l,k)=>`<button type="button" role="tab" class="${tripSel===k?"on":""}" aria-selected="${tripSel===k}" onclick="setTrip(${k})">${l}</button>`).join("")}</div>`;
 let body;
 if(tripSel===0){body=`<h3 class="os">Treni</h3><div class="box trc"><div class="trr"><b>Andata<br><small>sab 28</small></b><div><p>14:04 Vicenza → 15:45 Milano C.</p><p>16:02 Milano C. → 17:00 Torino PN</p><p class="mu">Cambio di 17 minuti</p></div></div><div class="trr"><b>Ritorno<br><small>lun 30</small></b><div><p>17:05 Torino PN → 19:55 Vicenza</p><p class="mu">Diretto · poi circa 30 min fino a Cittadella</p></div></div><div class="btn"><a href="https://drive.google.com/drive/folders/1vHU5_OFBPG99f77vfgC47kExi0N81xhK?usp=drive_link" target="_blank" rel="noopener">🎫 Biglietti del treno</a></div></div><h3 class="os">Documenti</h3><div class="box trc"><p class="dd">Carta d'identità, lettera di conferma iscrizione per il ritiro del pettorale e altri documenti utili per la gara.</p><div class="btn"><a href="https://drive.google.com/drive/folders/134ETWvUGL2b6_UtvMvNEay-z6rkIfEUk?usp=drive_link" target="_blank" rel="noopener">📁 Documenti</a></div></div>`}
