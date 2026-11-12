@@ -200,7 +200,7 @@ const TRIP=[
 ["16:00","Torna al deposito in centro e ritira i bagagli (circa 10 minuti dalla Consolata). Vai poi in stazione in taxi (5–10 minuti) oppure a piedi (circa 20 minuti con i bagagli)."],
 ["16:40","Torino Porta Nuova: sii al binario con un margine di 20–25 minuti. Il treno diretto per Vicenza parte alle 17:05, arrivo 19:55. Se i bagagli ti pesano, puoi anche lasciarli al Kipoint dentro la stazione (Via Sacchi 1, aperto 8–20 tutti i giorni): prezzi non verificati."],
 ["~20:30","Da Vicenza circa 30 minuti per tornare a Cittadella."]]}];
-function goCard(id){const p=P.find(x=>x.id===id);setTab(isFood(p)?"e":"v");$("#q").value="";render();const c=$("#c-"+id);if(c){c.classList.add("open");c.scrollIntoView({behavior:"smooth",block:"center"})}}
+function goCard(id){const p=P.find(x=>x.id===id);setTab(isFood(p)?"e":"v");$("#q").value="";render();const c=$("#c-"+id);if(c){c.classList.remove("hl");void c.offsetWidth;c.classList.add("hl");c.scrollIntoView({behavior:"smooth",block:"center"})}}
 let tripSel=null;
 function setTrip(k){tripSel=k;renderTrip()}
 function renderTrip(){
@@ -290,7 +290,7 @@ it.sort((a,b)=>a.k-b.k||a.n.localeCompare(b.n));const l=it.slice(0,6),g=$("#sg")
 if(!l.length){g.innerHTML=`<div class="sn">Nessun suggerimento</div>`}else g.innerHTML=l.map(x=>`<button type="button" data-a="${x.a}"><span>${x.e} ${x.n}</span><small>${x.l}</small></button>`).join("");g.hidden=false}
 function pickSg(a){vib(8);const [t,id]=a.split(":");resetF();if(t==="p"){goCard(id);return}
 setTab("e");render();const c=document.getElementById("d-"+id);if(c){c.classList.remove("hl");void c.offsetWidth;c.classList.add("hl");c.scrollIntoView({behavior:"smooth",block:"center"})}}
-function surprise(){if(tab!=="v"&&tab!=="e")return;if(!cur.length)return;let l=cur.filter(p=>p.id!==lastS);if(!l.length)l=cur;const p=l[Math.floor(Math.random()*l.length)];lastS=p.id;const el=document.getElementById("c-"+p.id);if(!el)return;document.querySelectorAll(".c.hl").forEach(x=>x.classList.remove("hl"));el.classList.add("open");void el.offsetWidth;el.classList.add("hl");const y=el.getBoundingClientRect().top+scrollY-(($("#bar")||{}).offsetHeight||0)-12;scrollTo({top:y,behavior:"smooth"})}
+function surprise(){if(tab!=="v"&&tab!=="e")return;if(!cur.length)return;let l=cur.filter(p=>p.id!==lastS);if(!l.length)l=cur;const p=l[Math.floor(Math.random()*l.length)];lastS=p.id;const el=document.getElementById("c-"+p.id);if(!el)return;document.querySelectorAll(".c.hl").forEach(x=>x.classList.remove("hl"));void el.offsetWidth;el.classList.add("hl");const y=el.getBoundingClientRect().top+scrollY-(($("#bar")||{}).offsetHeight||0)-12;scrollTo({top:y,behavior:"smooth"})}
 $("#sur").onclick=()=>{vib(12);surprise()};$("#fv").onclick=e=>{vib(12);animNext=true;favOnly=!favOnly;const b=e.currentTarget;b.classList.toggle("on",favOnly);b.setAttribute("aria-pressed",favOnly);render()};$("#q").oninput=()=>{render();sugg()};$("#q").onfocus=sugg;$("#q").onkeydown=e=>{if(e.key==="Escape")hideSg()};$("#sg").onclick=e=>{const b=e.target.closest("button");if(b)pickSg(b.dataset.a)};if(document.addEventListener)document.addEventListener("click",e=>{if(!e.target.closest("#sb"))hideSg()});$("#on").onclick=e=>{vib(12);animNext=true;onow=!onow;const b=e.currentTarget;b.classList.toggle("on",onow);b.setAttribute("aria-pressed",onow);render()};
 loadWxNow();try{setTab("t")}catch(e){document.body.insertAdjacentHTML("beforeend","<p style='padding:20px'>Errore: "+e.message+"</p>");console.error(e)}
 </script></body></html>
