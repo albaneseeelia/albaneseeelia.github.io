@@ -228,7 +228,7 @@ function renderStay(){const row=(k,v,c)=>`<div class="hr ${c||""}" style="margin
 lk=(u,t)=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`,
 sv=(t,l)=>`<p style="margin-top:10px"><b>${t}</b><br>${l.join(" · ")}</p>`;
 $("#pa").innerHTML=`<div class="day" style="margin-top:6px"><div class="dh"><div class="e">🛏️</div><div><h2>La Basilica</h2><small>Appartamento intero · Palazzo Juvarra (XVIII secolo)</small></div></div>
-<p>📍 <b>${ADDR}</b></p><div class="btn"><a href="${GMS(ADDR)}" target="_blank" rel="noopener">Apri in Maps</a><button onclick="cp('${ADDR}')">Copia indirizzo</button><a href="${AB}" target="_blank" rel="noopener">Annuncio Airbnb</a></div>
+<p>📍 <b>${ADDR}</b></p><div class="btn"><a href="${GMS(ADDR)}" target="_blank" rel="noopener">Apri in Maps</a><a href="${AB}" target="_blank" rel="noopener">Annuncio Airbnb</a></div>
 <p class="sub" style="margin-top:10px">Dati dall'annuncio Airbnb (11/11/2026). Gli orari possono cambiare: in caso di dubbio chiedi all'host.</p></div>
 <h2 class="s">Check‑in e check‑out</h2><div class="box">${row("Check‑in:","dalle 15:00 alle 23:00","ok")}${row("Check‑out:","entro le 10:00","ok")}${row("Accesso:","self check‑in con cassetta delle chiavi. Le istruzioni per entrare compaiono nell'annuncio 48 ore prima del check‑in, cioè da giovedì 26 novembre: salvale sul telefono o fai uno screenshot.","ok")}
 <p style="margin-top:10px">Il sabato puoi entrare quando vuoi tra le 15:00 e le 23:00, quindi puoi anche andare prima a Green Pea e poi in alloggio. Lunedì il check‑out è alle 10:00 e il treno è alle 17:05: i bagagli non puoi lasciarli in alloggio, salvo accordi con l'host. Chiedi a lui, oppure cerca un deposito bagagli (anche in stazione: non verificato).</p></div>
