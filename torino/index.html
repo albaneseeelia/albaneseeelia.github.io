@@ -253,7 +253,7 @@ function togMenu(e){e.stopPropagation();const m=document.querySelector(".mn");if
 document.addEventListener("click",()=>disarm());
 let undoT=null,undoData=null;
 function toast(msg,act,fn){let t=$("#toast");if(!t){t=document.createElement("div");t.id="toast";t.setAttribute("role","status");document.body.appendChild(t)}
-t.innerHTML=`<span>${msg}</span><button type="button">${act}</button>`;t.querySelector("button").onclick=()=>{fn();hideToast()};void t.offsetWidth;t.classList.add("show");clearTimeout(undoT);undoT=setTimeout(hideToast,7000)}
+t.innerHTML=`<span>${msg}</span><button type="button">${act}</button>`;t.querySelector("button").onclick=()=>{fn();hideToast()};void t.offsetWidth;t.classList.add("show");clearTimeout(undoT);undoT=setTimeout(hideToast,4000)}
 function hideToast(){const t=$("#toast");if(t)t.classList.remove("show");clearTimeout(undoT);undoData=null}
 function resetCk(){const cur=LS.get("ck")||{};if(!Object.keys(cur).length)return;undoData=cur;LS.set("ck",{});renderChecklist();vib();toast("Spunte azzerate","Annulla",()=>{LS.set("ck",undoData||cur);renderChecklist()})}
 /* ---------- METEO (oggi + prossimi 3 giorni, accanto al titolo) ---------- */
