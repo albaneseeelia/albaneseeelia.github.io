@@ -231,8 +231,8 @@ const CKL=[["👕 Vestiti",["Felpe","Jeans e pantaloni","Magliette","Biancheria 
 ["🎒 Varie",["Occhiali da sole","Ciabatte","Sacchetto per i vestiti sporchi","Borraccia"]],
 ["🍚 Alimentazione",["Riso basmati","Marmellata","Risette multicereali","Sale grosso","Tisana Bonomelli","Olio EVO"]]];
 const CKR=[["🎽 Abbigliamento",["Completo gara","Scarpe e calzini gara","Giacca antivento Decathlon","Occhiali da sole"],"⛰️ Gara"],["🍌 Alimentazione",["Bottiglia di tè","Gel"],"⛰️ Gara"],["🧰 Altro",["Porta pettorale","Sacco spazzatura nero","Elastico","Fazzoletti","Cerotti per le caviglie","Cerotti quadrati per la fascia cardio","Fascia cardio","Garmin"],"⛰️ Gara"],["🎒 Sacca per l'arrivo",["Mini asciugamano","Maglietta e pantaloncini","Felpa e pantaloni tuta","Berretto e scaldacollo","Impermeabile / poncho","Ombrello"],""]];
-const ckPrev={};let ckOpen=(LS.get("ckopen")||{});
-function togDone(btn,id){const d=btn.closest(".cd"),o=!d.classList.contains("open");d.classList.toggle("open",o);btn.setAttribute("aria-expanded",o);ckOpen[id]=o;LS.set("ckopen",ckOpen);vib()}
+const ckPrev={};let ckOpen={};
+function togDone(btn,id){const d=btn.closest(".cd"),o=!d.classList.contains("open");d.classList.toggle("open",o);btn.setAttribute("aria-expanded",o);ckOpen[id]=o;vib()}
 function pbar(id,n,t){const p=t?Math.round(n/t*100):0,f=ckPrev[id]!=null?ckPrev[id]:0;ckPrev[id]=p;return `<div class="pr${p===100?" full":""}" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${p}" aria-label="Avanzamento ${id}"><div class="pb"><i style="width:${f}%" data-w="${p}"></i></div><span>${p}%</span></div>`}
 function ckCol(title,groups,kf,ck){let todo="",done="",n=0,t=0,last=null;
 groups.forEach((g,gi)=>{let rows="";g[1].forEach((x,i)=>{t++;const k=kf(gi,i);if(ck[k]){n++;done+=`<label class="ci on"><input type="checkbox" checked onchange="togCk('${k}',false)"><span class="t2"><span class="tx">${x}</span></span></label>`}else rows+=`<label class="ci"><input type="checkbox" onchange="togCk('${k}',true,this)"><span class="t2"><span class="tx">${x}</span></span></label>`});
