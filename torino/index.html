@@ -176,7 +176,7 @@ if(g.length===1)return dy("Tutti i giorni")+" "+g[0].k;
 return g.map(x=>dy(x.a===x.b?nm[x.a]:nm[x.a]+"–"+nm[x.b].toLowerCase())+" "+x.k).join(h?'<br>':" · ")}
 function hrs(p){const t=ALWAYS.includes(p.id)?"":hrsText(p,1)||"",n=HN[p.id],d=DIST[p.id],r=(i,l,v,x)=>`<div class="rw"><span class="ic">${i}</span><div><small>${l}</small><span class="v">${v}</span>${x?`<em>${x}</em>`:""}</div></div>`;
 const dd=d?d.split(" · "):null;
-return `<div class="info">${t||n?r("🕒","Orari",t||n,t?n:""):""}${r("📍","Indirizzo",p.a+", Torino")}</div>`}
+return t||n?`<div class="info">${r("🕒","Orari",t||n,t?n:"")}</div>`:""}
 const fin=x=>x?(/[.!?]$/.test(x)?x:x+"."):"";
 function togFav(id){vib();const f=LS.get("fav")||{};if(f[id])delete f[id];else f[id]=true;LS.set("fav",f);document.querySelectorAll(`.fav[data-f="${id}"]`).forEach(b=>{b.classList.toggle("on",!!f[id]);b.setAttribute("aria-pressed",!!f[id])});if(favOnly)render()}
 function card(p){const c=CATS[p.c],d=(p.sp||[]).map(k=>DISH.find(x=>x.k===k).n).join(", ");
