@@ -465,7 +465,7 @@ const mRows=mem.map(m=>{const b=C.bal[m.id];return `<div class="sp-mr"><button c
 const lg=(st.log||[]);
 const logHtml=lg.length?lg.map(l=>`<div class="sp-ln"><span>${l.by?`<b>${spE(l.by)}</b> `:""}${spE(l.tx)}</span><small>${spAgo(l.ts)}</small></div>`).join(""):`<div class="sp-emp">Nessuna attività.</div>`;
 el.innerHTML=`<div class="box sp-top"><div class="sp-t1"><div><h2>${spE(st.name)}</h2><small>${mem.length} ${mem.length===1?"persona":"persone"} · ${spE(spCur())}</small></div><button class="sp-ic" id="sp-set" type="button" aria-label="Impostazioni" title="Impostazioni">⚙️</button></div>
-<div class="sp-t2"><button class="sp-pill" id="sp-inv" type="button">🔗 Invita</button></div></div>
+</div>
 <div class="sp-hero"><small>Spese totali</small><b>${spM(C.tot)}</b><span>${spM(C.per)} a persona · ${C.n} ${C.n===1?"spesa":"spese"}</span><div class="sp-hs"><small>Spese per persona</small>${mem.map(m=>`<div class="sp-kv"><span>${spE(m.n)}</span><b>${spM(C.P[m.id]||0)}</b></div>`).join("")}</div><div class="sp-hs"><small>Chi deve a chi</small>${plan.length?plan.map(p=>`<div class="sp-kv"><span>${spE(spName(p.f))} → ${spE(spName(p.t))}</span><b>${spM(p.a)}</b></div>`).join(""):`<div class="sp-kv"><span>${C.n?"Tutti in pareggio":"Nessun debito"}</span><b>✓</b></div>`}</div></div>
 ${spSec("b","Saldi","",balSum,bl.length?bl.map(balRow).join(""):`<div class="sp-emp">Aggiungi un partecipante per iniziare.</div>`)}
 
