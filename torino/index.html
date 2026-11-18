@@ -401,7 +401,7 @@ function synSoon(){clearTimeout(SY.t);SY.t=setTimeout(synNow,700)}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)synNow()});setInterval(()=>{if(!document.hidden)synNow()},20000);addEventListener("online",synNow);addEventListener("offline",()=>synLive(false));synNow();
 /* ===== SPLIT: spese condivise (tab 🏷️) ===== */
 var SPC=[["food","🍽️","Cibo e bevande"],["transport","🚗","Trasporti"],["stay","🏠","Alloggio"],["act","🎟️","Attività"],["shop","🛍️","Shopping"],["other","📦","Altro"]];
-var SP={st:null,me:LS.get("spMe"),open:Object.assign({b:1,s:1,h:1,m:0,l:0},LS.get("spOpen")||{}),q:"",fp:"",fc:"",fd:"",busy:false,t:null,f:null,sync:false};
+var SP={st:null,me:LS.get("spMe"),open:Object.assign({b:1,s:1,h:0,m:0,l:0},LS.get("spOpen")||{},{h:0}),q:"",fp:"",fc:"",fd:"",busy:false,t:null,f:null,sync:false};
 const spCat=k=>SPC.find(c=>c[0]===k)||SPC[5];
 const spE=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const spId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
