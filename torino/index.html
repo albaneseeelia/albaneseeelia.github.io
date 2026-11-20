@@ -302,11 +302,11 @@ if(dir&&!RM()&&tb.innerHTML){const o=dir*28;tb.animate([{opacity:1,transform:"no
 const pos=tripSel>0&&tripSel<4?tripSel+1:(dayPos===null?3:dayPos);if(dayPos===null)posDays(pos);dayPos=pos;requestAnimationFrame(()=>posDays(pos))}
 /* ---------- CHECKLIST ---------- */
 const CKL=[["👕 Vestiti",["Felpe","Jeans e pantaloni","Magliette","Biancheria intima e calzini","Pigiama","Giubbino","Scarpe comode per girare","Ombrello pieghevole"]],
-["🧴 Igiene e farmaci",["Shampoo e bagnoschiuma","Asciugamano","Spazzolino e dentifricio","Deodorante","Imodium","Oki","Altri farmaci personali","Lenti a contatto","Assorbenti","Arnica Viti riscaldante","Fobici"]],
+["🧴 Igiene e farmaci",["Shampoo e bagnoschiuma","Asciugamano","Spazzolino e dentifricio","Deodorante","Imodium","Oki","Altri farmaci personali","Lenti a contatto","Assorbenti"]],
 ["📱 Documenti e tecnologia",["Portafoglio","Documento d'identità","Biglietti dei treni (andata e ritorno)","Conferma di iscrizione per il ritiro pettorale","Caricatore Garmin","Caricatore iPhone","Power bank","Cavetto per power bank","Cuffie"]],
-["🎒 Varie",["Occhiali da sole","Ciabatte","Sacchetto per i vestiti sporchi","Borraccia"]],
+["🎒 Varie",["Occhiali da sole","Ciabatte","Sacchetto per i vestiti sporchi","Borraccia","Forbici"]],
 ["🍚 Alimentazione",["Riso basmati","Marmellata","Risette multicereali","Sale grosso","Tisana Bonomelli","Olio EVO"]]];
-const CKR=[["🎽 Abbigliamento",["Completo gara","Scarpe e calzini gara","Giacca antivento Decathlon","Occhiali da sole"],"⛰️ Gara"],["🍌 Alimentazione",["Bottiglia di tè","Gel"],"⛰️ Gara"],["🧰 Altro",["Porta pettorale","Sacco spazzatura nero","Elastico","Fazzoletti","Cerotti per le caviglie","Cerotti quadrati per la fascia cardio","Fascia cardio","Garmin"],"⛰️ Gara"],["🎒 Sacca per l'arrivo",["Mini asciugamano","Maglietta e pantaloncini","Felpa e pantaloni tuta","Berretto e scaldacollo","Impermeabile / poncho","Ombrello"],""]];
+const CKR=[["🎽 Abbigliamento",["Completo gara","Scarpe e calzini gara","Giacca antivento Decathlon","Occhiali da sole"],"⛰️ Gara"],["🍌 Alimentazione",["Bottiglia di tè","Gel"],"⛰️ Gara"],["🧰 Altro",["Porta pettorale","Sacco spazzatura nero","Elastico","Fazzoletti","Cerotti per le caviglie","Cerotti quadrati per la fascia cardio","Fascia cardio","Garmin","Arnica Viti riscaldante"],"⛰️ Gara"],["🎒 Sacca per l'arrivo",["Mini asciugamano","Maglietta e pantaloncini","Felpa e pantaloni tuta","Berretto e scaldacollo","Impermeabile / poncho","Ombrello"],""]];
 const ckPrev={};let ckOpen={};var ckCl=LS.get("ckc")||{};
 function togCol(h,id){const c=h.closest(".cc"),cl=!c.classList.contains("cl");c.classList.toggle("cl",cl);h.setAttribute("aria-expanded",!cl);ckCl[id]=cl;LS.set("ckc",ckCl);vib()}
 function togDone(btn,id){const d=btn.closest(".cd"),o=!d.classList.contains("open");d.classList.toggle("open",o);btn.setAttribute("aria-expanded",o);ckOpen[id]=o;vib()}
